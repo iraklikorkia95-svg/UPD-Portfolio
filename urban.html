@@ -3,9 +3,584 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Urban Portfolio</title>
+    <title>Strasbourg - Irakli Korkia</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --page-bg: #ece7e0;
+            --paper: rgba(247, 242, 236, 0.9);
+            --text: #1d1b19;
+            --muted: #6e6459;
+            --line: rgba(29, 27, 25, 0.08);
+            --shadow: 0 24px 60px rgba(46, 32, 19, 0.13);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top, rgba(255, 255, 255, 0.75), transparent 30%),
+                linear-gradient(180deg, #f6f2eb 0%, var(--page-bg) 38%, #e7ddd0 100%);
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            background: rgba(246, 240, 232, 0.84);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--line);
+            transition: all 0.5s ease;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            min-width: 0;
+        }
+
+        .nav-logo {
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            color: var(--text);
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .nav-gallery-title {
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            color: var(--muted);
+            text-transform: uppercase;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            opacity: 0;
+            max-width: 0;
+            transform: translateY(15px);
+            margin-left: 0;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .nav-gallery-title strong {
+            color: var(--text);
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        nav.scrolled .nav-gallery-title {
+            opacity: 1;
+            max-width: 1000px;
+            transform: translateY(0);
+            margin-left: 15px;
+        }
+
+        nav.scrolled .nav-gallery-title::before {
+            content: "/";
+            margin-right: 15px;
+            color: rgba(110, 100, 89, 0.5);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .nav-right > a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            margin-left: 20px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-right > a:hover {
+            opacity: 1;
+        }
+
+        header {
+            max-width: 1240px;
+            margin: 0 auto 28px;
+            padding: 150px 40px 0;
+            text-align: center;
+            transition: opacity 0.4s ease, transform 0.5s ease;
+        }
+
+        header.scrolled {
+            opacity: 0;
+            transform: translateY(-20px);
+            pointer-events: none;
+        }
+
+        h1 {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 800;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin: 0;
+            font-size: 3.5rem;
+            color: var(--text);
+            text-shadow: 0 10px 30px rgba(255, 255, 255, 0.35);
+        }
+
+        p {
+            color: var(--muted);
+            font-size: 1.1rem;
+            margin: 15px auto 0;
+            font-weight: 300;
+            letter-spacing: 1px;
+            max-width: 700px;
+        }
+
+        .gallery-shell {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px 100px;
+        }
+
+        .masonry-grid {
+            column-count: 3;
+            column-gap: 22px;
+        }
+
+        @media (max-width: 1024px) {
+            .masonry-grid {
+                column-count: 2;
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                padding: 18px 20px;
+            }
+
+            .nav-right {
+                display: none;
+            }
+
+            header {
+                padding: 130px 20px 0;
+            }
+
+            h1 {
+                font-size: 2.4rem;
+            }
+
+            .gallery-shell {
+                padding: 0 20px 80px;
+            }
+
+            .masonry-grid {
+                column-count: 1;
+                column-gap: 0;
+            }
+        }
+
+        .photo-item {
+            width: 100%;
+            margin: 0 0 22px;
+            border-radius: 18px;
+            overflow: hidden;
+            cursor: pointer;
+            break-inside: avoid;
+            position: relative;
+            background: var(--paper);
+            border: 1px solid rgba(255, 255, 255, 0.72);
+            box-shadow: var(--shadow);
+            opacity: 0;
+            transform: scale(0.9) translateY(30px);
+            transition: opacity 0.7s ease-out, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+
+        .photo-item::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 55%, rgba(29, 27, 25, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .photo-item.is-visible {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        .photo-item:nth-child(3n+1) {
+            transition-delay: 0s;
+        }
+
+        .photo-item:nth-child(3n+2) {
+            transition-delay: 0.2s;
+        }
+
+        .photo-item:nth-child(3n+3) {
+            transition-delay: 0.4s;
+        }
+
+        @media (max-width: 1024px) {
+            .photo-item:nth-child(n) {
+                transition-delay: 0s;
+            }
+
+            .photo-item:nth-child(2n+1) {
+                transition-delay: 0s;
+            }
+
+            .photo-item:nth-child(2n+2) {
+                transition-delay: 0.2s;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .photo-item:nth-child(n) {
+                transition-delay: 0s;
+            }
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.7s ease, filter 0.4s ease;
+            filter: brightness(0.97);
+        }
+
+        .photo-item:hover img {
+            transform: scale(1.035);
+            filter: brightness(1.05);
+        }
+
+        .photo-item:hover::after {
+            opacity: 1;
+        }
+
+        #lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(10, 10, 10, 0.98);
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            overflow: hidden;
+        }
+
+        #lightbox.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #lightbox-track {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox-slide {
+            position: absolute;
+            width: 65vw;
+            height: 85vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: scale(0.5) translateX(0);
+            pointer-events: none;
+            transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
+                        opacity 0.7s ease,
+                        filter 0.7s ease;
+        }
+
+        .lightbox-slide img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 4px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8);
+            user-select: none;
+        }
+
+        #lightbox-close {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 200;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.2s ease;
+            z-index: 1010;
+        }
+
+        #lightbox-close:hover {
+            opacity: 1;
+        }
+
+        .lightbox-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 3rem;
+            font-weight: 200;
+            cursor: pointer;
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+            z-index: 1010;
+            padding: 40px 20px;
+        }
+
+        .lightbox-nav-btn:hover {
+            opacity: 1;
+        }
+
+        #lightbox-prev {
+            left: 10px;
+        }
+
+        #lightbox-next {
+            right: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello World</h1>
+
+    <nav id="main-nav">
+        <div class="nav-left">
+            <a href="index.html" class="nav-logo">Irakli Korkia</a>
+            <div class="nav-gallery-title"><strong>Strasbourg</strong> - Streets, facades, and passing city light.</div>
+        </div>
+        <div class="nav-right">
+            <a href="index.html">Home</a>
+            <a href="nature.html">Nature</a>
+        </div>
+    </nav>
+
+    <header id="main-header">
+        <h1>Strasbourg</h1>
+        <p>Streets, facades, and passing city light.</p>
+    </header>
+
+    <section class="gallery-shell">
+        <div class="masonry-grid">
+            <div class="photo-item"><img src="urban/strasbourg/DSCF0327.jpg" alt="Strasbourg urban photo"></div>
+            <div class="photo-item"><img src="urban/strasbourg/DSCF0352.jpg" alt="Strasbourg urban photo"></div>
+            <div class="photo-item"><img src="urban/strasbourg/DSCF0375.jpg" alt="Strasbourg urban photo"></div>
+            <div class="photo-item"><img src="urban/strasbourg/DSCF0402.jpg" alt="Strasbourg urban photo"></div>
+            <div class="photo-item"><img src="urban/strasbourg/DSCF0426.jpg" alt="Strasbourg urban photo"></div>
+            <div class="photo-item"><img src="urban/strasbourg/DSCF0431.jpg" alt="Strasbourg urban photo"></div>
+            <div class="photo-item"><img src="urban/strasbourg/DSCF0442.jpg" alt="Strasbourg urban photo"></div>
+            <div class="photo-item"><img src="urban/strasbourg/DSCF8201.JPG" alt="Strasbourg urban photo"></div>
+            <div class="photo-item"><img src="urban/strasbourg/DSCF8217~2.JPG" alt="Strasbourg urban photo"></div>
+            <div class="photo-item"><img src="urban/strasbourg/DSCF8220.JPG" alt="Strasbourg urban photo"></div>
+            <div class="photo-item"><img src="urban/strasbourg/DSCF8958.JPG" alt="Strasbourg urban photo"></div>
+        </div>
+    </section>
+
+    <div id="lightbox">
+        <div id="lightbox-close">&times;</div>
+        <div id="lightbox-prev" class="lightbox-nav-btn">&#10094;</div>
+        <div id="lightbox-track"></div>
+        <div id="lightbox-next" class="lightbox-nav-btn">&#10095;</div>
+    </div>
+
+    <script>
+        window.addEventListener("scroll", () => {
+            const nav = document.getElementById("main-nav");
+            const header = document.getElementById("main-header");
+
+            if (window.scrollY > 20) {
+                nav.classList.add("scrolled");
+                header.classList.add("scrolled");
+            } else {
+                nav.classList.remove("scrolled");
+                header.classList.remove("scrolled");
+            }
+        });
+
+        const photoObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("is-visible");
+                } else {
+                    entry.target.classList.remove("is-visible");
+                }
+            });
+        }, { threshold: 0.05, rootMargin: "0px 0px -20px 0px" });
+
+        document.querySelectorAll(".photo-item").forEach((item) => {
+            photoObserver.observe(item);
+        });
+
+        const lightbox = document.getElementById("lightbox");
+        const track = document.getElementById("lightbox-track");
+        const closeBtn = document.getElementById("lightbox-close");
+        const galleryItems = document.querySelectorAll(".photo-item");
+        const galleryImages = document.querySelectorAll(".photo-item img");
+
+        let currentIndex = 0;
+        let isScrolling = false;
+
+        galleryImages.forEach((img, index) => {
+            const slide = document.createElement("div");
+            slide.className = "lightbox-slide";
+            slide.innerHTML = `<img src="${img.src}" alt="Strasbourg gallery photo">`;
+
+            slide.addEventListener("click", (e) => {
+                e.stopPropagation();
+                if (currentIndex !== index) {
+                    currentIndex = index;
+                    updateInfiniteRoll();
+                }
+            });
+
+            track.appendChild(slide);
+        });
+
+        const slides = document.querySelectorAll(".lightbox-slide");
+        const totalSlides = slides.length;
+
+        function updateInfiniteRoll() {
+            slides.forEach((slide, i) => {
+                let diff = i - currentIndex;
+
+                if (diff < -Math.floor(totalSlides / 2)) diff += totalSlides;
+                if (diff > Math.floor(totalSlides / 2)) diff -= totalSlides;
+
+                if (diff === 0) {
+                    slide.style.transform = "translateX(0) scale(1)";
+                    slide.style.opacity = "1";
+                    slide.style.filter = "blur(0px)";
+                    slide.style.zIndex = "10";
+                    slide.style.pointerEvents = "auto";
+                } else if (diff === 1) {
+                    slide.style.transform = "translateX(35vw) scale(0.65)";
+                    slide.style.opacity = "0.4";
+                    slide.style.filter = "blur(8px)";
+                    slide.style.zIndex = "5";
+                    slide.style.pointerEvents = "auto";
+                } else if (diff === -1) {
+                    slide.style.transform = "translateX(-35vw) scale(0.65)";
+                    slide.style.opacity = "0.4";
+                    slide.style.filter = "blur(8px)";
+                    slide.style.zIndex = "5";
+                    slide.style.pointerEvents = "auto";
+                } else {
+                    const direction = diff > 0 ? 1 : -1;
+                    slide.style.transform = `translateX(${direction * 80}vw) scale(0.4)`;
+                    slide.style.opacity = "0";
+                    slide.style.filter = "blur(20px)";
+                    slide.style.zIndex = "1";
+                    slide.style.pointerEvents = "none";
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateInfiniteRoll();
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            updateInfiniteRoll();
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove("active");
+            document.body.style.overflow = "";
+            slides.forEach((slide) => {
+                slide.style.pointerEvents = "none";
+            });
+        }
+
+        function openLightbox(index) {
+            currentIndex = index;
+            updateInfiniteRoll();
+            lightbox.classList.add("active");
+            document.body.style.overflow = "hidden";
+        }
+
+        document.getElementById("lightbox-next").addEventListener("click", (e) => {
+            e.stopPropagation();
+            nextSlide();
+        });
+
+        document.getElementById("lightbox-prev").addEventListener("click", (e) => {
+            e.stopPropagation();
+            prevSlide();
+        });
+
+        galleryItems.forEach((item, index) => {
+            item.addEventListener("click", () => {
+                openLightbox(index);
+            });
+        });
+
+        closeBtn.addEventListener("click", closeLightbox);
+
+        lightbox.addEventListener("click", (e) => {
+            if (e.target === lightbox || e.target === track) {
+                closeLightbox();
+            }
+        });
+
+        document.addEventListener("keydown", (e) => {
+            if (!lightbox.classList.contains("active")) return;
+
+            if (e.key === "ArrowRight") nextSlide();
+            if (e.key === "ArrowLeft") prevSlide();
+            if (e.key === "Escape") closeLightbox();
+        });
+
+        lightbox.addEventListener("wheel", (e) => {
+            if (!lightbox.classList.contains("active")) return;
+
+            e.preventDefault();
+
+            if (isScrolling) return;
+            isScrolling = true;
+            setTimeout(() => {
+                isScrolling = false;
+            }, 500);
+
+            if (e.deltaY > 0 || e.deltaX > 0) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+        }, { passive: false });
+    </script>
+
 </body>
 </html>
