@@ -3,9 +3,536 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nature Portfolio</title>
+    <title>French Alps - Irakli Korkia</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            color: #1a1a1a;
+            background-color: #fafafa;
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.5s ease;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            min-width: 0;
+        }
+
+        .nav-logo {
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            color: #111;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .nav-gallery-title {
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            color: #888;
+            text-transform: uppercase;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            opacity: 0;
+            max-width: 0;
+            transform: translateY(15px);
+            margin-left: 0;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .nav-gallery-title strong {
+            color: #111;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        nav.scrolled .nav-gallery-title {
+            opacity: 1;
+            max-width: 1000px;
+            transform: translateY(0);
+            margin-left: 15px;
+        }
+
+        nav.scrolled .nav-gallery-title::before {
+            content: "/";
+            margin-right: 15px;
+            color: #ccc;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .nav-right > a {
+            color: #333;
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            margin-left: 20px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-right > a:hover {
+            opacity: 1;
+        }
+
+        header {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 150px 40px 60px;
+            text-align: center;
+            transition: opacity 0.4s ease, transform 0.5s ease;
+        }
+
+        header.scrolled {
+            opacity: 0;
+            transform: translateY(-20px);
+            pointer-events: none;
+        }
+
+        h1 {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 800;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin: 0;
+            font-size: 3.5rem;
+            color: #111;
+        }
+
+        p {
+            color: #888;
+            font-size: 1.1rem;
+            margin-top: 15px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .masonry-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px 100px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            align-items: start;
+        }
+
+        @media (max-width: 1024px) {
+            .masonry-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                padding: 18px 20px;
+            }
+
+            .nav-right {
+                display: none;
+            }
+
+            header {
+                padding: 130px 20px 40px;
+            }
+
+            h1 {
+                font-size: 2.4rem;
+            }
+
+            .masonry-grid {
+                grid-template-columns: 1fr;
+                padding: 0 20px 80px;
+            }
+        }
+
+        .photo-item {
+            width: 100%;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.04);
+            opacity: 0;
+            transform: scale(0.9) translateY(30px);
+            transition: opacity 0.7s ease-out, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+
+        .photo-item.is-visible {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        .photo-item:nth-child(3n+1) {
+            transition-delay: 0s;
+        }
+
+        .photo-item:nth-child(3n+2) {
+            transition-delay: 0.2s;
+        }
+
+        .photo-item:nth-child(3n+3) {
+            transition-delay: 0.4s;
+        }
+
+        @media (max-width: 1024px) {
+            .photo-item:nth-child(n) {
+                transition-delay: 0s;
+            }
+
+            .photo-item:nth-child(2n+1) {
+                transition-delay: 0s;
+            }
+
+            .photo-item:nth-child(2n+2) {
+                transition-delay: 0.2s;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .photo-item:nth-child(n) {
+                transition-delay: 0s;
+            }
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.6s ease, filter 0.4s ease;
+            filter: brightness(0.95);
+        }
+
+        .photo-item:hover img {
+            transform: scale(1.03);
+            filter: brightness(1.05);
+        }
+
+        #lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(10, 10, 10, 0.98);
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            overflow: hidden;
+        }
+
+        #lightbox.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #lightbox-track {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox-slide {
+            position: absolute;
+            width: 65vw;
+            height: 85vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: scale(0.5) translateX(0);
+            pointer-events: none;
+            transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
+                        opacity 0.7s ease,
+                        filter 0.7s ease;
+        }
+
+        .lightbox-slide img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 4px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8);
+            user-select: none;
+        }
+
+        #lightbox-close {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 200;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.2s ease;
+            z-index: 1010;
+        }
+
+        #lightbox-close:hover {
+            opacity: 1;
+        }
+
+        .lightbox-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 3rem;
+            font-weight: 200;
+            cursor: pointer;
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+            z-index: 1010;
+            padding: 40px 20px;
+        }
+
+        .lightbox-nav-btn:hover {
+            opacity: 1;
+        }
+
+        #lightbox-prev {
+            left: 10px;
+        }
+
+        #lightbox-next {
+            right: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello World</h1>
+
+    <nav id="main-nav">
+        <div class="nav-left">
+            <a href="index.html" class="nav-logo">Irakli Korkia</a>
+            <div class="nav-gallery-title"><strong>French Alps</strong> - Quiet ridgelines, winter light, and mountain air.</div>
+        </div>
+        <div class="nav-right">
+            <a href="index.html">Home</a>
+            <a href="urban.html">Urban</a>
+        </div>
+    </nav>
+
+    <header id="main-header">
+        <h1>French Alps</h1>
+        <p>Quiet ridgelines, winter light, and mountain air.</p>
+    </header>
+
+    <div class="masonry-grid">
+        <div class="photo-item"><img src="nature/French Alps/20260110DSCF0128.jpg" alt="French Alps landscape photo"></div>
+        <div class="photo-item"><img src="nature/French Alps/20260110DSCF0133.jpg" alt="French Alps landscape photo"></div>
+        <div class="photo-item"><img src="nature/French Alps/20260110DSCF0143.jpg" alt="French Alps landscape photo"></div>
+        <div class="photo-item"><img src="nature/French Alps/20260110DSCF0150.jpg" alt="French Alps landscape photo"></div>
+        <div class="photo-item"><img src="nature/French Alps/DSCF9279.JPG" alt="French Alps landscape photo"></div>
+    </div>
+
+    <div id="lightbox">
+        <div id="lightbox-close">&times;</div>
+        <div id="lightbox-prev" class="lightbox-nav-btn">&#10094;</div>
+        <div id="lightbox-track"></div>
+        <div id="lightbox-next" class="lightbox-nav-btn">&#10095;</div>
+    </div>
+
+    <script>
+        window.addEventListener("scroll", () => {
+            const nav = document.getElementById("main-nav");
+            const header = document.getElementById("main-header");
+
+            if (window.scrollY > 20) {
+                nav.classList.add("scrolled");
+                header.classList.add("scrolled");
+            } else {
+                nav.classList.remove("scrolled");
+                header.classList.remove("scrolled");
+            }
+        });
+
+        const photoObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("is-visible");
+                } else {
+                    entry.target.classList.remove("is-visible");
+                }
+            });
+        }, { threshold: 0.05, rootMargin: "0px 0px -20px 0px" });
+
+        document.querySelectorAll(".photo-item").forEach((item) => {
+            photoObserver.observe(item);
+        });
+
+        const lightbox = document.getElementById("lightbox");
+        const track = document.getElementById("lightbox-track");
+        const closeBtn = document.getElementById("lightbox-close");
+        const galleryItems = document.querySelectorAll(".photo-item");
+        const galleryImages = document.querySelectorAll(".photo-item img");
+
+        let currentIndex = 0;
+        let isScrolling = false;
+
+        galleryImages.forEach((img, index) => {
+            const slide = document.createElement("div");
+            slide.className = "lightbox-slide";
+            slide.innerHTML = `<img src="${img.src}" alt="French Alps gallery photo">`;
+
+            slide.addEventListener("click", (e) => {
+                e.stopPropagation();
+                if (currentIndex !== index) {
+                    currentIndex = index;
+                    updateInfiniteRoll();
+                }
+            });
+
+            track.appendChild(slide);
+        });
+
+        const slides = document.querySelectorAll(".lightbox-slide");
+        const totalSlides = slides.length;
+
+        function updateInfiniteRoll() {
+            slides.forEach((slide, i) => {
+                let diff = i - currentIndex;
+
+                if (diff < -Math.floor(totalSlides / 2)) diff += totalSlides;
+                if (diff > Math.floor(totalSlides / 2)) diff -= totalSlides;
+
+                if (diff === 0) {
+                    slide.style.transform = "translateX(0) scale(1)";
+                    slide.style.opacity = "1";
+                    slide.style.filter = "blur(0px)";
+                    slide.style.zIndex = "10";
+                    slide.style.pointerEvents = "auto";
+                } else if (diff === 1) {
+                    slide.style.transform = "translateX(35vw) scale(0.65)";
+                    slide.style.opacity = "0.4";
+                    slide.style.filter = "blur(8px)";
+                    slide.style.zIndex = "5";
+                    slide.style.pointerEvents = "auto";
+                } else if (diff === -1) {
+                    slide.style.transform = "translateX(-35vw) scale(0.65)";
+                    slide.style.opacity = "0.4";
+                    slide.style.filter = "blur(8px)";
+                    slide.style.zIndex = "5";
+                    slide.style.pointerEvents = "auto";
+                } else {
+                    const direction = diff > 0 ? 1 : -1;
+                    slide.style.transform = `translateX(${direction * 80}vw) scale(0.4)`;
+                    slide.style.opacity = "0";
+                    slide.style.filter = "blur(20px)";
+                    slide.style.zIndex = "1";
+                    slide.style.pointerEvents = "none";
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateInfiniteRoll();
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            updateInfiniteRoll();
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove("active");
+            document.body.style.overflow = "";
+            slides.forEach((slide) => {
+                slide.style.pointerEvents = "none";
+            });
+        }
+
+        function openLightbox(index) {
+            currentIndex = index;
+            updateInfiniteRoll();
+            lightbox.classList.add("active");
+            document.body.style.overflow = "hidden";
+        }
+
+        document.getElementById("lightbox-next").addEventListener("click", (e) => {
+            e.stopPropagation();
+            nextSlide();
+        });
+
+        document.getElementById("lightbox-prev").addEventListener("click", (e) => {
+            e.stopPropagation();
+            prevSlide();
+        });
+
+        galleryItems.forEach((item, index) => {
+            item.addEventListener("click", () => {
+                openLightbox(index);
+            });
+        });
+
+        closeBtn.addEventListener("click", closeLightbox);
+
+        lightbox.addEventListener("click", (e) => {
+            if (e.target === lightbox || e.target === track) {
+                closeLightbox();
+            }
+        });
+
+        document.addEventListener("keydown", (e) => {
+            if (!lightbox.classList.contains("active")) return;
+
+            if (e.key === "ArrowRight") nextSlide();
+            if (e.key === "ArrowLeft") prevSlide();
+            if (e.key === "Escape") closeLightbox();
+        });
+
+        lightbox.addEventListener("wheel", (e) => {
+            if (!lightbox.classList.contains("active")) return;
+
+            e.preventDefault();
+
+            if (isScrolling) return;
+            isScrolling = true;
+            setTimeout(() => {
+                isScrolling = false;
+            }, 500);
+
+            if (e.deltaY > 0 || e.deltaX > 0) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+        }, { passive: false });
+    </script>
+
 </body>
 </html>
