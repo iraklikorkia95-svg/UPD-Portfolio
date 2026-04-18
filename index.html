@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Irakli Korkia</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    background: #fff;
+    color: #111;
+}
+
+/* HEADER */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 18px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(10px);
+    z-index: 10;
+}
+
+.logo {
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.nav {
+    display: flex;
+    gap: 28px;
+    font-size: 0.85rem;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+
+.nav a {
+    text-decoration: none;
+    color: #333;
+    opacity: 0.65;
+    transition: 0.3s;
+}
+
+.nav a:hover {
+    opacity: 1;
+}
+
+/* TOP QUESTION TEXT BLOCK */
+#intro {
+    margin-top: 110px;
+    text-align: center;
+    font-family: "Playfair Display", serif;
+    padding: 0 20px;
+}
+
+.line {
+    font-size: clamp(1.3rem, 3.5vw, 2rem);
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.line.small {
+    margin-top: 10px;
+    font-size: clamp(1.6rem, 4.5vw, 2.6rem);
+    font-weight: 500;
+}
+
+/* SPLIT */
+.container {
+    display: flex;
+    height: calc(100vh - 220px);
+    width: 100vw;
+    margin-top: 20px;
+}
+
+/* PANELS */
+.panel {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.panel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transform: scale(1.05);
+    transition: transform 0.5s ease, filter 0.5s ease;
+}
+
+.panel:hover::before {
+    filter: blur(6px);
+    transform: scale(1.12);
+}
+
+/* LABEL */
+.label {
+    position: absolute;
+    left: 50%;
+    top: 55%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+    -webkit-text-stroke: 0.5px rgba(255,255,255,0.6);
+    transition: all 0.4s ease;
+    pointer-events: none;
+}
+
+.panel:hover .label {
+    top: 50%;
+    color: rgba(255,255,255,0.95);
+    -webkit-text-stroke: 0;
+}
+
+/* IMAGES */
+.nature::before {
+    background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470');
+}
+
+.urban::before {
+    background-image: url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34');
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">Irakli Korkia</div>
+
+    <nav class="nav">
+        <a href="#">Portfolio</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </nav>
+</header>
+
+<div id="intro">
+    <div class="line" id="line1"></div>
+    <div class="line small" id="line2"></div>
+</div>
+
+<div class="container">
+
+    <a class="panel nature" href="nature.html">
+        <div class="label">Nature</div>
+    </a>
+
+    <a class="panel urban" href="urban.html">
+        <div class="label">Urban</div>
+    </a>
+
+</div>
+
+<script>
+
+/* split typing */
+const text1 = "Some people belong to quiet landscapes. Others to restless cities.";
+const text2 = "Where do you feel at home?";
+
+let i = 0;
+let j = 0;
+
+function typeLine1() {
+    if (i < text1.length) {
+        document.getElementById("line1").textContent += text1[i];
+        i++;
+        setTimeout(typeLine1, 45);
+    } else {
+        typeLine2();
+    }
+}
+
+function typeLine2() {
+    if (j < text2.length) {
+        document.getElementById("line2").textContent += text2[j];
+        j++;
+        setTimeout(typeLine2, 55);
+    }
+}
+
+typeLine1();
+
+</script>
+
+</body>
+</html>
