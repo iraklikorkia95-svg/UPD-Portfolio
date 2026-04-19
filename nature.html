@@ -402,28 +402,21 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.9);
             z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             overflow: hidden;
         }
 
         .lightbox.active {
             display: flex;
             flex-direction: column;
-            opacity: 1;
-            pointer-events: auto;
         }
 
         .lightbox-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 24px 40px;
+            padding: 18px 30px;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -461,28 +454,32 @@
         }
 
         .lightbox-container {
+            position: relative;
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 30px 20px 40px;
-            overflow-y: auto;
+            padding: 20px 18px 20px;
+            overflow: hidden;
+            min-height: 0;
         }
 
         .lightbox-content {
+            flex: 1;
+            min-height: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         .lightbox-main-photo {
-            max-width: 90%;
-            max-height: 62vh;
+            max-width: 95%;
+            max-height: calc(100vh - 260px);
             object-fit: contain;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
             animation: photoZoom 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             backdrop-filter: blur(1px);
         }
@@ -499,50 +496,50 @@
         }
 
         .lightbox-footer {
-            padding: 24px 40px 20px;
+            padding: 18px 30px calc(18px + env(safe-area-inset-bottom, 14px));
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             background: rgba(0, 0, 0, 0.14);
-            position: sticky;
-            bottom: 0;
-            width: 100%;
             z-index: 2;
         }
 
         .lightbox-thumbnails {
             display: flex;
-            gap: 12px;
+            gap: 8px;
             justify-content: flex-start;
             flex-wrap: nowrap;
             overflow-x: auto;
-            margin-bottom: 12px;
-            padding: 10px 10px 0;
-            scroll-snap-type: x mandatory;
+            margin-bottom: 8px;
+            padding: 8px 8px 0;
+            scroll-snap-type: x proximity;
             -webkit-overflow-scrolling: touch;
+            touch-action: pan-x;
         }
 
         .lightbox-thumbnails::-webkit-scrollbar {
-            height: 8px;
+            height: 4px;
         }
 
         .lightbox-thumbnails::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 999px;
         }
 
         .lightbox-thumbnail {
             flex: 0 0 auto;
-            width: 76px;
-            height: 76px;
+            width: 50px;
+            height: 50px;
             scroll-snap-align: center;
-            border: 2px solid transparent;
-            border-radius: 12px;
+            border: 1px solid transparent;
+            border-radius: 8px;
             overflow: hidden;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            opacity: 0.55;
+            opacity: 0.4;
             background: rgba(255, 255, 255, 0.05);
+            touch-action: pan-x;
+            user-select: none;
         }
 
         .lightbox-thumbnail:hover {
@@ -551,9 +548,9 @@
         }
 
         .lightbox-thumbnail.active {
-            border-color: rgba(255, 255, 255, 0.9);
-            opacity: 1;
-            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.8);
+            opacity: 0.9;
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
         }
 
         .lightbox-thumbnail img {
@@ -562,30 +559,38 @@
             object-fit: cover;
         }
 
-        .lightbox-nav {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-        }
-
-        .lightbox-nav-btn {
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: rgba(255, 255, 255, 0.9);
-            padding: 12px 24px;
-            border-radius: 8px;
+        .lightbox-side-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 52px;
+            height: 52px;
+            border: none;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.18);
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.8rem;
             cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+            transition: transform 0.2s ease, background 0.2s ease;
             backdrop-filter: blur(10px);
         }
 
-        .lightbox-nav-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.5);
-            transform: translateY(-2px);
+        .lightbox-side-btn:hover {
+            background: rgba(255, 255, 255, 0.28);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .lightbox-prev {
+            left: 18px;
+        }
+
+        .lightbox-next {
+            right: 18px;
         }
 
         /* LOCATION NAVIGATOR - Mobile */
@@ -611,25 +616,25 @@
             }
 
             .lightbox-container {
-                padding: 30px 15px 30px;
+                padding: 22px 14px calc(22px + env(safe-area-inset-bottom, 14px));
             }
 
             .lightbox-main-photo {
-                max-width: 95%;
-                max-height: 55vh;
+                max-width: 96%;
+                max-height: calc(100vh - 220px);
                 border-radius: 8px;
             }
 
             .lightbox-content {
-                margin-bottom: 20px;
+                margin-bottom: 18px;
             }
 
             .lightbox-header {
-                padding: 16px 20px;
+                padding: 14px 16px;
             }
 
             .lightbox-footer {
-                padding: 20px;
+                padding: 16px 18px calc(16px + env(safe-area-inset-bottom, 14px));
             }
 
             .lightbox-thumbnails {
@@ -640,15 +645,6 @@
             .lightbox-thumbnail {
                 width: 60px;
                 height: 60px;
-            }
-
-            .lightbox-nav {
-                gap: 8px;
-            }
-
-            .lightbox-nav-btn {
-                padding: 10px 16px;
-                font-size: 0.85rem;
             }
         }
     </style>
@@ -906,16 +902,11 @@
             <button class="lightbox-close" onclick="closeLightbox();">&times;</button>
         </div>
         <div class="lightbox-container">
+            <button class="lightbox-side-btn lightbox-prev" onclick="previousPhoto();" aria-label="Previous photo">&#10094;</button>
             <div class="lightbox-content">
                 <img id="lightboxMainPhoto" class="lightbox-main-photo" src="" alt="">
             </div>
-            <div class="lightbox-footer">
-                <div class="lightbox-thumbnails" id="lightboxThumbnails"></div>
-                <div class="lightbox-nav">
-                    <button class="lightbox-nav-btn" onclick="previousPhoto();">← Previous</button>
-                    <button class="lightbox-nav-btn" onclick="nextPhoto();">Next →</button>
-                </div>
-            </div>
+            <button class="lightbox-side-btn lightbox-next" onclick="nextPhoto();" aria-label="Next photo">&#10095;</button>
         </div>
     </div>
 
@@ -949,9 +940,6 @@
             
             // Display main photo
             displayPhoto(currentPhotoIndex);
-            
-            // Show thumbnails
-            renderThumbnails();
             
             // Show lightbox
             document.getElementById('lightbox').classList.add('active');
@@ -992,17 +980,6 @@
             
             // Update main photo
             document.getElementById('lightboxMainPhoto').src = photoSrc;
-            
-            // Update active thumbnail
-            document.querySelectorAll('.lightbox-thumbnail').forEach((thumb, i) => {
-                thumb.classList.toggle('active', i === index);
-            });
-            
-            // Scroll thumbnail into view
-            const activeThumbnail = document.querySelectorAll('.lightbox-thumbnail')[index];
-            if (activeThumbnail) {
-                activeThumbnail.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-            }
         }
 
         function nextPhoto() {
@@ -1015,24 +992,6 @@
             let prev = currentPhotoIndex - 1;
             if (prev < 0) prev = currentPhotos.length - 1;
             displayPhoto(prev);
-        }
-
-        function renderThumbnails() {
-            const container = document.getElementById('lightboxThumbnails');
-            container.innerHTML = '';
-            
-            currentPhotos.forEach((photoSrc, index) => {
-                const thumb = document.createElement('div');
-                thumb.className = 'lightbox-thumbnail' + (index === currentPhotoIndex ? ' active' : '');
-                thumb.onclick = () => displayPhoto(index);
-                
-                const img = document.createElement('img');
-                img.src = photoSrc;
-                img.alt = 'Thumbnail';
-                
-                thumb.appendChild(img);
-                container.appendChild(thumb);
-            });
         }
 
         // Keyboard navigation
