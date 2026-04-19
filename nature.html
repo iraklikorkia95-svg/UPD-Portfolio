@@ -3,55 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>French Alps - Irakli Korkia</title>
+    <title>Nature - Irakli Korkia</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --page-bg: #f4f1ea;
-            --paper: rgba(255, 252, 246, 0.9);
+            --page-bg: #faf9f7;
             --text: #1c1a17;
             --muted: #72685b;
             --line: rgba(28, 26, 23, 0.08);
-            --shadow: 0 24px 60px rgba(62, 48, 26, 0.12);
+            --shadow: 0 24px 60px rgba(62, 48, 26, 0.1);
         }
 
         * {
             box-sizing: border-box;
         }
 
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
+        html, body {
             margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Inter", system-ui, -apple-system, sans-serif;
             color: var(--text);
-            background:
-                radial-gradient(circle at top, rgba(255, 255, 255, 0.72), transparent 32%),
-                linear-gradient(180deg, #f8f5ef 0%, var(--page-bg) 36%, #efe8dc 100%);
+            background: linear-gradient(180deg, #fff 0%, var(--page-bg) 30%, #f5f1eb 100%);
             overflow-x: hidden;
         }
 
+        /* NAV */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
             padding: 20px 40px;
-            background: rgba(248, 244, 237, 0.82);
+            background: rgba(250, 249, 247, 0.85);
             backdrop-filter: blur(10px);
             z-index: 100;
-            box-sizing: border-box;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--line);
-            transition: all 0.5s ease;
         }
 
         .nav-left {
             display: flex;
             align-items: center;
+            gap: 10px;
             min-width: 0;
         }
 
@@ -62,521 +63,1007 @@
             text-transform: uppercase;
             color: var(--text);
             text-decoration: none;
-            flex-shrink: 0;
         }
 
-        .nav-gallery-title {
+        .breadcrumb {
             font-size: 0.75rem;
-            letter-spacing: 1px;
-            color: var(--muted);
+            letter-spacing: 0.8px;
             text-transform: uppercase;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            opacity: 0;
-            max-width: 0;
-            transform: translateY(15px);
-            margin-left: 0;
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .nav-gallery-title strong {
-            color: var(--text);
-            font-weight: 700;
-            letter-spacing: 2px;
-        }
-
-        nav.scrolled .nav-gallery-title {
-            opacity: 1;
-            max-width: 1000px;
-            transform: translateY(0);
-            margin-left: 15px;
-        }
-
-        nav.scrolled .nav-gallery-title::before {
-            content: "/";
-            margin-right: 15px;
-            color: rgba(114, 104, 91, 0.5);
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            flex-shrink: 0;
-        }
-
-        .nav-right > a {
-            color: var(--text);
-            text-decoration: none;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
+            color: var(--muted);
             margin-left: 20px;
-            opacity: 0.7;
-            transition: opacity 0.3s ease;
+            padding-left: 20px;
+            border-left: 1px solid var(--line);
+            white-space: nowrap;
         }
 
-        .nav-right > a:hover {
-            opacity: 1;
-        }
-
-        header {
-            max-width: 1240px;
-            margin: 0 auto 28px;
-            padding: 150px 40px 0;
-            text-align: center;
-            transition: opacity 0.4s ease, transform 0.5s ease;
-        }
-
-        header.scrolled {
-            opacity: 0;
-            transform: translateY(-20px);
-            pointer-events: none;
-        }
-
-        h1 {
-            font-family: "Montserrat", sans-serif;
-            font-weight: 800;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            margin: 0;
-            font-size: 3.5rem;
-            color: var(--text);
-            text-shadow: 0 10px 30px rgba(255, 255, 255, 0.35);
-        }
-
-        p {
+        .nav-right a {
             color: var(--muted);
-            font-size: 1.1rem;
-            margin: 15px auto 0;
-            font-weight: 300;
-            letter-spacing: 1px;
-            max-width: 700px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            transition: color 0.3s;
         }
 
-        .gallery-shell {
+        .nav-right a:hover {
+            color: var(--text);
+        }
+
+        /* PAGE HEADER */
+        .page-header {
+            margin-top: 100px;
+            text-align: center;
+            padding: 0 40px 60px;
+        }
+
+        .page-header h1 {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .page-header p {
+            color: var(--muted);
+            margin: 15px 0 0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* LOCATION SECTION */
+        .location-section {
+            margin-bottom: 120px;
+            scroll-margin-top: 100px;
+        }
+
+        .section-header {
+            max-width: 1400px;
+            margin: 0 auto 50px;
+            padding: 0 40px;
+        }
+
+        .section-header h2 {
+            font-family: "Playfair Display", serif;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 500;
+            margin: 0 0 15px 0;
+        }
+
+        .section-header p {
+            color: var(--muted);
+            line-height: 1.7;
+            max-width: 600px;
+        }
+
+        /* MASONRY GRID */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            grid-auto-rows: 350px;
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 40px 100px;
+            padding: 0 40px;
         }
 
-        .masonry-grid {
-            column-count: 3;
-            column-gap: 22px;
-        }
-
-        @media (max-width: 1024px) {
-            .masonry-grid {
-                column-count: 2;
-            }
-
-        }
-
-        @media (max-width: 600px) {
-            nav {
-                padding: 18px 20px;
-            }
-
-            .nav-right {
-                display: none;
-            }
-
-            header {
-                padding: 130px 20px 0;
-            }
-
-            h1 {
-                font-size: 2.4rem;
-            }
-
-            .gallery-shell {
-                padding: 0 20px 80px;
-            }
-
-            .masonry-grid {
-                column-count: 1;
-                column-gap: 0;
-            }
-        }
-
-        .photo-item {
-            width: 100%;
-            margin: 0 0 22px;
-            border-radius: 18px;
-            overflow: hidden;
-            cursor: pointer;
-            break-inside: avoid;
+        .gallery-item {
             position: relative;
-            background: var(--paper);
-            border: 1px solid rgba(255, 255, 255, 0.72);
-            box-shadow: var(--shadow);
-            opacity: 0;
-            transform: scale(0.9) translateY(30px);
-            transition: opacity 0.7s ease-out, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: opacity, transform;
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 20px rgba(62, 48, 26, 0.08);
+            padding: 12px;
         }
 
-        .photo-item::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, transparent 55%, rgba(28, 26, 23, 0.08) 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            pointer-events: none;
+        .gallery-item:hover {
+            transform: scale(1.02);
         }
 
-        .photo-item.is-visible {
-            opacity: 1;
-            transform: scale(1) translateY(0);
+        .gallery-item:nth-child(2) {
+            grid-column: span 2;
+            grid-row: span 1;
         }
 
-        .photo-item:nth-child(3n+1) {
-            transition-delay: 0s;
+        .gallery-item:nth-child(5) {
+            grid-column: span 2;
+            grid-row: span 1;
         }
 
-        .photo-item:nth-child(3n+2) {
-            transition-delay: 0.2s;
-        }
-
-        .photo-item:nth-child(3n+3) {
-            transition-delay: 0.4s;
-        }
-
-        @media (max-width: 1024px) {
-            .photo-item:nth-child(n) {
-                transition-delay: 0s;
-            }
-
-            .photo-item:nth-child(2n+1) {
-                transition-delay: 0s;
-            }
-
-            .photo-item:nth-child(2n+2) {
-                transition-delay: 0.2s;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .photo-item:nth-child(n) {
-                transition-delay: 0s;
-            }
-        }
-
-        .photo-item img {
+        .gallery-item-inner {
             width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 0.7s ease, filter 0.4s ease;
-            filter: brightness(0.97);
+            height: 100%;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            overflow: hidden;
         }
 
-        .photo-item:hover img {
-            transform: scale(1.035);
-            filter: brightness(1.05);
+        .gallery-item-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0);
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            transition: background 0.4s ease, backdrop-filter 0.4s ease;
         }
 
-        .photo-item:hover::after {
+        .gallery-item:hover .gallery-item-overlay {
+            background: rgba(0, 0, 0, 0.35);
+        }
+
+        .gallery-item-title {
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: all 0.4s ease;
+        }
+
+        .gallery-item:hover .gallery-item-title {
             opacity: 1;
+            transform: translateY(0);
         }
 
-        #lightbox {
+        .gallery-grid.collapsed .gallery-item.hidden-item {
+            display: none;
+        }
+
+        .see-more-wrap,
+        .see-less-wrap {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .see-more-btn {
+            background: rgba(28, 26, 23, 0.95);
+            color: #fff;
+            border: none;
+            border-radius: 999px;
+            padding: 14px 28px;
+            font-size: 0.95rem;
+            letter-spacing: 0.8px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 18px 45px rgba(28, 26, 23, 0.15);
+        }
+
+        .see-more-btn:hover {
+            transform: translateY(-2px);
+            background: rgba(28, 26, 23, 1);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* DIVIDER */
+        .section-divider {
+            max-width: 1400px;
+            margin: 80px auto;
+            padding: 0 40px;
+            border-top: 1px solid var(--line);
+        }
+
+        /* MASONRY GRID - for tablet */
+        @media (max-width: 1024px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .gallery-item:nth-child(2),
+            .gallery-item:nth-child(5) {
+                grid-column: span 1;
+            }
+        }
+
+        /* MASONRY GRID - for mobile */
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 15px;
+                grid-auto-rows: 250px;
+                padding: 0 20px;
+            }
+
+            .section-header {
+                padding: 0 20px;
+            }
+
+            .page-header {
+                padding: 0 20px 40px;
+            }
+
+            nav {
+                padding: 15px 20px;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .breadcrumb {
+                margin-left: 0;
+                padding-left: 0;
+                border-left: none;
+                flex-basis: 100%;
+            }
+
+            .section-divider {
+                padding: 0 20px;
+            }
+        }
+
+        /* LOCATION NAVIGATOR */
+        .location-navigator {
+            max-width: 1400px;
+            margin: 80px auto;
+            padding: 0 40px;
+        }
+
+        .nav-label {
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 30px;
+        }
+
+        .location-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .location-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 20px rgba(62, 48, 26, 0.08);
+            height: 280px;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            padding: 12px;
+        }
+
+        .location-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(62, 48, 26, 0.15);
+        }
+
+        .location-card-inner {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            padding: 24px;
+            background-color: #f5f5f5;
+            border-radius: 6px;
+        }
+
+        .location-card-content {
+            z-index: 2;
+        }
+
+        .location-card-title {
+            font-family: "Playfair Display", serif;
+            font-size: 1.6rem;
+            font-weight: 500;
+            color: white;
+            margin: 0 0 8px 0;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .location-card-count {
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+            color: rgba(255, 255, 255, 0.8);
+            text-transform: uppercase;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* FOOTER */
+        footer {
+            margin-top: 120px;
+            padding: 60px 40px;
+            text-align: center;
+            border-top: 1px solid var(--line);
+        }
+
+        footer p {
+            color: var(--muted);
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* LIGHTBOX */
+        .lightbox {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(10, 10, 10, 0.98);
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             z-index: 1000;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             overflow: hidden;
         }
 
-        #lightbox.active {
+        .lightbox.active {
+            display: flex;
+            flex-direction: column;
             opacity: 1;
             pointer-events: auto;
         }
 
-        #lightbox-track {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
+        .lightbox-header {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
+            padding: 24px 40px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .lightbox-slide {
-            position: absolute;
-            width: 65vw;
-            height: 85vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transform: scale(0.5) translateX(0);
-            pointer-events: none;
-            transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
-                        opacity 0.7s ease,
-                        filter 0.7s ease;
+        .lightbox-title {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.1rem;
+            margin: 0;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
-        .lightbox-slide img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            border-radius: 4px;
-            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8);
-            user-select: none;
-        }
-
-        #lightbox-close {
-            position: absolute;
-            top: 30px;
-            right: 40px;
+        .lightbox-close {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
             color: white;
-            font-size: 2.5rem;
-            font-weight: 200;
+            font-size: 1.8rem;
             cursor: pointer;
-            opacity: 0.6;
-            transition: opacity 0.2s ease;
-            z-index: 1010;
+            opacity: 0.8;
+            transition: all 0.3s;
+            padding: 8px 16px;
+            border-radius: 6px;
+            width: auto;
+            height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        #lightbox-close:hover {
+        .lightbox-close:hover {
             opacity: 1;
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .lightbox-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px 40px;
+            overflow-y: auto;
+        }
+
+        .lightbox-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .lightbox-main-photo {
+            max-width: 90%;
+            max-height: 62vh;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: photoZoom 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(1px);
+        }
+
+        @keyframes photoZoom {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .lightbox-footer {
+            padding: 24px 40px 20px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.14);
+            position: sticky;
+            bottom: 0;
+            width: 100%;
+            z-index: 2;
+        }
+
+        .lightbox-thumbnails {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-start;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            margin-bottom: 12px;
+            padding: 10px 10px 0;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .lightbox-thumbnails::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .lightbox-thumbnails::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 999px;
+        }
+
+        .lightbox-thumbnail {
+            flex: 0 0 auto;
+            width: 76px;
+            height: 76px;
+            scroll-snap-align: center;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0.55;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .lightbox-thumbnail:hover {
+            opacity: 0.8;
+            transform: scale(1.08);
+        }
+
+        .lightbox-thumbnail.active {
+            border-color: rgba(255, 255, 255, 0.9);
+            opacity: 1;
+            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.15);
+        }
+
+        .lightbox-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .lightbox-nav {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
         }
 
         .lightbox-nav-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            color: white;
-            font-size: 3rem;
-            font-weight: 200;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.9);
+            padding: 12px 24px;
+            border-radius: 8px;
             cursor: pointer;
-            opacity: 0.3;
-            transition: opacity 0.3s ease;
-            z-index: 1010;
-            padding: 40px 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
 
         .lightbox-nav-btn:hover {
-            opacity: 1;
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
         }
 
-        #lightbox-prev {
-            left: 10px;
-        }
+        /* LOCATION NAVIGATOR - Mobile */
+        @media (max-width: 768px) {
+            .location-navigator {
+                padding: 0 20px;
+            }
 
-        #lightbox-next {
-            right: 10px;
+            .location-cards {
+                gap: 16px;
+            }
+
+            .location-card {
+                height: 220px;
+            }
+
+            .location-card-title {
+                font-size: 1.3rem;
+            }
+
+            .location-card-inner {
+                padding: 16px;
+            }
+
+            .lightbox-container {
+                padding: 30px 15px 30px;
+            }
+
+            .lightbox-main-photo {
+                max-width: 95%;
+                max-height: 55vh;
+                border-radius: 8px;
+            }
+
+            .lightbox-content {
+                margin-bottom: 20px;
+            }
+
+            .lightbox-header {
+                padding: 16px 20px;
+            }
+
+            .lightbox-footer {
+                padding: 20px;
+            }
+
+            .lightbox-thumbnails {
+                gap: 10px;
+                margin-bottom: 12px;
+            }
+
+            .lightbox-thumbnail {
+                width: 60px;
+                height: 60px;
+            }
+
+            .lightbox-nav {
+                gap: 8px;
+            }
+
+            .lightbox-nav-btn {
+                padding: 10px 16px;
+                font-size: 0.85rem;
+            }
         }
     </style>
 </head>
 <body>
-
-    <nav id="main-nav">
+    <!-- NAV -->
+    <nav>
         <div class="nav-left">
             <a href="index.html" class="nav-logo">Irakli Korkia</a>
-            <div class="nav-gallery-title"><strong>French Alps</strong> - Quiet ridgelines, winter light, and mountain air.</div>
+            <div class="breadcrumb">Nature</div>
         </div>
         <div class="nav-right">
-            <a href="index.html">Home</a>
-            <a href="urban.html">Urban</a>
+            <a href="index.html">Portfolio</a>
         </div>
     </nav>
 
-    <header id="main-header">
-        <h1>French Alps</h1>
-        <p>Quiet ridgelines, winter light, and mountain air.</p>
-    </header>
+    <!-- PAGE HEADER -->
+    <section class="page-header">
+        <h1>Nature</h1>
+        <p>Explorations of wild landscapes, from mountain peaks to coastal shores. A collection of moments where light, land, and time converge.</p>
+    </section>
 
-    <section class="gallery-shell">
-        <div class="masonry-grid">
-            <div class="photo-item"><img src="nature/French Alps/20260110DSCF0128.jpg" alt="French Alps landscape photo"></div>
-            <div class="photo-item"><img src="nature/French Alps/20260110DSCF0133.jpg" alt="French Alps landscape photo"></div>
-            <div class="photo-item"><img src="nature/French Alps/20260110DSCF0143.jpg" alt="French Alps landscape photo"></div>
-            <div class="photo-item"><img src="nature/French Alps/20260110DSCF0150.jpg" alt="French Alps landscape photo"></div>
-            <div class="photo-item"><img src="nature/French Alps/DSCF9279.JPG" alt="French Alps landscape photo"></div>
+    <!-- LOCATION NAVIGATOR -->
+    <section class="location-navigator">
+        <div class="nav-label">Explore by location</div>
+        <div class="location-cards">
+            <a href="#corsica" class="location-card">
+                <div class="location-card-inner" style="background-image: url('Nature/Corsica/DSCF6642.jpeg');">
+                    <div class="location-card-content">
+                        <h3 class="location-card-title">Corsica</h3>
+                        <p class="location-card-count">32 photos</p>
+                    </div>
+                </div>
+            </a>
+            <a href="#french-alps" class="location-card">
+                <div class="location-card-inner" style="background-image: url('Nature/French Alps/20260110DSCF0128.jpg');">
+                    <div class="location-card-content">
+                        <h3 class="location-card-title">French Alps</h3>
+                        <p class="location-card-count">5 photos</p>
+                    </div>
+                </div>
+            </a>
         </div>
     </section>
 
-    <div id="lightbox">
-        <div id="lightbox-close">&times;</div>
-        <div id="lightbox-prev" class="lightbox-nav-btn">&#10094;</div>
-        <div id="lightbox-track"></div>
-        <div id="lightbox-next" class="lightbox-nav-btn">&#10095;</div>
+    <!-- CORSICA SECTION -->
+    <section class="location-section" id="corsica">
+        <div class="section-header">
+            <h2>Corsica</h2>
+            <p>A collection of moments capturing the wild beauty of Corsica—from dramatic coastal cliffs to serene Mediterranean waters. Each image tells a story of nature's raw elegance.</p>
+        </div>
+        
+        <div class="gallery-grid collapsed" id="corsicaGrid">
+            <div class="gallery-item" data-location="corsica" data-image="Nature/Corsica/DSCF4945.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF4945.jpeg');"></div>
+                <div class="gallery-item-overlay">
+                    <span class="gallery-item-title"></span>
+                </div>
+            </div>
+            <div class="gallery-item" data-location="corsica" data-image="Nature/Corsica/DSCF5371.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF5371.jpeg');"></div>
+                <div class="gallery-item-overlay">
+                    <span class="gallery-item-title"></span>
+                </div>
+            </div>
+            <div class="gallery-item" data-location="corsica" data-image="Nature/Corsica/DSCF5597.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF5597.jpeg');"></div>
+                <div class="gallery-item-overlay">
+                    <span class="gallery-item-title"></span>
+                </div>
+            </div>
+            <div class="gallery-item" data-location="corsica" data-image="Nature/Corsica/DSCF5783.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF5783.jpeg');"></div>
+                <div class="gallery-item-overlay">
+                    <span class="gallery-item-title"></span>
+                </div>
+            </div>
+            <div class="gallery-item" data-location="corsica" data-image="Nature/Corsica/DSCF6134.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF6134.jpeg');"></div>
+                <div class="gallery-item-overlay">
+                    <span class="gallery-item-title"></span>
+                </div>
+            </div>
+            <div class="gallery-item" data-location="corsica" data-image="Nature/Corsica/DSCF6137.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF6137.jpeg');"></div>
+                <div class="gallery-item-overlay">
+                    <span class="gallery-item-title"></span>
+                </div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF6162.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF6162.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF6168.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF6168.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF6181.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF6181.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF6222.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF6222.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF6247.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF6247.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF6270.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF6270.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF6293.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF6293.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF6295.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF6295.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF6318.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF6318.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF6478.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF6478.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF6481.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF6481.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF6531.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF6531.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF6538.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF6538.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF6642.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF6642.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF6690.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF6690.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF6721.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF6721.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF6728.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF6728.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF6842.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF6842.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF6889.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF6889.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF7048.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF7048.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF7097.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF7097.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF7112.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF7112.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF7321.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF7321.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF7331.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF7331.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF7383.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF7383.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="corsica" data-image="Nature/Corsica/DSCF7392.jpeg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/Corsica/DSCF7392.jpeg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+        </div>
+        <div class="see-more-wrap">
+            <button class="see-more-btn" id="corsicaToggleBtn" onclick="toggleCorsicaPhotos()">See more Corsica photos</button>
+        </div>
+        <div class="see-less-wrap hidden" id="corsicaCollapseWrap">
+            <button class="see-more-btn see-less" onclick="toggleCorsicaPhotos()">See less Corsica photos</button>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- FRENCH ALPS SECTION -->
+    <section class="location-section" id="french-alps">
+        <div class="section-header">
+            <h2>French Alps</h2>
+            <p>Quiet ridgelines, winter light, and mountain air. A series capturing the serene majesty of Alpine peaks and the interplay of snow, stone, and sky.</p>
+        </div>
+        
+        <div class="gallery-grid">
+            <div class="gallery-item" data-location="french-alps" data-image="Nature/French Alps/20260110DSCF0128.jpg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/French Alps/20260110DSCF0128.jpg');"></div>
+                <div class="gallery-item-overlay">
+                    <span class="gallery-item-title"></span>
+                </div>
+            </div>
+            <div class="gallery-item" data-location="french-alps" data-image="Nature/French Alps/20260110DSCF0133.jpg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/French Alps/20260110DSCF0133.jpg');"></div>
+                <div class="gallery-item-overlay">
+                    <span class="gallery-item-title"></span>
+                </div>
+            </div>
+            <div class="gallery-item" data-location="french-alps" data-image="Nature/French Alps/20260110DSCF0143.jpg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/French Alps/20260110DSCF0143.jpg');"></div>
+                <div class="gallery-item-overlay">
+                    <span class="gallery-item-title"></span>
+                </div>
+            </div>
+            <div class="gallery-item" data-location="french-alps" data-image="Nature/French Alps/20260110DSCF0150.jpg">
+                <div class="gallery-item-inner" style="background-image: url('Nature/French Alps/20260110DSCF0150.jpg');"></div>
+                <div class="gallery-item-overlay">
+                    <span class="gallery-item-title"></span>
+                </div>
+            </div>
+            <div class="gallery-item" data-location="french-alps" data-image="Nature/French Alps/DSCF9279.JPG">
+                <div class="gallery-item-inner" style="background-image: url('Nature/French Alps/DSCF9279.JPG');"></div>
+                <div class="gallery-item-overlay">
+                    <span class="gallery-item-title"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 Irakli Korkia. All photographs &copy; Irakli Korkia.</p>
+    </footer>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-header">
+            <h2 class="lightbox-title" id="lightboxTitle">Corsica</h2>
+            <button class="lightbox-close" onclick="closeLightbox();">&times;</button>
+        </div>
+        <div class="lightbox-container">
+            <div class="lightbox-content">
+                <img id="lightboxMainPhoto" class="lightbox-main-photo" src="" alt="">
+            </div>
+            <div class="lightbox-footer">
+                <div class="lightbox-thumbnails" id="lightboxThumbnails"></div>
+                <div class="lightbox-nav">
+                    <button class="lightbox-nav-btn" onclick="previousPhoto();">← Previous</button>
+                    <button class="lightbox-nav-btn" onclick="nextPhoto();">Next →</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        window.addEventListener("scroll", () => {
-            const nav = document.getElementById("main-nav");
-            const header = document.getElementById("main-header");
+        // Gallery and Lightbox functionality
+        let currentPhotos = [];
+        let currentPhotoIndex = 0;
+        let currentLocation = '';
 
-            if (window.scrollY > 20) {
-                nav.classList.add("scrolled");
-                header.classList.add("scrolled");
-            } else {
-                nav.classList.remove("scrolled");
-                header.classList.remove("scrolled");
-            }
+        // Initialize gallery items click handlers
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const location = this.dataset.location;
+                openLightbox(location, this.dataset.image);
+            });
         });
 
-        const photoObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("is-visible");
-                } else {
-                    entry.target.classList.remove("is-visible");
-                }
-            });
-        }, { threshold: 0.05, rootMargin: "0px 0px -20px 0px" });
-
-        document.querySelectorAll(".photo-item").forEach((item) => {
-            photoObserver.observe(item);
-        });
-
-        const lightbox = document.getElementById("lightbox");
-        const track = document.getElementById("lightbox-track");
-        const closeBtn = document.getElementById("lightbox-close");
-        const galleryItems = document.querySelectorAll(".photo-item");
-        const galleryImages = document.querySelectorAll(".photo-item img");
-
-        let currentIndex = 0;
-        let isScrolling = false;
-
-        galleryImages.forEach((img, index) => {
-            const slide = document.createElement("div");
-            slide.className = "lightbox-slide";
-            slide.innerHTML = `<img src="${img.src}" alt="French Alps gallery photo">`;
-
-            slide.addEventListener("click", (e) => {
-                e.stopPropagation();
-                if (currentIndex !== index) {
-                    currentIndex = index;
-                    updateInfiniteRoll();
-                }
-            });
-
-            track.appendChild(slide);
-        });
-
-        const slides = document.querySelectorAll(".lightbox-slide");
-        const totalSlides = slides.length;
-
-        function updateInfiniteRoll() {
-            slides.forEach((slide, i) => {
-                let diff = i - currentIndex;
-
-                if (diff < -Math.floor(totalSlides / 2)) diff += totalSlides;
-                if (diff > Math.floor(totalSlides / 2)) diff -= totalSlides;
-
-                if (diff === 0) {
-                    slide.style.transform = "translateX(0) scale(1)";
-                    slide.style.opacity = "1";
-                    slide.style.filter = "blur(0px)";
-                    slide.style.zIndex = "10";
-                    slide.style.pointerEvents = "auto";
-                } else if (diff === 1) {
-                    slide.style.transform = "translateX(35vw) scale(0.65)";
-                    slide.style.opacity = "0.4";
-                    slide.style.filter = "blur(8px)";
-                    slide.style.zIndex = "5";
-                    slide.style.pointerEvents = "auto";
-                } else if (diff === -1) {
-                    slide.style.transform = "translateX(-35vw) scale(0.65)";
-                    slide.style.opacity = "0.4";
-                    slide.style.filter = "blur(8px)";
-                    slide.style.zIndex = "5";
-                    slide.style.pointerEvents = "auto";
-                } else {
-                    const direction = diff > 0 ? 1 : -1;
-                    slide.style.transform = `translateX(${direction * 80}vw) scale(0.4)`;
-                    slide.style.opacity = "0";
-                    slide.style.filter = "blur(20px)";
-                    slide.style.zIndex = "1";
-                    slide.style.pointerEvents = "none";
-                }
-            });
-        }
-
-        function nextSlide() {
-            currentIndex = (currentIndex + 1) % totalSlides;
-            updateInfiniteRoll();
-        }
-
-        function prevSlide() {
-            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-            updateInfiniteRoll();
+        function openLightbox(location, imageSrc) {
+            currentLocation = location;
+            
+            // Get all photos for this location
+            currentPhotos = Array.from(document.querySelectorAll(`.gallery-item[data-location="${location}"]`))
+                .map(item => item.dataset.image);
+            
+            // Find current photo index
+            currentPhotoIndex = currentPhotos.indexOf(imageSrc);
+            
+            // Update lightbox title
+            const titleText = location === 'corsica' ? 'Corsica' : 'French Alps';
+            document.getElementById('lightboxTitle').textContent = titleText;
+            
+            // Display main photo
+            displayPhoto(currentPhotoIndex);
+            
+            // Show thumbnails
+            renderThumbnails();
+            
+            // Show lightbox
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
         function closeLightbox() {
-            lightbox.classList.remove("active");
-            document.body.style.overflow = "";
-            slides.forEach((slide) => {
-                slide.style.pointerEvents = "none";
-            });
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = 'auto';
         }
 
-        function openLightbox(index) {
-            currentIndex = index;
-            updateInfiniteRoll();
-            lightbox.classList.add("active");
-            document.body.style.overflow = "hidden";
-        }
+        function toggleCorsicaPhotos() {
+            const grid = document.getElementById('corsicaGrid');
+            const toggleBtn = document.getElementById('corsicaToggleBtn');
+            const collapseWrap = document.getElementById('corsicaCollapseWrap');
+            const corsicaSection = document.getElementById('corsica');
 
-        document.getElementById("lightbox-next").addEventListener("click", (e) => {
-            e.stopPropagation();
-            nextSlide();
-        });
-
-        document.getElementById("lightbox-prev").addEventListener("click", (e) => {
-            e.stopPropagation();
-            prevSlide();
-        });
-
-        galleryItems.forEach((item, index) => {
-            item.addEventListener("click", () => {
-                openLightbox(index);
-            });
-        });
-
-        closeBtn.addEventListener("click", closeLightbox);
-
-        lightbox.addEventListener("click", (e) => {
-            if (e.target === lightbox || e.target === track) {
-                closeLightbox();
-            }
-        });
-
-        document.addEventListener("keydown", (e) => {
-            if (!lightbox.classList.contains("active")) return;
-
-            if (e.key === "ArrowRight") nextSlide();
-            if (e.key === "ArrowLeft") prevSlide();
-            if (e.key === "Escape") closeLightbox();
-        });
-
-        lightbox.addEventListener("wheel", (e) => {
-            if (!lightbox.classList.contains("active")) return;
-
-            e.preventDefault();
-
-            if (isScrolling) return;
-            isScrolling = true;
-            setTimeout(() => {
-                isScrolling = false;
-            }, 500);
-
-            if (e.deltaY > 0 || e.deltaX > 0) {
-                nextSlide();
+            if (grid.classList.contains('collapsed')) {
+                grid.classList.remove('collapsed');
+                toggleBtn.textContent = 'See less Corsica photos';
+                collapseWrap.classList.remove('hidden');
             } else {
-                prevSlide();
+                grid.classList.add('collapsed');
+                toggleBtn.textContent = 'See more Corsica photos';
+                collapseWrap.classList.add('hidden');
+                window.scrollTo({
+                    top: corsicaSection.offsetTop - 90,
+                    behavior: 'smooth'
+                });
             }
-        }, { passive: false });
-    </script>
+        }
 
+        function displayPhoto(index) {
+            if (index < 0 || index >= currentPhotos.length) return;
+            
+            currentPhotoIndex = index;
+            const photoSrc = currentPhotos[index];
+            
+            // Update main photo
+            document.getElementById('lightboxMainPhoto').src = photoSrc;
+            
+            // Update active thumbnail
+            document.querySelectorAll('.lightbox-thumbnail').forEach((thumb, i) => {
+                thumb.classList.toggle('active', i === index);
+            });
+            
+            // Scroll thumbnail into view
+            const activeThumbnail = document.querySelectorAll('.lightbox-thumbnail')[index];
+            if (activeThumbnail) {
+                activeThumbnail.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+        }
+
+        function nextPhoto() {
+            let next = currentPhotoIndex + 1;
+            if (next >= currentPhotos.length) next = 0;
+            displayPhoto(next);
+        }
+
+        function previousPhoto() {
+            let prev = currentPhotoIndex - 1;
+            if (prev < 0) prev = currentPhotos.length - 1;
+            displayPhoto(prev);
+        }
+
+        function renderThumbnails() {
+            const container = document.getElementById('lightboxThumbnails');
+            container.innerHTML = '';
+            
+            currentPhotos.forEach((photoSrc, index) => {
+                const thumb = document.createElement('div');
+                thumb.className = 'lightbox-thumbnail' + (index === currentPhotoIndex ? ' active' : '');
+                thumb.onclick = () => displayPhoto(index);
+                
+                const img = document.createElement('img');
+                img.src = photoSrc;
+                img.alt = 'Thumbnail';
+                
+                thumb.appendChild(img);
+                container.appendChild(thumb);
+            });
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!document.getElementById('lightbox').classList.contains('active')) return;
+            
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowRight') nextPhoto();
+            if (e.key === 'ArrowLeft') previousPhoto();
+        });
+
+        // Close lightbox when clicking background
+        document.getElementById('lightbox').addEventListener('click', function(e) {
+            if (e.target === this) closeLightbox();
+        });
+
+        // Simple scroll interaction for future enhancements
+        const sections = document.querySelectorAll('.location-section');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        sections.forEach(section => {
+            section.style.opacity = '0.95';
+            observer.observe(section);
+        });
+    </script>
 </body>
 </html>

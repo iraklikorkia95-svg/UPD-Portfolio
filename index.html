@@ -10,6 +10,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
+:root {
+    --page-bg: #faf9f7;
+    --text: #1c1a17;
+    --muted: #72685b;
+    --line: rgba(28, 26, 23, 0.08);
+    --shadow: 0 24px 60px rgba(62, 48, 26, 0.1);
+}
 
 * {
     margin: 0;
@@ -17,11 +24,15 @@
     box-sizing: border-box;
 }
 
+html, body {
+    min-height: 100%;
+}
+
 body {
-    overflow: hidden;
+    overflow-x: hidden;
     font-family: "Inter", system-ui, -apple-system, sans-serif;
-    background: #fff;
-    color: #111;
+    color: var(--text);
+    background: linear-gradient(180deg, #fff 0%, var(--page-bg) 30%, #f5f1eb 100%);
 }
 
 /* HEADER */
@@ -29,76 +40,117 @@ header {
     position: fixed;
     top: 0;
     width: 100%;
-    padding: 18px 5%;
+    padding: 20px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(255,255,255,0.75);
+    background: rgba(250, 249, 247, 0.85);
     backdrop-filter: blur(10px);
-    z-index: 10;
+    border-bottom: 1px solid var(--line);
+    z-index: 100;
 }
 
 .logo {
-    font-size: 0.95rem;
-    font-weight: 500;
-    letter-spacing: 0.5px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 1px;
     text-transform: uppercase;
+    color: var(--text);
 }
 
 .nav {
     display: flex;
-    gap: 28px;
-    font-size: 0.85rem;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
+    gap: 24px;
+    align-items: center;
 }
 
 .nav a {
     text-decoration: none;
-    color: #333;
-    opacity: 0.65;
-    transition: 0.3s;
+    color: var(--muted);
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
 }
 
 .nav a:hover {
-    opacity: 1;
+    color: var(--text);
 }
 
 /* TOP QUESTION TEXT BLOCK */
-#intro {
-    margin-top: 110px;
+.headline-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    max-width: 1400px;
+    margin: 120px auto 12px;
+    padding: 0 40px;
+}
+
+.headline-item {
     text-align: center;
     font-family: "Playfair Display", serif;
-    padding: 0 20px;
+    color: var(--text);
+    font-size: clamp(1.4rem, 2.8vw, 1.95rem);
+    line-height: 1.35;
+    font-weight: 500;
+    padding: 0 12px;
+}
+
+#question {
+    max-width: 760px;
+    margin: 0 auto 16px;
+    text-align: center;
+    padding: 0 24px;
+    min-height: 3rem;
 }
 
 .line {
-    font-size: clamp(1.3rem, 3.5vw, 2rem);
-    font-weight: 500;
+    font-family: "Playfair Display", serif;
+    color: var(--text);
     line-height: 1.4;
+    letter-spacing: normal;
+    font-size: clamp(1.7rem, 3.2vw, 2.2rem);
+    font-weight: 500;
+    min-height: 2.4rem;
 }
 
 .line.small {
-    margin-top: 10px;
-    font-size: clamp(1.6rem, 4.5vw, 2.6rem);
-    font-weight: 500;
-}
-
-/* SPLIT */
-.container {
-    display: flex;
-    height: calc(100vh - 220px);
-    width: 100vw;
-    margin-top: 20px;
+    color: var(--muted);
+    letter-spacing: 0.02em;
 }
 
 /* PANELS */
+.container {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    padding: 30px 40px 60px;
+    max-width: 1400px;
+    margin: 0 auto 60px;
+}
+
 .panel {
-    flex: 1;
     position: relative;
+    min-height: calc(100vh - 270px);
+    border-radius: 24px;
     overflow: hidden;
     cursor: pointer;
     text-decoration: none;
+    box-shadow: var(--shadow);
+    transition: transform 0.35s ease, filter 0.35s ease;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.container:hover .panel:not(:hover) {
+    filter: blur(4px) brightness(0.7);
+}
+
+.panel:hover {
+    transform: translateY(-6px);
+    filter: none;
 }
 
 .panel::before {
@@ -107,44 +159,81 @@ header {
     inset: 0;
     background-size: cover;
     background-position: center;
-    transform: scale(1.05);
+    transform: scale(1.08);
     transition: transform 0.5s ease, filter 0.5s ease;
 }
 
 .panel:hover::before {
-    filter: blur(6px);
-    transform: scale(1.12);
+    transform: scale(1.14);
 }
 
-/* LABEL */
-.label {
+.container:hover .panel:not(:hover)::before {
+    filter: blur(4px);
+}
+
+.panel::after {
+    content: "";
     position: absolute;
-    left: 50%;
-    top: 55%;
-    transform: translate(-50%, -50%);
-    font-size: clamp(2rem, 6vw, 4rem);
-    font-weight: 500;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.25);
-    -webkit-text-stroke: 0.5px rgba(255,255,255,0.6);
-    transition: all 0.4s ease;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(28, 26, 23, 0.35) 100%);
     pointer-events: none;
 }
 
-.panel:hover .label {
-    top: 50%;
-    color: rgba(255,255,255,0.95);
-    -webkit-text-stroke: 0;
+.label {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 42px;
+    font-family: "Playfair Display", serif;
+    font-size: clamp(2.5rem, 6vw, 4.8rem);
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
 }
 
-/* IMAGES */
 .nature::before {
-    background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470');
+    background-image: url('Nature/Corsica/DSCF6642.jpeg');
 }
 
 .urban::before {
-    background-image: url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34');
+    background-image: url('Nature/French Alps/20260110DSCF0128.jpg');
+}
+
+@media (max-width: 1024px) {
+    .container {
+        grid-template-columns: 1fr;
+        padding: 24px;
+    }
+
+    .panel {
+        min-height: 50vh;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        padding: 18px 24px;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .logo {
+        font-size: 0.95rem;
+    }
+
+    .nav {
+        gap: 16px;
+    }
+
+    #question {
+        margin-top: 90px;
+    }
+
+    .label {
+        font-size: clamp(2rem, 10vw, 3.8rem);
+        letter-spacing: 2px;
+    }
 }
 
 </style>
@@ -162,9 +251,13 @@ header {
     </nav>
 </header>
 
-<div id="intro">
-    <div class="line" id="line1"></div>
-    <div class="line small" id="line2"></div>
+<div class="headline-grid">
+    <div class="headline-item" id="line1"></div>
+    <div class="headline-item" id="line2"></div>
+</div>
+
+<div id="question">
+    <div class="line small" id="line3"></div>
 </div>
 
 <div class="container">
@@ -182,11 +275,13 @@ header {
 <script>
 
 /* split typing */
-const text1 = "Some people belong to quiet landscapes. Others to restless cities.";
-const text2 = "Where do you feel at home?";
+const text1 = "Some people belong to quiet landscapes.";
+const text2 = "Others to restless cities.";
+const text3 = "Where do you feel at home?";
 
 let i = 0;
 let j = 0;
+let k = 0;
 
 function typeLine1() {
     if (i < text1.length) {
@@ -202,7 +297,17 @@ function typeLine2() {
     if (j < text2.length) {
         document.getElementById("line2").textContent += text2[j];
         j++;
-        setTimeout(typeLine2, 55);
+        setTimeout(typeLine2, 45);
+    } else {
+        typeLine3();
+    }
+}
+
+function typeLine3() {
+    if (k < text3.length) {
+        document.getElementById("line3").textContent += text3[k];
+        k++;
+        setTimeout(typeLine3, 55);
     }
 }
 
