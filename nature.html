@@ -833,9 +833,6 @@
         <div class="see-more-wrap">
             <button class="see-more-btn" id="corsicaToggleBtn" onclick="toggleCorsicaPhotos()">See more Corsica photos</button>
         </div>
-        <div class="see-less-wrap hidden" id="corsicaCollapseWrap">
-            <button class="see-more-btn see-less" onclick="toggleCorsicaPhotos()">See less Corsica photos</button>
-        </div>
     </section>
 
     <div class="section-divider"></div>
@@ -975,17 +972,14 @@
         function toggleCorsicaPhotos() {
             const grid = document.getElementById('corsicaGrid');
             const toggleBtn = document.getElementById('corsicaToggleBtn');
-            const collapseWrap = document.getElementById('corsicaCollapseWrap');
             const corsicaSection = document.getElementById('corsica');
 
             if (grid.classList.contains('collapsed')) {
                 grid.classList.remove('collapsed');
                 toggleBtn.textContent = 'See less Corsica photos';
-                collapseWrap.classList.remove('hidden');
             } else {
                 grid.classList.add('collapsed');
                 toggleBtn.textContent = 'See more Corsica photos';
-                collapseWrap.classList.add('hidden');
                 window.scrollTo({
                     top: corsicaSection.offsetTop - 90,
                     behavior: 'smooth'

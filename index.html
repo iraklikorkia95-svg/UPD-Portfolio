@@ -193,11 +193,11 @@ header {
 }
 
 .nature::before {
-    background-image: url('Photos/Nature/Corsica/Corsica_1.jpeg');
+    background-image: url('Photos/Nature/Corsica/Corsica_5.jpeg');
 }
 
 .urban::before {
-        background-image: url('Photos/Urban/Strasbourg/Strasbourg_1.jpg');
+        background-image: url('Photos/Urban/Strasbourg/Strasbourg_13.jpg');
 }
 
 @media (max-width: 768px) {
@@ -268,29 +268,7 @@ const text1 = "Some people belong to quiet landscapes.";
 const text2 = "Others to restless cities.";
 const text3 = "Where do you feel at home?";
 
-let i = 0;
-let j = 0;
 let k = 0;
-
-function typeLine1() {
-    if (i < text1.length) {
-        document.getElementById("line1").textContent += text1[i];
-        i++;
-        setTimeout(typeLine1, 45);
-    } else {
-        typeLine2();
-    }
-}
-
-function typeLine2() {
-    if (j < text2.length) {
-        document.getElementById("line2").textContent += text2[j];
-        j++;
-        setTimeout(typeLine2, 45);
-    } else {
-        typeLine3();
-    }
-}
 
 function typeLine3() {
     if (k < text3.length) {
@@ -300,7 +278,9 @@ function typeLine3() {
     }
 }
 
-typeLine1();
+document.getElementById("line1").textContent = text1;
+document.getElementById("line2").textContent = text2;
+typeLine3();
 
 </script>
 
