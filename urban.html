@@ -250,7 +250,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 12px 18px 12px;
+            padding: 8px 12px 8px;
             overflow: hidden;
             min-height: 0;
         }
@@ -265,8 +265,8 @@
         }
 
         .lightbox-main-photo {
-            max-width: 98%;
-            max-height: calc(100vh - 210px);
+            max-width: 99%;
+            max-height: calc(100vh - 150px);
             object-fit: contain;
             border-radius: 10px;
             box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
@@ -601,6 +601,52 @@
         let currentPhotos = [];
         let currentPhotoIndex = 0;
 
+        const DISPLAY_GROUP_PRIORITY = ['monochrome', 'color'];
+        const PHOTO_DISPLAY_GROUPS = {
+            'Photos/Urban/Strasbourg/Strasbourg_20.jpg': 'monochrome',
+            'Photos/Urban/Strasbourg/Strasbourg_21.JPG': 'monochrome',
+            'Photos/Urban/Strasbourg/Strasbourg_22.jpg': 'monochrome',
+            'Photos/Urban/Strasbourg/Strasbourg_23.JPG': 'monochrome',
+            'Photos/Urban/Strasbourg/Strasbourg_28.JPG': 'monochrome'
+        };
+
+        function getDisplayGroup(imageSrc) {
+            return PHOTO_DISPLAY_GROUPS[imageSrc] || 'color';
+        }
+
+        function getDisplayGroupRank(group) {
+            const rank = DISPLAY_GROUP_PRIORITY.indexOf(group);
+            return rank === -1 ? DISPLAY_GROUP_PRIORITY.length : rank;
+        }
+
+        function getPhotoSequence(imageSrc) {
+            const match = imageSrc.match(/_(\d+)\.(?:jpe?g)$/i);
+            return match ? Number(match[1]) : Number.MAX_SAFE_INTEGER;
+        }
+
+        function sortGalleryByDisplayGroup() {
+            document.querySelectorAll('.gallery-grid').forEach((grid) => {
+                const items = Array.from(grid.querySelectorAll('.gallery-item'));
+
+                items.sort((a, b) => {
+                    const groupA = getDisplayGroup(a.dataset.image);
+                    const groupB = getDisplayGroup(b.dataset.image);
+                    const groupDiff = getDisplayGroupRank(groupA) - getDisplayGroupRank(groupB);
+
+                    if (groupDiff !== 0) return groupDiff;
+
+                    return getPhotoSequence(a.dataset.image) - getPhotoSequence(b.dataset.image);
+                });
+
+                items.forEach((item) => {
+                    item.dataset.displayGroup = getDisplayGroup(item.dataset.image);
+                    grid.appendChild(item);
+                });
+            });
+        }
+
+        sortGalleryByDisplayGroup();
+
         const galleryItems = document.querySelectorAll('.gallery-item');
         const lightbox = document.getElementById('lightbox');
         const lightboxMainPhoto = document.getElementById('lightboxMainPhoto');
@@ -642,7 +688,9 @@
         lightboxClose.addEventListener('click', closeLightbox);
 
         lightbox.addEventListener('click', (event) => {
-            if (event.target === lightbox) closeLightbox();
+            const clickTarget = event.target instanceof Element ? event.target : event.target.parentElement;
+            if (clickTarget && clickTarget.closest('.lightbox-main-photo, .lightbox-side-btn, .lightbox-thumbnail, .lightbox-close')) return;
+            closeLightbox();
         });
 
         document.addEventListener('keydown', (event) => {
