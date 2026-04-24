@@ -91,6 +91,59 @@
             color: var(--text);
         }
 
+        .portfolio-menu {
+            position: relative;
+            padding: 10px 0;
+        }
+
+        .portfolio-dropdown,
+        .portfolio-submenu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            min-width: 170px;
+            padding: 10px;
+            background: rgba(250, 249, 247, 0.96);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+        }
+
+        .portfolio-menu:hover > .portfolio-dropdown,
+        .portfolio-menu:focus-within > .portfolio-dropdown,
+        .portfolio-category:hover > .portfolio-submenu,
+        .portfolio-category:focus-within > .portfolio-submenu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .portfolio-dropdown a,
+        .portfolio-submenu a {
+            display: block;
+            padding: 9px 10px;
+            white-space: nowrap;
+        }
+
+        .portfolio-category {
+            position: relative;
+        }
+
+        .portfolio-submenu {
+            top: -10px;
+            right: calc(100% + 10px);
+            transform: translate(8px, 0);
+        }
+
+        .portfolio-category:hover > .portfolio-submenu,
+        .portfolio-category:focus-within > .portfolio-submenu {
+            transform: translate(0, 0);
+        }
+
         /* PAGE HEADER */
         .page-header {
             margin-top: 100px;
@@ -831,7 +884,25 @@
             <div class="breadcrumb">Nature</div>
         </div>
         <div class="nav-right">
-            <a href="index.html">Portfolio</a>
+            <div class="portfolio-menu">
+                <a href="index.html">Portfolio</a>
+                <div class="portfolio-dropdown">
+                    <div class="portfolio-category">
+                        <a href="nature.html">Nature</a>
+                        <div class="portfolio-submenu">
+                            <a href="nature.html#corsica">Corsica</a>
+                            <a href="nature.html#french-alps">French Alps</a>
+                        </div>
+                    </div>
+                    <div class="portfolio-category">
+                        <a href="urban.html">Urban</a>
+                        <div class="portfolio-submenu">
+                            <a href="urban.html#strasbourg">Strasbourg</a>
+                            <a href="urban.html#catalonia">Catalonia</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 

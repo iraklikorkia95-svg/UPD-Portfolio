@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Strasbourg - Irakli Korkia</title>
+    <title>Urban - Irakli Korkia</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,6 +36,7 @@
             overflow-x: hidden;
         }
 
+        /* NAV */
         nav {
             position: fixed;
             top: 0;
@@ -90,6 +91,60 @@
             color: var(--text);
         }
 
+        .portfolio-menu {
+            position: relative;
+            padding: 10px 0;
+        }
+
+        .portfolio-dropdown,
+        .portfolio-submenu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            min-width: 170px;
+            padding: 10px;
+            background: rgba(250, 249, 247, 0.96);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(8px);
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+        }
+
+        .portfolio-menu:hover > .portfolio-dropdown,
+        .portfolio-menu:focus-within > .portfolio-dropdown,
+        .portfolio-category:hover > .portfolio-submenu,
+        .portfolio-category:focus-within > .portfolio-submenu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .portfolio-dropdown a,
+        .portfolio-submenu a {
+            display: block;
+            padding: 9px 10px;
+            white-space: nowrap;
+        }
+
+        .portfolio-category {
+            position: relative;
+        }
+
+        .portfolio-submenu {
+            top: -10px;
+            right: calc(100% + 10px);
+            transform: translate(8px, 0);
+        }
+
+        .portfolio-category:hover > .portfolio-submenu,
+        .portfolio-category:focus-within > .portfolio-submenu {
+            transform: translate(0, 0);
+        }
+
+        /* PAGE HEADER */
         .page-header {
             margin-top: 100px;
             text-align: center;
@@ -106,22 +161,45 @@
         .page-header p {
             color: var(--muted);
             margin: 15px 0 0;
-            max-width: 640px;
+            max-width: 600px;
             margin-left: auto;
             margin-right: auto;
         }
 
-        .gallery-shell {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 40px 100px;
+        /* LOCATION SECTION */
+        .location-section {
+            margin-bottom: 120px;
+            scroll-margin-top: 100px;
         }
 
+        .section-header {
+            max-width: 1400px;
+            margin: 0 auto 50px;
+            padding: 0 40px;
+        }
+
+        .section-header h2 {
+            font-family: "Instrument Serif", serif;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 500;
+            margin: 0 0 15px 0;
+        }
+
+        .section-header p {
+            color: var(--muted);
+            line-height: 1.7;
+            max-width: 600px;
+        }
+
+        /* MASONRY GRID */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 20px;
             grid-auto-rows: 390px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
         }
 
         .gallery-item {
@@ -187,6 +265,182 @@
             transform: translateY(0);
         }
 
+        .gallery-grid.collapsed .gallery-item.hidden-item {
+            display: none;
+        }
+
+        .see-more-wrap,
+        .see-less-wrap {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .see-more-btn {
+            background: rgba(28, 26, 23, 0.95);
+            color: #fff;
+            border: none;
+            border-radius: 999px;
+            padding: 14px 28px;
+            font-size: 0.95rem;
+            letter-spacing: 0.8px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 18px 45px rgba(28, 26, 23, 0.15);
+        }
+
+        .see-more-btn:hover {
+            transform: translateY(-2px);
+            background: rgba(28, 26, 23, 1);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* DIVIDER */
+        .section-divider {
+            max-width: 1400px;
+            margin: 80px auto;
+            padding: 0 40px;
+            border-top: 1px solid var(--line);
+        }
+
+        /* MASONRY GRID - for tablet */
+        @media (max-width: 1024px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        /* MASONRY GRID - for mobile */
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                grid-auto-rows: 280px;
+                padding: 0 20px;
+            }
+
+            .section-header {
+                padding: 0 20px;
+            }
+
+            .page-header {
+                padding: 0 20px 40px;
+            }
+
+            nav {
+                padding: 15px 20px;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .breadcrumb {
+                margin-left: 0;
+                padding-left: 0;
+                border-left: none;
+                flex-basis: 100%;
+            }
+
+            .section-divider {
+                padding: 0 20px;
+            }
+        }
+
+        /* LOCATION NAVIGATOR */
+        .location-navigator {
+            max-width: 1400px;
+            margin: 80px auto;
+            padding: 0 40px;
+        }
+
+        .nav-label {
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 30px;
+        }
+
+        .location-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .location-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 20px rgba(62, 48, 26, 0.08);
+            height: 280px;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            padding: 12px;
+        }
+
+        .location-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(62, 48, 26, 0.15);
+        }
+
+        .location-card-inner {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            padding: 24px;
+            background-color: #f5f5f5;
+            border-radius: 6px;
+        }
+
+        .location-card-content {
+            z-index: 2;
+        }
+
+        .location-card-title {
+            font-family: "Instrument Serif", serif;
+            font-size: 1.6rem;
+            font-weight: 500;
+            color: white;
+            margin: 0 0 8px 0;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .location-card-count {
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+            color: rgba(255, 255, 255, 0.8);
+            text-transform: uppercase;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* FOOTER */
+        footer {
+            margin-top: 120px;
+            padding: 60px 40px;
+            text-align: center;
+            border-top: 1px solid var(--line);
+        }
+
+        footer p {
+            color: var(--muted);
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* LIGHTBOX */
         .lightbox {
             display: none;
             position: fixed;
@@ -385,38 +639,26 @@
             right: 18px;
         }
 
-        @media (max-width: 1024px) {
-            .gallery-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-        }
-
+        /* LOCATION NAVIGATOR - Mobile */
         @media (max-width: 768px) {
-            .gallery-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-                grid-auto-rows: 280px;
+            .location-navigator {
+                padding: 0 20px;
             }
 
-            .page-header {
-                padding: 0 20px 40px;
+            .location-cards {
+                gap: 16px;
             }
 
-            nav {
-                padding: 15px 20px;
-                flex-wrap: wrap;
-                gap: 10px;
+            .location-card {
+                height: 220px;
             }
 
-            .breadcrumb {
-                margin-left: 0;
-                padding-left: 0;
-                border-left: none;
-                flex-basis: 100%;
+            .location-card-title {
+                font-size: 1.3rem;
             }
 
-            .gallery-shell {
-                padding: 0 20px 80px;
+            .location-card-inner {
+                padding: 16px;
             }
 
             .lightbox-container {
@@ -441,23 +683,15 @@
                 padding: 16px 18px calc(16px + env(safe-area-inset-bottom, 14px));
             }
 
+            .lightbox-thumbnails {
+                gap: 10px;
+                margin-bottom: 12px;
+            }
+
             .lightbox-thumbnail {
                 width: 60px;
                 height: 60px;
             }
-        }
-
-        footer {
-            margin-top: 20px;
-            padding: 60px 40px;
-            text-align: center;
-            border-top: 1px solid var(--line);
-        }
-
-        footer p {
-            color: var(--muted);
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
         }
 
         @media (min-width: 769px) {
@@ -471,9 +705,22 @@
                 padding: 18px clamp(24px, 4vw, 32px);
             }
 
-            .gallery-shell {
+            .page-header {
+                padding-bottom: 48px;
+            }
+
+            .location-navigator,
+            .section-header,
+            .gallery-grid,
+            .see-more-wrap,
+            .see-less-wrap,
+            .section-divider {
                 padding-left: clamp(24px, 4vw, 32px);
                 padding-right: clamp(24px, 4vw, 32px);
+            }
+
+            .location-section {
+                margin-bottom: 90px;
             }
         }
 
@@ -507,12 +754,42 @@
                 font-size: clamp(2.2rem, 14vw, 3rem);
             }
 
-            .page-header p {
+            .page-header p,
+            .section-header p {
                 line-height: 1.55;
             }
 
-            .gallery-shell {
-                padding: 0 18px 70px;
+            .location-navigator {
+                margin: 46px auto 62px;
+                padding: 0 18px;
+            }
+
+            .location-cards {
+                grid-template-columns: 1fr;
+                margin-bottom: 38px;
+            }
+
+            .location-card {
+                height: clamp(190px, 56vw, 240px);
+                padding: 10px;
+            }
+
+            .section-header,
+            .gallery-grid,
+            .see-more-wrap,
+            .see-less-wrap,
+            .section-divider {
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+
+            .section-header {
+                margin-bottom: 28px;
+            }
+
+            .location-section {
+                margin-bottom: 70px;
+                scroll-margin-top: 126px;
             }
 
             .gallery-grid {
@@ -524,8 +801,13 @@
                 padding: 9px;
             }
 
+            .see-more-wrap,
+            .see-less-wrap {
+                margin: 28px auto;
+            }
+
             footer {
-                margin-top: 0;
+                margin-top: 70px;
                 padding: 42px 18px;
             }
 
@@ -583,7 +865,8 @@
         }
 
         @media (hover: none) {
-            .gallery-item:hover {
+            .gallery-item:hover,
+            .location-card:hover {
                 transform: none;
             }
 
@@ -594,146 +877,294 @@
     </style>
 </head>
 <body>
+    <!-- NAV -->
     <nav>
         <div class="nav-left">
             <a href="index.html" class="nav-logo">Irakli Korkia</a>
-            <div class="breadcrumb">Strasbourg</div>
+            <div class="breadcrumb">Urban</div>
         </div>
         <div class="nav-right">
-            <a href="index.html">Portfolio</a>
+            <div class="portfolio-menu">
+                <a href="index.html">Portfolio</a>
+                <div class="portfolio-dropdown">
+                    <div class="portfolio-category">
+                        <a href="nature.html">Nature</a>
+                        <div class="portfolio-submenu">
+                            <a href="nature.html#corsica">Corsica</a>
+                            <a href="nature.html#french-alps">French Alps</a>
+                        </div>
+                    </div>
+                    <div class="portfolio-category">
+                        <a href="urban.html">Urban</a>
+                        <div class="portfolio-submenu">
+                            <a href="urban.html#strasbourg">Strasbourg</a>
+                            <a href="urban.html#catalonia">Catalonia</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
+    <!-- PAGE HEADER -->
     <section class="page-header">
-        <h1>Strasbourg</h1>
-        <p>Streets, facades, and passing city light. A collection of urban moments captured in the heart of Strasbourg.</p>
+        <h1>Urban</h1>
+        <p>City surfaces, architectural rhythms, and fragments of daily motion. A collection of urban work across Strasbourg and Catalonia.</p>
     </section>
 
-    <section class="gallery-shell">
-        <div class="gallery-grid">
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_1.jpg">
+    <!-- LOCATION NAVIGATOR -->
+    <section class="location-navigator">
+        <div class="nav-label">Explore by location</div>
+        <div class="location-cards">
+            <a href="#strasbourg" class="location-card">
+                <div class="location-card-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_13.jpg');">
+                    <div class="location-card-content">
+                        <h3 class="location-card-title">Strasbourg</h3>
+                        <p class="location-card-count">28 photos</p>
+                    </div>
+                </div>
+            </a>
+            <a href="#catalonia" class="location-card">
+                <div class="location-card-inner" style="background-image: url('Photos/Urban/Catalonia/Catalonia_18.jpg');">
+                    <div class="location-card-content">
+                        <h3 class="location-card-title">Catalonia</h3>
+                        <p class="location-card-count">20 photos</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <section class="location-section" id="strasbourg">
+        <div class="section-header">
+            <h2>Strasbourg</h2>
+            <p>Streets, facades, and passing city light. A collection of urban moments captured in the heart of Strasbourg.</p>
+        </div>
+        
+        <div class="gallery-grid collapsed" id="strasbourgGrid">
+            <div class="gallery-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_1.jpg">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_1.jpg');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_2.jpg">
+            <div class="gallery-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_2.jpg">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_2.jpg');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_3.jpg">
+            <div class="gallery-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_3.jpg">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_3.jpg');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_4.jpg">
+            <div class="gallery-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_4.jpg">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_4.jpg');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_5.jpg">
+            <div class="gallery-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_5.jpg">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_5.jpg');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_6.jpg">
+            <div class="gallery-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_6.jpg">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_6.jpg');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_7.jpg">
+            <div class="gallery-item hidden-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_7.jpg">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_7.jpg');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_8.jpg">
+            <div class="gallery-item hidden-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_8.jpg">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_8.jpg');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_9.jpg">
+            <div class="gallery-item hidden-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_9.jpg">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_9.jpg');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_10.jpg">
+            <div class="gallery-item hidden-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_10.jpg">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_10.jpg');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_11.jpg">
+            <div class="gallery-item hidden-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_11.jpg">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_11.jpg');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_12.jpg">
+            <div class="gallery-item hidden-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_12.jpg">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_12.jpg');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_13.jpg">
+            <div class="gallery-item hidden-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_13.jpg">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_13.jpg');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_14.jpg">
+            <div class="gallery-item hidden-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_14.jpg">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_14.jpg');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_15.JPG">
+            <div class="gallery-item hidden-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_15.JPG">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_15.JPG');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_16.JPG">
+            <div class="gallery-item hidden-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_16.JPG">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_16.JPG');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_17.JPG">
+            <div class="gallery-item hidden-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_17.JPG">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_17.JPG');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_18.JPG">
+            <div class="gallery-item hidden-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_18.JPG">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_18.JPG');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_19.JPG">
+            <div class="gallery-item hidden-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_19.JPG">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_19.JPG');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_20.jpg">
+            <div class="gallery-item hidden-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_20.jpg">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_20.jpg');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_21.JPG">
+            <div class="gallery-item hidden-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_21.JPG">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_21.JPG');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_22.jpg">
+            <div class="gallery-item hidden-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_22.jpg">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_22.jpg');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_23.JPG">
+            <div class="gallery-item hidden-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_23.JPG">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_23.JPG');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_24.jpg">
+            <div class="gallery-item hidden-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_24.jpg">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_24.jpg');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_25.jpg">
+            <div class="gallery-item hidden-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_25.jpg">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_25.jpg');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_26.JPG">
+            <div class="gallery-item hidden-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_26.JPG">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_26.JPG');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_27.JPG">
+            <div class="gallery-item hidden-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_27.JPG">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_27.JPG');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
-            <div class="gallery-item" data-image="Photos/Urban/Strasbourg/Strasbourg_28.JPG">
+            <div class="gallery-item hidden-item" data-location="strasbourg" data-image="Photos/Urban/Strasbourg/Strasbourg_28.JPG">
                 <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Strasbourg/Strasbourg_28.JPG');"></div>
                 <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
             </div>
         </div>
+        <div class="see-more-wrap">
+            <button class="see-more-btn" id="strasbourgToggleBtn" onclick="toggleLocationPhotos('strasbourg', 'Strasbourg')">See more Strasbourg photos</button>
+        </div>
     </section>
 
+    <div class="section-divider"></div>
+
+    <section class="location-section" id="catalonia">
+        <div class="section-header">
+            <h2>Catalonia</h2>
+            <p>Mediterranean streets, warm stone, and coastal city rhythms. A collection of urban fragments gathered across Catalonia.</p>
+        </div>
+        
+        <div class="gallery-grid collapsed" id="cataloniaGrid">
+            <div class="gallery-item" data-location="catalonia" data-image="Photos/Urban/Catalonia/Catalonia_1.jpg">
+                <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Catalonia/Catalonia_1.jpg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item" data-location="catalonia" data-image="Photos/Urban/Catalonia/Catalonia_2.jpg">
+                <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Catalonia/Catalonia_2.jpg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item" data-location="catalonia" data-image="Photos/Urban/Catalonia/Catalonia_3.jpg">
+                <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Catalonia/Catalonia_3.jpg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item" data-location="catalonia" data-image="Photos/Urban/Catalonia/Catalonia_4.jpg">
+                <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Catalonia/Catalonia_4.jpg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item" data-location="catalonia" data-image="Photos/Urban/Catalonia/Catalonia_5.jpg">
+                <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Catalonia/Catalonia_5.jpg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item" data-location="catalonia" data-image="Photos/Urban/Catalonia/Catalonia_6.jpg">
+                <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Catalonia/Catalonia_6.jpg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="catalonia" data-image="Photos/Urban/Catalonia/Catalonia_7.jpg">
+                <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Catalonia/Catalonia_7.jpg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="catalonia" data-image="Photos/Urban/Catalonia/Catalonia_8.jpg">
+                <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Catalonia/Catalonia_8.jpg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="catalonia" data-image="Photos/Urban/Catalonia/Catalonia_9.jpg">
+                <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Catalonia/Catalonia_9.jpg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="catalonia" data-image="Photos/Urban/Catalonia/Catalonia_10.jpg">
+                <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Catalonia/Catalonia_10.jpg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="catalonia" data-image="Photos/Urban/Catalonia/Catalonia_11.jpg">
+                <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Catalonia/Catalonia_11.jpg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="catalonia" data-image="Photos/Urban/Catalonia/Catalonia_12.jpg">
+                <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Catalonia/Catalonia_12.jpg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="catalonia" data-image="Photos/Urban/Catalonia/Catalonia_13.jpg">
+                <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Catalonia/Catalonia_13.jpg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="catalonia" data-image="Photos/Urban/Catalonia/Catalonia_14.jpg">
+                <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Catalonia/Catalonia_14.jpg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="catalonia" data-image="Photos/Urban/Catalonia/Catalonia_15.jpg">
+                <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Catalonia/Catalonia_15.jpg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="catalonia" data-image="Photos/Urban/Catalonia/Catalonia_16.jpg">
+                <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Catalonia/Catalonia_16.jpg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="catalonia" data-image="Photos/Urban/Catalonia/Catalonia_17.jpg">
+                <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Catalonia/Catalonia_17.jpg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="catalonia" data-image="Photos/Urban/Catalonia/Catalonia_18.jpg">
+                <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Catalonia/Catalonia_18.jpg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="catalonia" data-image="Photos/Urban/Catalonia/Catalonia_19.jpg">
+                <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Catalonia/Catalonia_19.jpg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+            <div class="gallery-item hidden-item" data-location="catalonia" data-image="Photos/Urban/Catalonia/Catalonia_20.jpg">
+                <div class="gallery-item-inner" style="background-image: url('Photos/Urban/Catalonia/Catalonia_20.jpg');"></div>
+                <div class="gallery-item-overlay"><span class="gallery-item-title"></span></div>
+            </div>
+        </div>
+        <div class="see-more-wrap">
+            <button class="see-more-btn" id="cataloniaToggleBtn" onclick="toggleLocationPhotos('catalonia', 'Catalonia')">See more Catalonia photos</button>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
     <footer>
         <p>&copy; 2026 Irakli Korkia. All photographs &copy; Irakli Korkia.</p>
     </footer>
 
+    <!-- LIGHTBOX -->
     <div class="lightbox" id="lightbox">
         <div class="lightbox-header">
-            <h2 class="lightbox-title" id="lightboxTitle">Strasbourg</h2>
-            <button class="lightbox-close" id="lightboxClose">&times;</button>
+            <h2 class="lightbox-title" id="lightboxTitle">Urban</h2>
+            <button class="lightbox-close" onclick="closeLightbox();">&times;</button>
         </div>
         <div class="lightbox-container">
             <button class="lightbox-side-btn lightbox-prev" onclick="previousPhoto();" aria-label="Previous photo">&#10094;</button>
@@ -747,14 +1178,20 @@
     <script>
         let currentPhotos = [];
         let currentPhotoIndex = 0;
+        let currentLocation = '';
+
+        const LOCATION_TITLES = {
+            strasbourg: 'Strasbourg',
+            catalonia: 'Catalonia'
+        };
 
         const DISPLAY_GROUP_PRIORITY = ['monochrome', 'color'];
-        const PHOTO_DISPLAY_GROUPS = {
-            'Photos/Urban/Strasbourg/Strasbourg_20.jpg': 'monochrome',
-            'Photos/Urban/Strasbourg/Strasbourg_21.JPG': 'monochrome',
-            'Photos/Urban/Strasbourg/Strasbourg_22.jpg': 'monochrome',
-            'Photos/Urban/Strasbourg/Strasbourg_23.JPG': 'monochrome',
-            'Photos/Urban/Strasbourg/Strasbourg_28.JPG': 'monochrome'
+        const PHOTO_DISPLAY_GROUPS =         {
+                    "Photos/Urban/Strasbourg/Strasbourg_20.jpg": "monochrome",
+                    "Photos/Urban/Strasbourg/Strasbourg_21.JPG": "monochrome",
+                    "Photos/Urban/Strasbourg/Strasbourg_22.jpg": "monochrome",
+                    "Photos/Urban/Strasbourg/Strasbourg_23.JPG": "monochrome",
+                    "Photos/Urban/Strasbourg/Strasbourg_28.JPG": "monochrome"
         };
 
         function getDisplayGroup(imageSrc) {
@@ -785,8 +1222,9 @@
                     return getPhotoSequence(a.dataset.image) - getPhotoSequence(b.dataset.image);
                 });
 
-                items.forEach((item) => {
+                items.forEach((item, index) => {
                     item.dataset.displayGroup = getDisplayGroup(item.dataset.image);
+                    item.classList.toggle('hidden-item', grid.classList.contains('collapsed') && index >= 6);
                     grid.appendChild(item);
                 });
             });
@@ -794,28 +1232,33 @@
 
         sortGalleryByDisplayGroup();
 
-        const galleryItems = document.querySelectorAll('.gallery-item');
-        const lightbox = document.getElementById('lightbox');
-        const lightboxMainPhoto = document.getElementById('lightboxMainPhoto');
-        const lightboxClose = document.getElementById('lightboxClose');
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const location = this.dataset.location;
+                openLightbox(location, this.dataset.image);
+            });
+        });
 
-        function openLightbox(imageSrc) {
-            currentPhotos = Array.from(document.querySelectorAll('.gallery-item')).map(item => item.dataset.image);
+        function openLightbox(location, imageSrc) {
+            currentLocation = location;
+            currentPhotos = Array.from(document.querySelectorAll(`.gallery-item[data-location="${location}"]`))
+                .map(item => item.dataset.image);
             currentPhotoIndex = currentPhotos.indexOf(imageSrc);
             displayPhoto(currentPhotoIndex);
-            lightbox.classList.add('active');
+            document.getElementById('lightboxTitle').textContent = LOCATION_TITLES[location] || location;
+            document.getElementById('lightbox').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
 
         function closeLightbox() {
-            lightbox.classList.remove('active');
+            document.getElementById('lightbox').classList.remove('active');
             document.body.style.overflow = 'auto';
         }
 
         function displayPhoto(index) {
             if (index < 0 || index >= currentPhotos.length) return;
             currentPhotoIndex = index;
-            lightboxMainPhoto.src = currentPhotos[index];
+            document.getElementById('lightboxMainPhoto').src = currentPhotos[index];
         }
 
         function nextPhoto() {
@@ -828,19 +1271,24 @@
             displayPhoto(currentPhotoIndex);
         }
 
-        galleryItems.forEach((item) => {
-            item.addEventListener('click', () => openLightbox(item.dataset.image));
+        function toggleLocationPhotos(locationId, locationTitle) {
+            const grid = document.getElementById(`${locationId}Grid`);
+            const btn = document.getElementById(`${locationId}ToggleBtn`);
+            const isCollapsed = grid.classList.toggle('collapsed');
+
+            Array.from(grid.querySelectorAll('.gallery-item')).forEach((item, index) => {
+                item.classList.toggle('hidden-item', isCollapsed && index >= 6);
+            });
+
+            btn.textContent = isCollapsed ? `See more ${locationTitle} photos` : `Show fewer ${locationTitle} photos`;
+        }
+
+        document.getElementById('lightbox').addEventListener('click', function(event) {
+            if (event.target === this) closeLightbox();
         });
 
-        lightboxClose.addEventListener('click', closeLightbox);
-
-        lightbox.addEventListener('click', (event) => {
-            const clickTarget = event.target instanceof Element ? event.target : event.target.parentElement;
-            if (clickTarget && clickTarget.closest('.lightbox-main-photo, .lightbox-side-btn, .lightbox-thumbnail, .lightbox-close')) return;
-            closeLightbox();
-        });
-
-        document.addEventListener('keydown', (event) => {
+        document.addEventListener('keydown', function(event) {
+            const lightbox = document.getElementById('lightbox');
             if (!lightbox.classList.contains('active')) return;
             if (event.key === 'Escape') closeLightbox();
             if (event.key === 'ArrowRight') nextPhoto();

@@ -87,6 +87,60 @@ header {
     color: var(--text);
 }
 
+.nav-item {
+    position: relative;
+    padding: 10px 0;
+}
+
+.nav-dropdown,
+.nav-submenu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    min-width: 170px;
+    padding: 10px;
+    background: rgba(250, 249, 247, 0.96);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, 8px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+}
+
+.nav-item:hover > .nav-dropdown,
+.nav-item:focus-within > .nav-dropdown,
+.nav-category:hover > .nav-submenu,
+.nav-category:focus-within > .nav-submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+}
+
+.nav-dropdown a,
+.nav-submenu a {
+    display: block;
+    padding: 9px 10px;
+    white-space: nowrap;
+}
+
+.nav-category {
+    position: relative;
+}
+
+.nav-submenu {
+    top: -10px;
+    left: auto;
+    right: calc(100% + 10px);
+    transform: translate(8px, 0);
+}
+
+.nav-category:hover > .nav-submenu,
+.nav-category:focus-within > .nav-submenu {
+    transform: translate(0, 0);
+}
+
 /* TOP QUESTION TEXT BLOCK */
 .headline-grid {
     display: grid;
@@ -315,7 +369,25 @@ header {
     <div class="logo">Irakli Korkia</div>
 
     <nav class="nav">
-        <a href="#">Portfolio</a>
+        <div class="nav-item">
+            <a href="#">Portfolio</a>
+            <div class="nav-dropdown">
+                <div class="nav-category">
+                    <a href="nature.html">Nature</a>
+                    <div class="nav-submenu">
+                        <a href="nature.html#corsica">Corsica</a>
+                        <a href="nature.html#french-alps">French Alps</a>
+                    </div>
+                </div>
+                <div class="nav-category">
+                    <a href="urban.html">Urban</a>
+                    <div class="nav-submenu">
+                        <a href="urban.html#strasbourg">Strasbourg</a>
+                        <a href="urban.html#catalonia">Catalonia</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <a href="#">About</a>
         <a href="#">Contact</a>
     </nav>
