@@ -460,7 +460,7 @@ body.mobile-lightbox .tap-zone {
     bottom: 0;
     z-index: 3;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     width: 50%;
     border: 0;
     background: transparent;
@@ -476,13 +476,13 @@ body.mobile-lightbox .tap-zone {
 body.mobile-lightbox .tap-zone-left {
     left: 0;
     justify-content: flex-start;
-    padding-left: 10px;
+    padding: 14px 0 0 10px;
 }
 
 body.mobile-lightbox .tap-zone-right {
     right: 0;
     justify-content: flex-end;
-    padding-right: 10px;
+    padding: 14px 10px 0 0;
 }
 
 .metadata-panel {
@@ -1030,7 +1030,7 @@ body.name-docked .masthead h1 {
         bottom: 0;
         z-index: 3;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         width: 50%;
         border: 0;
         background: transparent;
@@ -1046,13 +1046,13 @@ body.name-docked .masthead h1 {
     .tap-zone-left {
         left: 0;
         justify-content: flex-start;
-        padding-left: 10px;
+        padding: 14px 0 0 10px;
     }
 
     .tap-zone-right {
         right: 0;
         justify-content: flex-end;
-        padding-right: 10px;
+        padding: 14px 10px 0 0;
     }
 }
 </style>
@@ -1106,7 +1106,7 @@ body.name-docked .masthead h1 {
             <button class="side-btn prev" type="button" onclick="previousPhoto()" aria-label="Previous photo">&#8249;</button>
             <img id="lightboxImage" src="" alt="">
             <button class="side-btn next" type="button" onclick="nextPhoto()" aria-label="Next photo">&#8250;</button>
-            <button class="tap-zone tap-zone-left" type="button" aria-label="Previous photo">Prev</button>
+            <button class="tap-zone tap-zone-left" type="button" aria-label="Previous photo">Previous</button>
             <button class="tap-zone tap-zone-right" type="button" aria-label="Next photo">Next</button>
         </div>
         <aside class="metadata-panel" aria-label="Photo metadata">
@@ -1331,6 +1331,20 @@ function setMobileZoomLock(isLocked) {
     );
 }
 
+function resetMobileAlbumScroll() {
+    if (!isMobileViewport() || window.location.hash || document.getElementById("lightbox").classList.contains("active")) return;
+
+    const reset = () => {
+        if (!document.getElementById("lightbox").classList.contains("active")) {
+            window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+        }
+    };
+
+    reset();
+    window.requestAnimationFrame(reset);
+    window.setTimeout(reset, 120);
+}
+
 function makePhoto(album, number) {
     if (album.fileOverrides && album.fileOverrides[number]) {
         return {
@@ -1524,6 +1538,7 @@ function scrollToPhoto(index) {
 }
 
 function handleAlbumWheel(event) {
+    if (isMobileViewport()) return;
     if (event.ctrlKey || document.getElementById("lightbox").classList.contains("active")) return;
 
     const buttons = getPhotoButtons();
@@ -1614,10 +1629,14 @@ document.querySelector(".tap-zone-right").addEventListener("click", (event) => {
 
 document.addEventListener("keydown", handleAlbumKeydown);
 
-initAlbum();
-if (isMobileViewport() && !window.location.hash) {
-    window.requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: "auto" }));
+if (isMobileViewport() && "scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
 }
+
+initAlbum();
+resetMobileAlbumScroll();
+window.addEventListener("pageshow", resetMobileAlbumScroll);
+window.addEventListener("load", resetMobileAlbumScroll);
 window.addEventListener("wheel", handleAlbumWheel, { passive: false });
 document.getElementById("lightboxImage").addEventListener("mousemove", followZoomCursor);
 
