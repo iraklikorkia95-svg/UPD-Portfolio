@@ -885,8 +885,27 @@ body.name-docked .masthead h1 {
     }
 
     .nav {
-        display: block;
+        display: flex;
+        align-items: flex-start;
+        gap: 18px;
         max-width: none;
+        white-space: nowrap;
+    }
+
+    .nav-item {
+        margin: 0;
+    }
+
+    .portfolio-trigger {
+        cursor: pointer;
+    }
+
+    .album-dropdown {
+        display: none;
+    }
+
+    .nav-item.menu-open .album-dropdown {
+        display: block;
     }
 
     .nav a,
@@ -927,7 +946,7 @@ body.name-docked .masthead h1 {
     </a>
     <nav class="nav" aria-label="Main navigation">
         <div class="nav-item">
-            <button class="portfolio-trigger" type="button" aria-haspopup="true">Portfolio</button>
+            <button class="portfolio-trigger" type="button" aria-haspopup="true" aria-expanded="false">Portfolio</button>
             <div class="album-dropdown" aria-label="Album navigation">
                 <a href="album.html?album=andalusia">ANDALUSIA</a>
                 <a href="album.html?album=catalonia">CATALONIA</a>
