@@ -488,16 +488,17 @@ body {
 }
 
 .nav-item {
-    margin: 1.25em 0;
+    margin: 0;
 }
 
 .portfolio-trigger {
     margin-bottom: 0;
-    cursor: default;
+    cursor: pointer;
 }
 
 .album-dropdown {
     position: static;
+    display: none;
     min-width: 0;
     padding: 0;
     background: transparent;
@@ -506,6 +507,10 @@ body {
     opacity: 1;
     visibility: visible;
     transform: none;
+}
+
+.nav-item.menu-open .album-dropdown {
+    display: block;
 }
 
 .album-dropdown a {
@@ -642,8 +647,14 @@ body {
     }
 
     .nav {
-        display: block;
+        display: flex;
+        align-items: flex-start;
+        gap: 18px;
         max-width: none;
+    }
+
+    .nav-item {
+        margin: 0;
     }
 
     .nav a,
@@ -684,12 +695,13 @@ body {
     <a href="index.html" class="corner-name" aria-label="IRAKLI KORKIA home">IRAKLI KORKIA</a>
     <nav class="nav" aria-label="Main navigation">
         <div class="nav-item">
-            <button class="portfolio-trigger" type="button" aria-haspopup="true">Portfolio</button>
+            <button class="portfolio-trigger" type="button" aria-haspopup="true" aria-expanded="false">Portfolio</button>
             <div class="album-dropdown" aria-label="Album navigation">
                 <a href="album.html?album=andalusia">ANDALUSIA</a>
                 <a href="album.html?album=catalonia">CATALONIA</a>
                 <a href="album.html?album=corsica">CORSICA</a>
                 <a href="album.html?album=french-alps">FRENCH ALPS</a>
+                <a href="album.html?album=madrid">MADRID</a>
                 <a href="album.html?album=paris">PARIS</a>
                 <a href="album.html?album=strasbourg">STRASBOURG</a>
             </div>
@@ -747,6 +759,17 @@ body {
                 </div>
                 <div class="details-wrap">
                     <div class="album-title">FRENCH ALPS</div>
+                </div>
+            </div>
+        </a>
+
+        <a class="project-cover" href="album.html?album=madrid" aria-label="Open Madrid album">
+            <div class="cover-content">
+                <div class="cover-image">
+                    <img src="Photos/COVERS/Madrid_Cover 2-2.jpg" alt="Madrid album cover">
+                </div>
+                <div class="details-wrap">
+                    <div class="album-title">MADRID</div>
                 </div>
             </div>
         </a>

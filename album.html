@@ -354,6 +354,10 @@ body.name-docked .masthead h1 {
     padding: 24px 5%;
 }
 
+.lightbox.no-metadata .lightbox-body {
+    grid-template-columns: minmax(0, 1fr);
+}
+
 .lightbox-stage {
     position: relative;
     min-width: 0;
@@ -388,12 +392,31 @@ body.name-docked .masthead h1 {
     transform: translateY(-50%);
     width: 46px;
     height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
     background: rgba(247, 243, 236, 0.84);
     color: var(--ink);
-    font-size: 34px;
-    line-height: 46px;
+    font-size: 0;
+    line-height: 1;
     text-align: center;
+}
+
+.side-btn::before {
+    content: "";
+    width: 12px;
+    height: 12px;
+    border-top: 2px solid currentColor;
+    border-right: 2px solid currentColor;
+}
+
+.prev::before {
+    transform: rotate(-135deg);
+}
+
+.next::before {
+    transform: rotate(45deg);
 }
 
 .side-btn:hover {
@@ -567,8 +590,11 @@ body.name-docked .masthead h1 {
     .side-btn {
         width: 38px;
         height: 38px;
-        font-size: 28px;
-        line-height: 38px;
+    }
+
+    .side-btn::before {
+        width: 10px;
+        height: 10px;
     }
 }
 
@@ -907,6 +933,7 @@ body.name-docked .masthead h1 {
                 <a href="album.html?album=catalonia">CATALONIA</a>
                 <a href="album.html?album=corsica">CORSICA</a>
                 <a href="album.html?album=french-alps">FRENCH ALPS</a>
+                <a href="album.html?album=madrid">MADRID</a>
                 <a href="album.html?album=paris">PARIS</a>
                 <a href="album.html?album=strasbourg">STRASBOURG</a>
             </div>
@@ -1118,6 +1145,17 @@ const ALBUMS = {
             10: ["X-T30", "320", "1/1000s", "f/4", "37.4mm", "4160 x 6240"]
         }
     },
+    "madrid": {
+        title: "Madrid",
+        dir: "Photos/Madrid",
+        prefix: "Madrid_",
+        ext: () => "jpg",
+        count: 12,
+        fileOverrides: {
+            7: "Madrid_7jpg.jpg"
+        },
+        meta: {}
+    },
     "paris": {
         title: "Paris",
         dir: "Photos/Paris",
@@ -1136,6 +1174,14 @@ let photos = [];
 let currentIndex = 0;
 
 function makePhoto(album, number) {
+    if (album.fileOverrides && album.fileOverrides[number]) {
+        return {
+            number,
+            src: `${album.dir}/${album.fileOverrides[number]}`,
+            meta: album.meta[number] || []
+        };
+    }
+
     const ext = typeof album.ext === "function" ? album.ext(number) : album.ext;
     return {
         number,
@@ -1173,11 +1219,21 @@ function initAlbum() {
 }
 
 function renderMetadata(photo) {
+    const lightbox = document.getElementById("lightbox");
+    const panel = document.querySelector(".metadata-panel");
     const list = document.getElementById("metadataList");
-    list.innerHTML = META_LABELS.map((label, index) => `
+    const availableMeta = META_LABELS.map((label, index) => ({
+        label,
+        value: photo.meta[index]
+    })).filter((item) => item.value);
+
+    const hasMetadata = availableMeta.length > 0;
+    lightbox.classList.toggle("no-metadata", !hasMetadata);
+    panel.hidden = !hasMetadata;
+    list.innerHTML = availableMeta.map((item) => `
         <div class="meta-row">
-            <div class="meta-label">${label}</div>
-            <div>${photo.meta[index] || "Not available"}</div>
+            <div class="meta-label">${item.label}</div>
+            <div>${item.value}</div>
         </div>
     `).join("");
 }
