@@ -432,6 +432,10 @@ body.name-docked .masthead h1 {
     right: 8px;
 }
 
+.mobile-lightbox-nav {
+    display: none;
+}
+
 .tap-zone {
     display: none;
 }
@@ -446,6 +450,10 @@ body.mobile-lightbox .lightbox-stage img {
     touch-action: none;
     user-select: none;
     -webkit-user-drag: none;
+}
+
+body.mobile-lightbox .lightbox-stage {
+    flex-direction: column;
 }
 
 body.mobile-lightbox .lightbox-stage img,
@@ -464,13 +472,31 @@ body.mobile-lightbox .tap-zone {
     width: 50%;
     border: 0;
     background: transparent;
+    font-family: var(--body);
+    letter-spacing: 0;
+    line-height: 1;
+    text-transform: uppercase;
+    touch-action: manipulation;
+    color: transparent;
+    font-size: 0;
+}
+
+body.mobile-lightbox .mobile-lightbox-nav {
+    position: relative;
+    z-index: 4;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 10px 14px;
+}
+
+body.mobile-lightbox .mobile-lightbox-nav button {
     color: rgba(34, 34, 34, 0.58);
     font-family: var(--body);
     font-size: 11px;
     letter-spacing: 0;
     line-height: 1;
     text-transform: uppercase;
-    touch-action: manipulation;
 }
 
 body.mobile-lightbox .tap-zone-left {
@@ -1018,10 +1044,32 @@ body.name-docked .masthead h1 {
         -webkit-user-drag: none;
     }
 
+    .lightbox-stage {
+        flex-direction: column;
+    }
+
     .lightbox-stage img,
     .lightbox.zoomed .lightbox-stage img {
         cursor: default;
         transform: none;
+    }
+
+    .mobile-lightbox-nav {
+        position: relative;
+        z-index: 4;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding: 0 10px 14px;
+    }
+
+    .mobile-lightbox-nav button {
+        color: rgba(34, 34, 34, 0.58);
+        font-family: var(--body);
+        font-size: 11px;
+        letter-spacing: 0;
+        line-height: 1;
+        text-transform: uppercase;
     }
 
     .tap-zone {
@@ -1034,13 +1082,13 @@ body.name-docked .masthead h1 {
         width: 50%;
         border: 0;
         background: transparent;
-        color: rgba(34, 34, 34, 0.58);
         font-family: var(--body);
-        font-size: 11px;
         letter-spacing: 0;
         line-height: 1;
         text-transform: uppercase;
         touch-action: manipulation;
+        color: transparent;
+        font-size: 0;
     }
 
     .tap-zone-left {
@@ -1103,6 +1151,10 @@ body.name-docked .masthead h1 {
     </div>
     <div class="lightbox-body">
         <div class="lightbox-stage">
+            <div class="mobile-lightbox-nav" aria-hidden="true">
+                <button type="button" tabindex="-1" onclick="previousPhoto()">Previous</button>
+                <button type="button" tabindex="-1" onclick="nextPhoto()">Next</button>
+            </div>
             <button class="side-btn prev" type="button" onclick="previousPhoto()" aria-label="Previous photo">&#8249;</button>
             <img id="lightboxImage" src="" alt="">
             <button class="side-btn next" type="button" onclick="nextPhoto()" aria-label="Next photo">&#8250;</button>
