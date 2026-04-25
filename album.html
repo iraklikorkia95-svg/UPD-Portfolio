@@ -870,6 +870,10 @@ body.name-docked .masthead h1 {
 }
 
 @media (max-width: 45em) {
+    html {
+        scroll-snap-type: y mandatory;
+    }
+
     .site-header {
         position: static;
         width: 90%;
@@ -932,17 +936,28 @@ body.name-docked .masthead h1 {
     }
 
     .photo-button {
+        display: block;
         min-height: auto;
-        margin-bottom: 22px;
+        margin: 0 0 22px;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
     }
 
     .photo-frame {
         height: auto;
+        min-height: 0;
         padding: 0;
+        overflow: visible;
     }
 
     .photo-frame img {
+        width: 100%;
         max-height: none;
+        height: auto;
+    }
+
+    .lightbox-tool {
+        display: none;
     }
 }
 </style>
@@ -1201,6 +1216,15 @@ const slug = params.get("album") || "strasbourg";
 const album = ALBUMS[slug] || ALBUMS.strasbourg;
 let photos = [];
 let currentIndex = 0;
+let lightboxTouchStartX = 0;
+let lightboxTouchStartY = 0;
+let albumTouchStartX = 0;
+let albumTouchStartY = 0;
+let albumTouchStartIndex = 0;
+
+function isMobileViewport() {
+    return window.matchMedia("(max-width: 45em)").matches;
+}
 
 function makePhoto(album, number) {
     if (album.fileOverrides && album.fileOverrides[number]) {
@@ -1324,6 +1348,8 @@ function followZoomCursor(event) {
 }
 
 function toggleZoom(event) {
+    if (isMobileViewport()) return;
+
     const lightbox = document.getElementById("lightbox");
     const shouldZoom = !lightbox.classList.contains("zoomed");
     if (shouldZoom && event) setZoomOriginFromEvent(event);
@@ -1448,9 +1474,44 @@ function handleAlbumKeydown(event) {
     scrollToPhoto(nextIndex);
 }
 
+function handleAlbumTouchStart(event) {
+    if (!isMobileViewport() || document.getElementById("lightbox").classList.contains("active") || event.touches.length !== 1) return;
+
+    albumTouchStartX = event.touches[0].clientX;
+    albumTouchStartY = event.touches[0].clientY;
+    albumTouchStartIndex = getNearestPhotoIndex();
+}
+
+function handleAlbumTouchEnd(event) {
+    if (!isMobileViewport() || document.getElementById("lightbox").classList.contains("active") || !albumTouchStartY || !event.changedTouches.length) return;
+
+    const deltaX = event.changedTouches[0].clientX - albumTouchStartX;
+    const deltaY = event.changedTouches[0].clientY - albumTouchStartY;
+    albumTouchStartX = 0;
+    albumTouchStartY = 0;
+
+    if (Math.abs(deltaY) < 48 || Math.abs(deltaY) < Math.abs(deltaX) * 1.2) return;
+
+    const buttons = getPhotoButtons();
+    const direction = deltaY < 0 ? 1 : -1;
+    const nextIndex = Math.max(0, Math.min(buttons.length - 1, albumTouchStartIndex + direction));
+    scrollToPhoto(nextIndex);
+}
+
+function handleAlbumTouchMove(event) {
+    if (!isMobileViewport() || document.getElementById("lightbox").classList.contains("active") || !albumTouchStartY || !event.touches.length) return;
+
+    const deltaX = event.touches[0].clientX - albumTouchStartX;
+    const deltaY = event.touches[0].clientY - albumTouchStartY;
+    if (Math.abs(deltaY) > 12 && Math.abs(deltaY) > Math.abs(deltaX)) {
+        event.preventDefault();
+    }
+}
+
 document.getElementById("lightbox").addEventListener("click", (event) => {
     const target = event.target instanceof Element ? event.target : event.target.parentElement;
     if (target && target.closest(".lightbox-stage img")) {
+        if (isMobileViewport()) return;
         toggleZoom(event);
         return;
     }
@@ -1458,10 +1519,36 @@ document.getElementById("lightbox").addEventListener("click", (event) => {
     closeLightbox();
 });
 
+document.getElementById("lightbox").addEventListener("touchstart", (event) => {
+    if (!isMobileViewport() || event.touches.length !== 1) return;
+    lightboxTouchStartX = event.touches[0].clientX;
+    lightboxTouchStartY = event.touches[0].clientY;
+}, { passive: true });
+
+document.getElementById("lightbox").addEventListener("touchend", (event) => {
+    if (!isMobileViewport() || !lightboxTouchStartX || !event.changedTouches.length) return;
+
+    const deltaX = event.changedTouches[0].clientX - lightboxTouchStartX;
+    const deltaY = event.changedTouches[0].clientY - lightboxTouchStartY;
+    lightboxTouchStartX = 0;
+    lightboxTouchStartY = 0;
+
+    if (Math.abs(deltaX) < 48 || Math.abs(deltaX) < Math.abs(deltaY) * 1.2) return;
+
+    if (deltaX < 0) {
+        nextPhoto();
+    } else {
+        previousPhoto();
+    }
+}, { passive: true });
+
 document.addEventListener("keydown", handleAlbumKeydown);
 
 initAlbum();
 window.addEventListener("wheel", handleAlbumWheel, { passive: false });
+document.getElementById("albumGrid").addEventListener("touchstart", handleAlbumTouchStart, { passive: true });
+document.getElementById("albumGrid").addEventListener("touchmove", handleAlbumTouchMove, { passive: false });
+document.getElementById("albumGrid").addEventListener("touchend", handleAlbumTouchEnd, { passive: true });
 document.getElementById("lightboxImage").addEventListener("mousemove", followZoomCursor);
 
 const updateNameDock = () => {
