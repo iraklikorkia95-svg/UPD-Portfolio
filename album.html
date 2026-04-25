@@ -1016,23 +1016,32 @@ body.name-docked .masthead h1 {
         line-height: 1.2;
     }
 
+    .album-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+    }
+
     .photo-button {
         display: block;
         min-height: auto;
-        margin: 0 0 22px;
+        margin: 0;
+        cursor: pointer;
     }
 
     .photo-frame {
+        aspect-ratio: 1;
         height: auto;
         min-height: 0;
         padding: 0;
-        overflow: visible;
+        overflow: hidden;
     }
 
     .photo-frame img {
         width: 100%;
         max-height: none;
-        height: auto;
+        height: 100%;
+        object-fit: cover;
     }
 
     .lightbox-tool {
@@ -1405,19 +1414,27 @@ function resetMobileAlbumScroll() {
 
 function makePhoto(album, number) {
     if (album.fileOverrides && album.fileOverrides[number]) {
+        const src = `${album.dir}/${album.fileOverrides[number]}`;
         return {
             number,
-            src: `${album.dir}/${album.fileOverrides[number]}`,
+            src,
+            thumbnailSrc: makeThumbnailSrc(src),
             meta: album.meta[number] || []
         };
     }
 
     const ext = typeof album.ext === "function" ? album.ext(number) : album.ext;
+    const src = `${album.dir}/${album.prefix}${number}.${ext}`;
     return {
         number,
-        src: `${album.dir}/${album.prefix}${number}.${ext}`,
+        src,
+        thumbnailSrc: makeThumbnailSrc(src),
         meta: album.meta[number] || []
     };
+}
+
+function makeThumbnailSrc(src) {
+    return src.replace(/^Photos\//, "Photos/Thumbnails/");
 }
 
 function initAlbum() {
@@ -1430,6 +1447,7 @@ function initAlbum() {
     const grid = document.getElementById("albumGrid");
     grid.innerHTML = "";
     photos.forEach((photo, index) => {
+        const gallerySrc = isMobileViewport() ? photo.thumbnailSrc : photo.src;
         const button = document.createElement("button");
         button.className = "photo-button";
         button.type = "button";
@@ -1437,7 +1455,7 @@ function initAlbum() {
         button.setAttribute("aria-label", `Open ${album.title} photo ${photo.number}`);
         button.innerHTML = `
             <div class="photo-frame">
-                <img src="${photo.src}" alt="${album.title} photo ${photo.number}" loading="lazy">
+                <img src="${gallerySrc}" data-full-src="${photo.src}" data-thumbnail-src="${photo.thumbnailSrc}" alt="${album.title} photo ${photo.number}" loading="lazy" decoding="async">
             </div>
         `;
         button.querySelector("img").addEventListener("click", (event) => {
