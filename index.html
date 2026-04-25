@@ -5,29 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Irakli Korkia</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://api.fontshare.com">
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,600&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
 
 <style>
+/* Sonia Goydenko inspired album layout - replace this file from git history to undo */
 :root {
-    --page-bg: #faf9f7;
-    --text: #1c1a17;
-    --muted: #72685b;
-    --line: rgba(28, 26, 23, 0.08);
-    --shadow: 0 24px 60px rgba(62, 48, 26, 0.1);
+    --bg: #fff;
+    --ink: #282828;
+    --muted: #999;
 }
 
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
-
-html, body {
-    min-height: 100%;
 }
 
 html {
@@ -35,357 +27,336 @@ html {
 }
 
 body {
+    min-height: 100vh;
     overflow-x: hidden;
-    font-family: "Satoshi", system-ui, -apple-system, sans-serif;
-    color: var(--text);
-    background: linear-gradient(180deg, #fff 0%, var(--page-bg) 30%, #f5f1eb 100%);
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Satoshi", "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* HEADER */
-header {
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.site-header {
     position: fixed;
     top: 0;
-    width: 100%;
-    padding: 20px clamp(20px, 4vw, 40px);
+    left: 0;
+    right: 0;
+    z-index: 20;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 18px;
-    background: rgba(250, 249, 247, 0.85);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--line);
-    z-index: 100;
+    min-height: 70px;
+    padding: 23px 5%;
+    background: rgba(255, 255, 255, 0.96);
 }
 
-.logo {
-    font-size: 1.05rem;
-    font-weight: 600;
-    letter-spacing: 1px;
+.corner-name {
+    color: var(--ink);
+    font-size: 20px;
+    font-weight: 900;
+    line-height: 24px;
     text-transform: uppercase;
-    color: var(--text);
-    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+body.name-docked .corner-name {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .nav {
     display: flex;
-    gap: clamp(14px, 3vw, 24px);
-    align-items: center;
     flex-wrap: wrap;
+    gap: 0;
+    align-items: center;
     justify-content: flex-end;
+    margin-left: auto;
 }
 
-.nav a {
-    text-decoration: none;
-    color: var(--muted);
-    font-size: 0.85rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    transition: color 0.3s ease;
+.nav a,
+.portfolio-trigger {
+    padding-right: 20px;
+    color: var(--ink);
+    background: transparent;
+    border: 0;
+    font-family: inherit;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+    cursor: pointer;
 }
 
-.nav a:hover {
-    color: var(--text);
+.nav a:hover,
+.nav a.active,
+.portfolio-trigger:hover,
+.nav-item:focus-within .portfolio-trigger,
+.nav-item:hover .portfolio-trigger {
+    font-weight: 700;
 }
 
 .nav-item {
     position: relative;
-    padding: 10px 0;
 }
 
-.nav-dropdown,
-.nav-submenu {
+.album-dropdown {
     position: absolute;
-    top: 100%;
-    left: 50%;
-    min-width: 170px;
-    padding: 10px;
-    background: rgba(250, 249, 247, 0.96);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    box-shadow: var(--shadow);
+    top: calc(100% + 12px);
+    right: 20px;
+    min-width: 180px;
+    padding: 12px 0;
+    background: #fff;
+    box-shadow: 0 10px 34px rgba(0, 0, 0, 0.09);
     opacity: 0;
     visibility: hidden;
-    transform: translate(-50%, 8px);
-    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+    transform: translateY(-6px);
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
 }
 
-.nav-item:hover > .nav-dropdown,
-.nav-item:focus-within > .nav-dropdown,
-.nav-category:hover > .nav-submenu,
-.nav-category:focus-within > .nav-submenu {
+.nav-item:hover .album-dropdown,
+.nav-item:focus-within .album-dropdown {
     opacity: 1;
     visibility: visible;
-    transform: translate(-50%, 0);
+    transform: translateY(0);
 }
 
-.nav-dropdown a,
-.nav-submenu a {
+.album-dropdown a {
     display: block;
-    padding: 9px 10px;
+    padding: 8px 16px;
+    font-size: 17px;
+    line-height: 22px;
     white-space: nowrap;
 }
 
-.nav-category {
-    position: relative;
-}
-
-.nav-submenu {
-    top: -10px;
-    left: auto;
-    right: calc(100% + 10px);
-    transform: translate(8px, 0);
-}
-
-.nav-category:hover > .nav-submenu,
-.nav-category:focus-within > .nav-submenu {
-    transform: translate(0, 0);
-}
-
-/* TOP QUESTION TEXT BLOCK */
-.headline-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(14px, 3vw, 24px);
-    max-width: 1400px;
-    margin: clamp(104px, 14vw, 120px) auto 12px;
-    padding: 0 clamp(20px, 4vw, 40px);
-}
-
-.headline-item {
-    text-align: center;
-    font-family: "Instrument Serif", serif;
-    color: var(--text);
-    font-size: clamp(1.4rem, 2.8vw, 1.95rem);
-    line-height: 1.35;
-    font-weight: 500;
-    padding: 0 12px;
-}
-
-#question {
-    max-width: 760px;
-    margin: 0 auto 16px;
-    text-align: center;
-    padding: 0 24px;
-    min-height: 3rem;
-}
-
-.line {
-    font-family: "Instrument Serif", serif;
-    color: var(--text);
-    line-height: 1.4;
-    letter-spacing: normal;
-    font-size: clamp(1.7rem, 3.2vw, 2.2rem);
-    font-weight: 500;
-    min-height: 2.4rem;
-}
-
-.line.small {
-    color: var(--muted);
-    letter-spacing: 0.02em;
-}
-
-/* PANELS */
-.container {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(16px, 3vw, 24px);
-    padding: 30px clamp(20px, 4vw, 40px) 60px;
-    max-width: 1400px;
-    margin: 0 auto 60px;
-}
-
-.panel {
-    position: relative;
-    min-height: clamp(420px, calc(100vh - 270px), 760px);
-    min-height: clamp(420px, calc(100svh - 270px), 760px);
-    border-radius: clamp(14px, 2vw, 24px);
-    overflow: hidden;
-    cursor: pointer;
-    text-decoration: none;
-    box-shadow: var(--shadow);
-    transition: transform 0.35s ease, filter 0.35s ease;
+.masthead {
     display: flex;
-    align-items: flex-end;
     justify-content: center;
+    align-items: center;
+    min-height: 235px;
+    padding: 118px 5% 34px;
+    text-align: center;
 }
 
-.container:hover .panel:not(:hover) {
-    filter: blur(4px) brightness(0.7);
+.masthead-inner {
+    max-width: 900px;
 }
 
-.panel:hover {
-    transform: translateY(-6px);
-    filter: none;
-}
-
-.panel::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center;
-    transform: scale(1.08);
-    transition: transform 0.5s ease, filter 0.5s ease;
-}
-
-.panel:hover::before {
-    transform: scale(1.14);
-}
-
-.container:hover .panel:not(:hover)::before {
-    filter: blur(4px);
-}
-
-.panel::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(28, 26, 23, 0.35) 100%);
-    pointer-events: none;
-}
-
-.label {
-    position: relative;
-    z-index: 2;
-    margin-bottom: 42px;
-    font-family: "Instrument Serif", serif;
-    font-size: clamp(2.5rem, 6vw, 4.8rem);
-    font-weight: 500;
-    letter-spacing: 3px;
+.masthead h1 {
+    color: var(--ink);
+    font-size: clamp(2rem, 7.2vw, 70px);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 0;
     text-transform: uppercase;
+    transform-origin: center;
+    transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+body.name-docked .masthead h1 {
+    opacity: 0;
+    transform: translate(-34vw, -84px) scale(0.34);
+}
+
+.masthead p {
+    margin-top: 11px;
+    color: var(--muted);
+    font-size: clamp(0.95rem, 2.3vw, 24px);
+    font-weight: 400;
+    line-height: 1.18;
+    text-transform: uppercase;
+}
+
+.site-container {
+    max-width: 1480px;
+    margin: 0 auto;
+    padding: 0 0 70px;
+}
+
+.project-covers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    padding: 32px 3vw 0;
+}
+
+.project-cover {
+    display: block;
+    width: calc((100% - 56px) / 3);
+    margin: 0;
     color: #fff;
-    text-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
 }
 
-.nature::before {
-    background-image: url('Photos/Nature/Corsica/Corsica_5.jpeg');
+.cover-content {
+    position: relative;
+    overflow: hidden;
 }
 
-.urban::before {
-        background-image: url('Photos/Urban/Strasbourg/Strasbourg_13.jpg');
+.cover-image {
+    position: relative;
+    overflow: hidden;
 }
 
-@media (max-width: 900px) {
-    header {
-        padding: 18px 24px;
-        flex-wrap: wrap;
-        gap: 12px;
+.cover-image::before {
+    content: "";
+    display: block;
+    width: 100%;
+    padding-bottom: 92%;
+}
+
+.cover-image::after {
+    display: none;
+}
+
+.cover-image img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    object-fit: cover;
+    transform: translate(-50%, -50%) scale(1.035);
+    transition: transform 0.45s ease;
+}
+
+.details-wrap {
+    padding-top: 9px;
+}
+
+.album-title {
+    width: 100%;
+    color: var(--ink);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    text-align: center;
+}
+
+.project-cover:hover .cover-image img {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.back-to-top {
+    display: block;
+    margin-top: 26px;
+    color: var(--ink);
+    font-size: 15px;
+    text-align: center;
+}
+
+@media (max-width: 932px) {
+    .site-header {
+        position: fixed;
+        min-height: auto;
+        padding: 18px 5%;
     }
 
-    .logo {
-        font-size: 0.95rem;
+    .corner-name,
+    .nav a,
+    .portfolio-trigger {
+        font-size: 18px;
+        line-height: 22px;
     }
 
-    .nav {
-        gap: 16px;
+    .album-dropdown {
+        right: 14px;
     }
 
-    .headline-grid {
-        grid-template-columns: 1fr;
-        margin-top: 110px;
+    .masthead {
+        min-height: 190px;
+        padding: 96px 5% 22px;
     }
 
-    .container {
-        grid-template-columns: 1fr;
+    .project-covers {
+        gap: 22px;
+        padding-top: 24px;
     }
 
-    .panel {
-        min-height: clamp(320px, 58vh, 520px);
-        min-height: clamp(320px, 58svh, 520px);
+    .project-cover {
+        width: calc((100% - 22px) / 2);
     }
 
-    .label {
-        font-size: clamp(2rem, 10vw, 3.8rem);
-        letter-spacing: 2px;
+    .album-title {
+        font-size: 17px;
+        line-height: 20px;
     }
 }
 
-@media (max-width: 520px) {
-    header {
+@media (max-width: 540px) {
+    .site-header {
         align-items: flex-start;
-        padding: 14px 18px;
-    }
-
-    .logo {
-        font-size: 0.85rem;
+        padding: 14px 5%;
     }
 
     .nav {
+        row-gap: 8px;
+    }
+
+    .corner-name,
+    .nav a,
+    .portfolio-trigger {
+        padding-right: 13px;
+        font-size: 16px;
+        line-height: 20px;
+    }
+
+    .corner-name {
+        max-width: 112px;
+    }
+
+    .masthead {
+        padding: 92px 5% 18px;
+    }
+
+    .masthead h1 {
+        font-size: 30px;
+        line-height: 30px;
+    }
+
+    .masthead p {
+        font-size: 15px;
+        line-height: 18px;
+        margin-top: 8px;
+    }
+
+    .site-container {
+        padding-bottom: 42px;
+    }
+
+    .project-covers {
+        gap: 14px;
+        padding-top: 20px;
+    }
+
+    .project-cover,
+    .project-cover:nth-child(2n),
+    .project-cover:nth-child(3n) {
         width: 100%;
-        justify-content: flex-start;
     }
 
-    .nav a {
-        font-size: 0.72rem;
-    }
-
-    .headline-grid {
-        margin-top: 118px;
-    }
-
-    .headline-item {
-        font-size: clamp(1.35rem, 8vw, 1.8rem);
-        padding: 0;
-    }
-
-    #question {
-        min-height: 2.4rem;
-        padding: 0 18px;
-    }
-
-    .line {
-        font-size: clamp(1.45rem, 8vw, 1.9rem);
-        min-height: 2rem;
-    }
-
-    .container {
-        padding-top: 18px;
-        margin-bottom: 30px;
-    }
-
-    .panel {
-        min-height: min(430px, 54vh);
-        min-height: min(430px, 54svh);
+    .album-title {
+        font-size: 14px;
+        line-height: 17px;
     }
 }
-
-@media (hover: none) {
-    .container:hover .panel:not(:hover),
-    .container:hover .panel:not(:hover)::before {
-        filter: none;
-    }
-
-    .panel:hover {
-        transform: none;
-    }
-}
-
 </style>
 </head>
 
-<body>
-
-<header>
-    <div class="logo">Irakli Korkia</div>
-
-    <nav class="nav">
+<body id="top">
+<header class="site-header">
+    <a href="index.html" class="corner-name" aria-label="Irakli Korkia home">Irakli Korkia</a>
+    <nav class="nav" aria-label="Main navigation">
         <div class="nav-item">
-            <a href="#">Portfolio</a>
-            <div class="nav-dropdown">
-                <div class="nav-category">
-                    <a href="nature.html">Nature</a>
-                    <div class="nav-submenu">
-                        <a href="nature.html#corsica">Corsica</a>
-                        <a href="nature.html#french-alps">French Alps</a>
-                    </div>
-                </div>
-                <div class="nav-category">
-                    <a href="urban.html">Urban</a>
-                    <div class="nav-submenu">
-                        <a href="urban.html#strasbourg">Strasbourg</a>
-                        <a href="urban.html#catalonia">Catalonia</a>
-                    </div>
-                </div>
+            <button class="portfolio-trigger" type="button" aria-haspopup="true">Portfolio</button>
+            <div class="album-dropdown" aria-label="Album navigation">
+                <a href="album.html?album=strasbourg">STRASBOURG</a>
+                <a href="album.html?album=catalonia">CATALONIA</a>
+                <a href="album.html?album=corsica">CORSICA</a>
+                <a href="album.html?album=french-alps">FRENCH ALPS</a>
             </div>
         </div>
         <a href="#">About</a>
@@ -393,49 +364,68 @@ header {
     </nav>
 </header>
 
-<div class="headline-grid">
-    <div class="headline-item" id="line1"></div>
-    <div class="headline-item" id="line2"></div>
-</div>
+<section class="masthead" aria-label="Portfolio masthead">
+    <div class="masthead-inner">
+        <h1>Irakli Korkia</h1>
+    </div>
+</section>
 
-<div id="question">
-    <div class="line small" id="line3"></div>
-</div>
+<main class="site-container">
+    <section class="project-covers" aria-label="Albums">
+        <a class="project-cover" href="album.html?album=strasbourg" aria-label="Open Strasbourg album">
+            <div class="cover-content">
+                <div class="cover-image">
+                    <img src="Photos/Urban/Strasbourg/Strasbourg_13.jpg" alt="Strasbourg album cover">
+                </div>
+                <div class="details-wrap">
+                    <div class="album-title">STRASBOURG</div>
+                </div>
+            </div>
+        </a>
 
-<div class="container">
+        <a class="project-cover" href="album.html?album=catalonia" aria-label="Open Catalonia album">
+            <div class="cover-content">
+                <div class="cover-image">
+                    <img src="Photos/Urban/Catalonia/Catalonia_18.jpg" alt="Catalonia album cover">
+                </div>
+                <div class="details-wrap">
+                    <div class="album-title">CATALONIA</div>
+                </div>
+            </div>
+        </a>
 
-    <a class="panel nature" href="nature.html">
-        <div class="label">Nature</div>
-    </a>
+        <a class="project-cover" href="album.html?album=corsica" aria-label="Open Corsica album">
+            <div class="cover-content">
+                <div class="cover-image">
+                    <img src="Photos/Nature/Corsica/Corsica_5.jpeg" alt="Corsica album cover">
+                </div>
+                <div class="details-wrap">
+                    <div class="album-title">CORSICA</div>
+                </div>
+            </div>
+        </a>
 
-    <a class="panel urban" href="urban.html">
-        <div class="label">Urban</div>
-    </a>
+        <a class="project-cover" href="album.html?album=french-alps" aria-label="Open French Alps album">
+            <div class="cover-content">
+                <div class="cover-image">
+                    <img src="Photos/Nature/French Alps/French_Alps_4.jpg" alt="French Alps album cover">
+                </div>
+                <div class="details-wrap">
+                    <div class="album-title">FRENCH ALPS</div>
+                </div>
+            </div>
+        </a>
+    </section>
 
-</div>
-
+    <a class="back-to-top" href="#top">↑ Back to Top</a>
+</main>
 <script>
+const updateNameDock = () => {
+    document.body.classList.toggle("name-docked", window.scrollY > 80);
+};
 
-/* split typing */
-const text1 = "Some people belong to quiet landscapes.";
-const text2 = "Others to restless cities.";
-const text3 = "Where do you feel at home?";
-
-let k = 0;
-
-function typeLine3() {
-    if (k < text3.length) {
-        document.getElementById("line3").textContent += text3[k];
-        k++;
-        setTimeout(typeLine3, 55);
-    }
-}
-
-document.getElementById("line1").textContent = text1;
-document.getElementById("line2").textContent = text2;
-typeLine3();
-
+updateNameDock();
+window.addEventListener("scroll", updateNameDock, { passive: true });
 </script>
-
 </body>
 </html>
