@@ -131,6 +131,14 @@ body.name-docked .corner-name {
     font-size: 17px;
     line-height: 22px;
     white-space: nowrap;
+    transition: background-color 0.22s ease, color 0.22s ease, padding-left 0.22s ease, font-weight 0.22s ease;
+}
+
+.album-dropdown a:hover,
+.album-dropdown a:focus {
+    background: rgba(40, 40, 40, 0.04);
+    padding-left: 22px;
+    font-weight: 700;
 }
 
 .masthead {
@@ -355,6 +363,7 @@ body.name-docked .masthead h1 {
             <div class="album-dropdown" aria-label="Album navigation">
                 <a href="album.html?album=strasbourg">STRASBOURG</a>
                 <a href="album.html?album=catalonia">CATALONIA</a>
+                <a href="album.html?album=andalusia">ANDALUSIA</a>
                 <a href="album.html?album=corsica">CORSICA</a>
                 <a href="album.html?album=french-alps">FRENCH ALPS</a>
             </div>
@@ -375,7 +384,7 @@ body.name-docked .masthead h1 {
         <a class="project-cover" href="album.html?album=strasbourg" aria-label="Open Strasbourg album">
             <div class="cover-content">
                 <div class="cover-image">
-                    <img src="Photos/Urban/Strasbourg/Strasbourg_13.jpg" alt="Strasbourg album cover">
+                    <img src="Photos/Strasbourg/Strasbourg_13.jpg" alt="Strasbourg album cover">
                 </div>
                 <div class="details-wrap">
                     <div class="album-title">STRASBOURG</div>
@@ -386,7 +395,7 @@ body.name-docked .masthead h1 {
         <a class="project-cover" href="album.html?album=catalonia" aria-label="Open Catalonia album">
             <div class="cover-content">
                 <div class="cover-image">
-                    <img src="Photos/Urban/Catalonia/Catalonia_18.jpg" alt="Catalonia album cover">
+                    <img src="Photos/Catalonia/Catalonia_18.jpg" alt="Catalonia album cover">
                 </div>
                 <div class="details-wrap">
                     <div class="album-title">CATALONIA</div>
@@ -397,7 +406,7 @@ body.name-docked .masthead h1 {
         <a class="project-cover" href="album.html?album=corsica" aria-label="Open Corsica album">
             <div class="cover-content">
                 <div class="cover-image">
-                    <img src="Photos/Nature/Corsica/Corsica_5.jpeg" alt="Corsica album cover">
+                    <img src="Photos/Corsica/Corsica_5.jpeg" alt="Corsica album cover">
                 </div>
                 <div class="details-wrap">
                     <div class="album-title">CORSICA</div>
@@ -405,10 +414,21 @@ body.name-docked .masthead h1 {
             </div>
         </a>
 
+        <a class="project-cover" href="album.html?album=andalusia" aria-label="Open Andalusia album">
+            <div class="cover-content">
+                <div class="cover-image">
+                    <img src="Photos/Andalusia/Andalusia_6.jpg" alt="Andalusia album cover">
+                </div>
+                <div class="details-wrap">
+                    <div class="album-title">ANDALUSIA</div>
+                </div>
+            </div>
+        </a>
+
         <a class="project-cover" href="album.html?album=french-alps" aria-label="Open French Alps album">
             <div class="cover-content">
                 <div class="cover-image">
-                    <img src="Photos/Nature/French Alps/French_Alps_4.jpg" alt="French Alps album cover">
+                    <img src="Photos/French Alps/French_Alps_4.jpg" alt="French Alps album cover">
                 </div>
                 <div class="details-wrap">
                     <div class="album-title">FRENCH ALPS</div>

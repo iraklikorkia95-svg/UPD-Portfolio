@@ -54,27 +54,96 @@ button {
     right: 0;
     z-index: 20;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     min-height: 70px;
     padding: 23px 5%;
     background: rgba(255, 255, 255, 0.96);
 }
 
+.corner-name {
+    color: var(--ink);
+    font-size: 20px;
+    font-weight: 900;
+    line-height: 24px;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+body.name-docked .corner-name {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 .nav {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: auto;
 }
 
-.nav a {
+.nav a,
+.portfolio-trigger {
     padding-right: 20px;
     color: var(--ink);
+    background: transparent;
+    border: 0;
+    font-family: inherit;
     font-size: 20px;
     font-weight: 400;
     line-height: 24px;
+    cursor: pointer;
 }
 
 .nav a:hover,
-.nav a.active {
+.nav a.active,
+.portfolio-trigger:hover,
+.nav-item:focus-within .portfolio-trigger,
+.nav-item:hover .portfolio-trigger {
+    font-weight: 700;
+}
+
+.nav-item {
+    position: relative;
+}
+
+.album-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 20px;
+    min-width: 180px;
+    padding: 12px 0;
+    background: #fff;
+    box-shadow: 0 10px 34px rgba(0, 0, 0, 0.09);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+}
+
+.nav-item:hover .album-dropdown,
+.nav-item:focus-within .album-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.album-dropdown a {
+    display: block;
+    padding: 8px 16px;
+    font-size: 17px;
+    line-height: 22px;
+    white-space: nowrap;
+    transition: background-color 0.22s ease, color 0.22s ease, padding-left 0.22s ease, font-weight 0.22s ease;
+}
+
+.album-dropdown a:hover,
+.album-dropdown a:focus {
+    background: rgba(40, 40, 40, 0.04);
+    padding-left: 22px;
     font-weight: 700;
 }
 
@@ -93,6 +162,13 @@ button {
     font-weight: 900;
     line-height: 1;
     text-transform: uppercase;
+    transform-origin: center;
+    transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+body.name-docked .masthead h1 {
+    opacity: 0;
+    transform: translate(-34vw, -84px) scale(0.34);
 }
 
 .masthead p {
@@ -269,19 +345,25 @@ button {
 
 @media (max-width: 932px) {
     .site-header {
-        position: static;
+        position: fixed;
         min-height: auto;
-        padding: 22px 5% 8px;
+        padding: 18px 5%;
     }
 
-    .nav a {
+    .corner-name,
+    .nav a,
+    .portfolio-trigger {
         font-size: 18px;
         line-height: 22px;
     }
 
+    .album-dropdown {
+        right: 14px;
+    }
+
     .masthead {
-        min-height: auto;
-        padding: 62px 5% 30px;
+        min-height: 210px;
+        padding: 96px 5% 30px;
     }
 
     .album-grid {
@@ -309,13 +391,24 @@ button {
 
 @media (max-width: 540px) {
     .site-header {
-        padding: 18px 5% 6px;
+        align-items: flex-start;
+        padding: 14px 5%;
     }
 
-    .nav a {
-        padding-right: 15px;
+    .nav {
+        row-gap: 8px;
+    }
+
+    .corner-name,
+    .nav a,
+    .portfolio-trigger {
+        padding-right: 13px;
         font-size: 16px;
         line-height: 20px;
+    }
+
+    .corner-name {
+        max-width: 116px;
     }
 
     .masthead h1 {
@@ -359,8 +452,18 @@ button {
 
 <body>
 <header class="site-header">
+    <a href="index.html" class="corner-name" id="cornerAlbumTitle" aria-label="Back to portfolio"></a>
     <nav class="nav" aria-label="Main navigation">
-        <a href="index.html">Portfolio</a>
+        <div class="nav-item">
+            <button class="portfolio-trigger" type="button" aria-haspopup="true">Portfolio</button>
+            <div class="album-dropdown" aria-label="Album navigation">
+                <a href="album.html?album=strasbourg">STRASBOURG</a>
+                <a href="album.html?album=catalonia">CATALONIA</a>
+                <a href="album.html?album=andalusia">ANDALUSIA</a>
+                <a href="album.html?album=corsica">CORSICA</a>
+                <a href="album.html?album=french-alps">FRENCH ALPS</a>
+            </div>
+        </div>
         <a href="#">About</a>
         <a href="#">Contact</a>
     </nav>
@@ -399,7 +502,7 @@ button {
 const ALBUMS = {
     "strasbourg": {
         title: "Strasbourg",
-        dir: "Photos/Urban/Strasbourg",
+        dir: "Photos/Strasbourg",
         prefix: "Strasbourg_",
         ext: (n) => n >= 15 && n <= 19 || n === 21 || n === 23 || n >= 26 ? "JPG" : "jpg",
         count: 28,
@@ -436,7 +539,7 @@ const ALBUMS = {
     },
     "catalonia": {
         title: "Catalonia",
-        dir: "Photos/Urban/Catalonia",
+        dir: "Photos/Catalonia",
         prefix: "Catalonia_",
         ext: () => "jpg",
         count: 20,
@@ -463,9 +566,51 @@ const ALBUMS = {
             20: ["X-T30", "640", "1/1900s", "f/8", "32.9mm", "6240 x 4160"]
         }
     },
+    "andalusia": {
+        title: "Andalusia",
+        dir: "Photos/Andalusia",
+        prefix: "Andalusia_",
+        ext: () => "jpg",
+        count: 33,
+        meta: {
+            1: ["X-T30", "1600", "1/55s", "f/4", "37.4mm", "3674 x 5511"],
+            2: ["X-T30", "6400", "1/75s", "f/4", "40.7mm", "4160 x 6240"],
+            3: ["X-T30", "3200", "1/45s", "f/4.5", "31.5mm", "4160 x 6240"],
+            4: ["X-T30", "4000", "1/45s", "f/3.6", "30.2mm", "4160 x 6240"],
+            5: ["X-T30", "6400", "1/70s", "f/3.2", "18mm", "4160 x 6240"],
+            6: ["X-T30", "640", "1/125s", "f/5", "34.3mm", "5016 x 3344"],
+            7: ["X-T30", "6400", "1/20s", "f/4", "55mm", "4160 x 6240"],
+            8: ["X-T30", "3200", "1/40s", "f/3.2", "28.9mm", "3966 x 5949"],
+            9: ["X-T30", "6400", "1/40s", "f/6.4", "55mm", "6240 x 4160"],
+            10: ["X-T30", "6400", "1/18s", "f/6.4", "46.3mm", "3216 x 4824"],
+            11: ["X-T30", "320", "1/170s", "f/4", "55mm", "2917 x 4376"],
+            12: ["X-T30", "800", "1/100s", "f/3.2", "18mm", "6074 x 4049"],
+            13: ["X-T30", "6400", "1/70s", "f/4", "55mm", "4141 x 6212"],
+            14: ["X-T30", "1600", "1/20s", "f/4", "44.4mm", "3861 x 5791"],
+            15: ["X-T30", "640", "1/1400s", "f/4.5", "40.7mm", "4160 x 6240"],
+            16: ["X-T30", "640", "1/1900s", "f/4.5", "28.9mm", "6240 x 4160"],
+            17: ["X-T30", "320", "1/1000s", "f/4", "44.4mm", "4160 x 6240"],
+            18: ["X-T30", "320", "1/250s", "f/4", "44.4mm", "4160 x 6240"],
+            19: ["X-T30", "320", "1/2000s", "f/4", "44.4mm", "4160 x 6240"],
+            20: ["X-T30", "320", "1/125s", "f/9", "35.8mm", "4980 x 3320"],
+            21: ["X-T30", "2000", "1/55s", "f/3.6", "37.4mm", "4160 x 6240"],
+            22: ["X-T30", "320", "1/350s", "f/4", "55mm", "4160 x 6240"],
+            23: ["X-T30", "320", "1/1500s", "f/3.6", "27.7mm", "4160 x 6240"],
+            24: ["X-T30", "320", "1/1100s", "f/4", "20.5mm", "4160 x 6240"],
+            25: ["X-T30", "640", "1/1100s", "f/5.6", "44.4mm", "4160 x 6240"],
+            26: ["X-T30", "320", "1/800s", "f/5", "37.4mm", "4160 x 6240"],
+            27: ["X-T30", "320", "1/2900s", "f/3.6", "30.2mm", "3804 x 5706"],
+            28: ["X-T30", "320", "1/1800s", "f/3.2", "27.7mm", "6240 x 4160"],
+            29: ["X-T30", "640", "1/950s", "f/4", "42.5mm", "6240 x 4160"],
+            30: ["X-T30", "320", "1/680s", "f/5", "46.3mm", "4160 x 6240"],
+            31: ["X-T30", "640", "1/1900s", "f/4", "30.2mm", "5757 x 3838"],
+            32: ["X-T30", "320", "1/105s", "f/6.4", "42.5mm", "4160 x 6240"],
+            33: ["X-T30", "320", "1/1400s", "f/5", "34.3mm", "6240 x 4160"]
+        }
+    },
     "corsica": {
         title: "Corsica",
-        dir: "Photos/Nature/Corsica",
+        dir: "Photos/Corsica",
         prefix: "Corsica_",
         ext: () => "jpeg",
         count: 32,
@@ -506,7 +651,7 @@ const ALBUMS = {
     },
     "french-alps": {
         title: "French Alps",
-        dir: "Photos/Nature/French Alps",
+        dir: "Photos/French Alps",
         prefix: "French_Alps_",
         ext: () => "jpg",
         count: 10,
@@ -545,6 +690,7 @@ function initAlbum() {
     photos = Array.from({ length: album.count }, (_, index) => makePhoto(album, index + 1));
     document.title = `${album.title} - Irakli Korkia`;
     document.getElementById("albumTitle").textContent = album.title;
+    document.getElementById("cornerAlbumTitle").textContent = album.title;
     document.getElementById("albumCount").textContent = `${album.count} photographs`;
 
     const grid = document.getElementById("albumGrid");
@@ -619,6 +765,13 @@ document.addEventListener("keydown", (event) => {
 });
 
 initAlbum();
+
+const updateNameDock = () => {
+    document.body.classList.toggle("name-docked", window.scrollY > 80);
+};
+
+updateNameDock();
+window.addEventListener("scroll", updateNameDock, { passive: true });
 </script>
 </body>
 </html>
