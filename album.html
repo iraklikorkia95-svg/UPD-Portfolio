@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Album - Irakli Korkia</title>
+<title>Album - IRAKLI KORKIA</title>
 
 <link rel="preconnect" href="https://api.fontshare.com">
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
@@ -517,9 +517,9 @@ body.name-docked .masthead h1 {
 
 /* Theo Gosselin inspired portfolio treatment */
 :root {
-    --bg: #ffffff;
-    --surface: #ffffff;
-    --photo-mat: #ffffff;
+    --bg: #f4eadb;
+    --surface: #fff8ec;
+    --photo-mat: #f4eadb;
     --ink: #222222;
     --muted: #959595;
     --line: #eeeeee;
@@ -590,9 +590,9 @@ body {
     padding: 0;
     color: var(--ink);
     font-family: var(--body);
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 400;
-    line-height: 1.6;
+    line-height: 1.7;
     text-align: left;
     text-transform: none;
 }
@@ -622,7 +622,7 @@ body {
     padding: 0;
     color: var(--ink);
     font-family: var(--body);
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 400;
     line-height: 1.6;
     text-transform: none;
@@ -689,16 +689,20 @@ body.name-docked .masthead h1 {
     min-height: 100vh;
     margin: 0;
     text-align: left;
+    cursor: default;
 }
 
 .photo-frame {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
+    height: 100vh;
     overflow: hidden;
-    padding: 0;
+    padding: 18px 0;
     background: transparent;
     box-shadow: none;
-    transition: opacity 0.15s ease, transform 0.28s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: transform 0.42s cubic-bezier(0.19, 1, 0.22, 1);
     will-change: transform;
 }
 
@@ -711,17 +715,18 @@ body.name-docked .masthead h1 {
     display: block;
     width: auto;
     max-width: 100%;
-    max-height: calc(100vh - 80px);
+    max-height: calc(100vh - 36px);
     height: auto;
-    margin: 0;
+    margin: 0 auto;
     background: transparent;
     filter: none;
     object-fit: contain;
     transition: none;
+    cursor: pointer;
 }
 
 .photo-button:hover .photo-frame {
-    opacity: 0.8;
+    opacity: 1;
 }
 
 .photo-button:hover .photo-frame img {
@@ -730,11 +735,11 @@ body.name-docked .masthead h1 {
 }
 
 .lightbox {
-    background: #ffffff;
+    background: var(--bg);
 }
 
 .lightbox-bar {
-    background: #ffffff;
+    background: var(--bg);
     border-bottom: 1px solid var(--line);
     backdrop-filter: none;
 }
@@ -759,7 +764,7 @@ body.name-docked .masthead h1 {
 }
 
 .side-btn {
-    background: rgba(255, 255, 255, 0.78);
+    background: rgba(255, 248, 236, 0.82);
 }
 
 .side-btn:hover,
@@ -805,7 +810,7 @@ body.name-docked .masthead h1 {
     .portfolio-trigger,
     .album-dropdown a {
         padding: 0;
-        font-size: 13.2px;
+        font-size: 14.5px;
         line-height: 1.8;
     }
 
@@ -834,18 +839,18 @@ body.name-docked .masthead h1 {
 <body>
 <header class="site-header">
     <a href="index.html" class="corner-name" aria-label="Back to portfolio">
-        <span>Irakli Korkia</span>
+        <span>IRAKLI KORKIA</span>
         <span class="corner-album" id="cornerAlbumTitle"></span>
     </a>
     <nav class="nav" aria-label="Main navigation">
         <div class="nav-item">
             <button class="portfolio-trigger" type="button" aria-haspopup="true">Portfolio</button>
             <div class="album-dropdown" aria-label="Album navigation">
-                <a href="album.html?album=strasbourg">STRASBOURG</a>
-                <a href="album.html?album=catalonia">CATALONIA</a>
                 <a href="album.html?album=andalusia">ANDALUSIA</a>
+                <a href="album.html?album=catalonia">CATALONIA</a>
                 <a href="album.html?album=corsica">CORSICA</a>
                 <a href="album.html?album=french-alps">FRENCH ALPS</a>
+                <a href="album.html?album=strasbourg">STRASBOURG</a>
             </div>
         </div>
         <a href="#">About</a>
@@ -1072,7 +1077,7 @@ function makePhoto(album, number) {
 
 function initAlbum() {
     photos = Array.from({ length: album.count }, (_, index) => makePhoto(album, index + 1));
-    document.title = `${album.title} - Irakli Korkia`;
+    document.title = `${album.title} - IRAKLI KORKIA`;
     document.getElementById("albumTitle").textContent = album.title;
     document.getElementById("cornerAlbumTitle").textContent = `- ${album.title}`;
     document.getElementById("albumCount").textContent = `${album.count} photographs`;
@@ -1090,7 +1095,10 @@ function initAlbum() {
                 <img src="${photo.src}" alt="${album.title} photo ${photo.number}" loading="lazy">
             </div>
         `;
-        button.addEventListener("click", () => openLightbox(index));
+        button.querySelector("img").addEventListener("click", (event) => {
+            event.stopPropagation();
+            openLightbox(index);
+        });
         grid.appendChild(button);
     });
 }
@@ -1145,11 +1153,11 @@ const scrollState = {
 };
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const wheelThreshold = 150;
+const wheelThreshold = 230;
 const boundaryTolerance = 3;
-const lockDuration = 760;
-const resistancePull = 12;
-const maxWheelStep = 55;
+const lockDuration = 900;
+const resistancePull = 92;
+const maxWheelStep = 34;
 
 function getPhotoButtons() {
     return Array.from(document.querySelectorAll(".photo-button"));
@@ -1182,7 +1190,8 @@ function clearPhotoResistance(button) {
 
 function applyPhotoResistance(button, direction) {
     const frame = button.querySelector(".photo-frame");
-    const pull = Math.min(Math.abs(scrollState.accumulator) / wheelThreshold, 1) * resistancePull;
+    const progress = Math.min(Math.abs(scrollState.accumulator) / wheelThreshold, 1);
+    const pull = Math.sin(progress * Math.PI / 2) * resistancePull;
     frame.style.transform = `translateY(${direction > 0 ? -pull : pull}px)`;
 }
 
@@ -1196,11 +1205,8 @@ function scrollToPhoto(index) {
     scrollState.locked = true;
     getPhotoButtons().forEach(clearPhotoResistance);
 
-    const targetTop = target.getBoundingClientRect().top + window.scrollY;
-    const targetOffset = Math.max((window.innerHeight - target.offsetHeight) / 2, 0);
-
     window.scrollTo({
-        top: targetTop - targetOffset,
+        top: target.getBoundingClientRect().top + window.scrollY,
         behavior: prefersReducedMotion ? "auto" : "smooth"
     });
 
