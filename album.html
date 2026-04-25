@@ -1223,11 +1223,6 @@ const slug = params.get("album") || "strasbourg";
 const album = ALBUMS[slug] || ALBUMS.strasbourg;
 let photos = [];
 let currentIndex = 0;
-let lightboxTouchStartX = 0;
-let lightboxTouchStartY = 0;
-let lightboxPointerStartX = 0;
-let lightboxPointerStartY = 0;
-let lightboxSwipeHandled = false;
 let albumTouchStartX = 0;
 let albumTouchStartY = 0;
 let albumTouchStartIndex = 0;
@@ -1365,20 +1360,6 @@ function toggleZoom(event) {
     const shouldZoom = !lightbox.classList.contains("zoomed");
     if (shouldZoom && event) setZoomOriginFromEvent(event);
     setZoom(shouldZoom);
-}
-
-function handleLightboxSwipe(deltaX, deltaY) {
-    if (!isMobileViewport()) return false;
-    if (Math.abs(deltaX) < 42 || Math.abs(deltaX) < Math.abs(deltaY) * 1.15) return false;
-
-    lightboxSwipeHandled = true;
-    setZoom(false);
-    if (deltaX < 0) {
-        nextPhoto();
-    } else {
-        previousPhoto();
-    }
-    return true;
 }
 
 const scrollState = {
@@ -1534,56 +1515,25 @@ function handleAlbumTouchMove(event) {
 }
 
 document.getElementById("lightbox").addEventListener("click", (event) => {
-    if (lightboxSwipeHandled) {
-        lightboxSwipeHandled = false;
-        event.preventDefault();
-        return;
-    }
-
     const target = event.target instanceof Element ? event.target : event.target.parentElement;
     if (target && target.closest(".lightbox-stage img")) {
         event.preventDefault();
-        if (isMobileViewport()) return;
+        if (isMobileViewport()) {
+            const image = document.getElementById("lightboxImage");
+            const rect = image.getBoundingClientRect();
+            if (event.clientX >= rect.left + rect.width / 2) {
+                nextPhoto();
+            } else {
+                previousPhoto();
+            }
+            return;
+        }
         toggleZoom(event);
         return;
     }
     if (target && target.closest(".side-btn, .metadata-panel, .lightbox-tool, .lightbox-close")) return;
     closeLightbox();
 });
-
-document.getElementById("lightbox").addEventListener("touchstart", (event) => {
-    if (!isMobileViewport() || event.touches.length !== 1) return;
-    lightboxTouchStartX = event.touches[0].clientX;
-    lightboxTouchStartY = event.touches[0].clientY;
-}, { passive: true });
-
-document.getElementById("lightbox").addEventListener("touchend", (event) => {
-    if (!isMobileViewport() || !lightboxTouchStartX || !event.changedTouches.length) return;
-
-    const deltaX = event.changedTouches[0].clientX - lightboxTouchStartX;
-    const deltaY = event.changedTouches[0].clientY - lightboxTouchStartY;
-    lightboxTouchStartX = 0;
-    lightboxTouchStartY = 0;
-
-    handleLightboxSwipe(deltaX, deltaY);
-}, { passive: true });
-
-document.getElementById("lightbox").addEventListener("pointerdown", (event) => {
-    if (!isMobileViewport() || !event.isPrimary || !event.target.closest(".lightbox-stage")) return;
-    lightboxPointerStartX = event.clientX;
-    lightboxPointerStartY = event.clientY;
-}, { passive: true });
-
-document.getElementById("lightbox").addEventListener("pointerup", (event) => {
-    if (!isMobileViewport() || !lightboxPointerStartX || !event.isPrimary) return;
-
-    const deltaX = event.clientX - lightboxPointerStartX;
-    const deltaY = event.clientY - lightboxPointerStartY;
-    lightboxPointerStartX = 0;
-    lightboxPointerStartY = 0;
-
-    handleLightboxSwipe(deltaX, deltaY);
-}, { passive: true });
 
 document.addEventListener("keydown", handleAlbumKeydown);
 
