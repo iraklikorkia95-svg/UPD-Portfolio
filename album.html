@@ -285,6 +285,7 @@ body.name-docked .masthead h1 {
 }
 
 .lightbox-title,
+.lightbox-tool,
 .lightbox-close {
     color: var(--ink);
     font-size: 15px;
@@ -293,6 +294,49 @@ body.name-docked .masthead h1 {
     text-transform: uppercase;
 }
 
+.lightbox-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.lightbox-tool {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    line-height: 26px;
+    text-align: center;
+}
+
+.lightbox-tool::before {
+    content: "";
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    width: 9px;
+    height: 9px;
+    border: 1.5px solid currentColor;
+    border-radius: 50%;
+}
+
+.lightbox-tool::after {
+    content: "";
+    position: absolute;
+    top: 17px;
+    left: 17px;
+    width: 7px;
+    border-top: 1.5px solid currentColor;
+    transform: rotate(45deg);
+    transform-origin: left center;
+}
+
+.lightbox-tool[aria-pressed="true"] {
+    color: var(--accent);
+}
+
+.lightbox-tool:hover,
 .lightbox-close:hover {
     color: var(--accent-warm);
 }
@@ -317,12 +361,25 @@ body.name-docked .masthead h1 {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: auto;
 }
 
 .lightbox-stage img {
     max-width: 100%;
     max-height: calc(100vh - 150px);
     object-fit: contain;
+    transform-origin: center center;
+    transition: transform 0.28s cubic-bezier(0.215, 0.61, 0.355, 1);
+    cursor: zoom-in;
+}
+
+.lightbox.zoomed .lightbox-stage {
+    align-items: center;
+}
+
+.lightbox.zoomed .lightbox-stage img {
+    transform: scale(2);
+    cursor: zoom-out;
 }
 
 .side-btn {
@@ -702,8 +759,7 @@ body.name-docked .masthead h1 {
     padding: 18px 0;
     background: transparent;
     box-shadow: none;
-    transition: transform 0.42s cubic-bezier(0.19, 1, 0.22, 1);
-    will-change: transform;
+    transition: none;
 }
 
 .photo-frame::before {
@@ -745,6 +801,7 @@ body.name-docked .masthead h1 {
 }
 
 .lightbox-title,
+.lightbox-tool,
 .lightbox-close,
 .metadata-panel,
 .meta-row {
@@ -850,6 +907,7 @@ body.name-docked .masthead h1 {
                 <a href="album.html?album=catalonia">CATALONIA</a>
                 <a href="album.html?album=corsica">CORSICA</a>
                 <a href="album.html?album=french-alps">FRENCH ALPS</a>
+                <a href="album.html?album=paris">PARIS</a>
                 <a href="album.html?album=strasbourg">STRASBOURG</a>
             </div>
         </div>
@@ -872,7 +930,10 @@ body.name-docked .masthead h1 {
 <div class="lightbox" id="lightbox" aria-hidden="true">
     <div class="lightbox-bar">
         <div class="lightbox-title" id="lightboxTitle"></div>
-        <button class="lightbox-close" type="button" onclick="closeLightbox()" aria-label="Close photo">&times;</button>
+        <div class="lightbox-actions">
+            <button class="lightbox-tool" id="zoomToggle" type="button" onclick="toggleZoom()" aria-label="Zoom in" aria-pressed="false"></button>
+            <button class="lightbox-close" type="button" onclick="closeLightbox()" aria-label="Close photo">&times;</button>
+        </div>
     </div>
     <div class="lightbox-body">
         <div class="lightbox-stage">
@@ -1056,6 +1117,14 @@ const ALBUMS = {
             9: ["X-T30", "320", "1/500s", "f/4.5", "55mm", "4160 x 6240"],
             10: ["X-T30", "320", "1/1000s", "f/4", "37.4mm", "4160 x 6240"]
         }
+    },
+    "paris": {
+        title: "Paris",
+        dir: "Photos/Paris",
+        prefix: "Paris_",
+        ext: () => "jpg",
+        count: 25,
+        meta: {}
     }
 };
 
@@ -1117,6 +1186,7 @@ function displayPhoto(index) {
     currentIndex = (index + photos.length) % photos.length;
     const photo = photos[currentIndex];
     const image = document.getElementById("lightboxImage");
+    setZoom(false);
     image.src = photo.src;
     image.alt = `${album.title} photo ${photo.number}`;
     document.getElementById("lightboxTitle").textContent = `${album.title} / ${String(photo.number).padStart(2, "0")}`;
@@ -1131,6 +1201,7 @@ function openLightbox(index) {
 }
 
 function closeLightbox() {
+    setZoom(false);
     document.getElementById("lightbox").classList.remove("active");
     document.getElementById("lightbox").setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
@@ -1144,20 +1215,47 @@ function previousPhoto() {
     displayPhoto(currentIndex - 1);
 }
 
+function setZoom(isZoomed) {
+    const lightbox = document.getElementById("lightbox");
+    const zoomToggle = document.getElementById("zoomToggle");
+    const image = document.getElementById("lightboxImage");
+    lightbox.classList.toggle("zoomed", isZoomed);
+    if (!isZoomed) image.style.transformOrigin = "center center";
+    zoomToggle.setAttribute("aria-pressed", String(isZoomed));
+    zoomToggle.setAttribute("aria-label", isZoomed ? "Zoom out" : "Zoom in");
+}
+
+function setZoomOriginFromEvent(event) {
+    const image = document.getElementById("lightboxImage");
+    const rect = image.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width) * 100;
+    const y = ((event.clientY - rect.top) / rect.height) * 100;
+    image.style.transformOrigin = `${Math.max(0, Math.min(100, x))}% ${Math.max(0, Math.min(100, y))}%`;
+}
+
+function followZoomCursor(event) {
+    if (!document.getElementById("lightbox").classList.contains("zoomed")) return;
+    setZoomOriginFromEvent(event);
+}
+
+function toggleZoom(event) {
+    const lightbox = document.getElementById("lightbox");
+    const shouldZoom = !lightbox.classList.contains("zoomed");
+    if (shouldZoom && event) setZoomOriginFromEvent(event);
+    setZoom(shouldZoom);
+}
+
 const scrollState = {
     activeIndex: 0,
-    accumulator: 0,
     direction: 0,
     locked: false,
-    resetTimer: 0
+    wheelTotal: 0,
+    wheelTimer: 0
 };
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const wheelThreshold = 230;
-const boundaryTolerance = 3;
 const lockDuration = 900;
-const resistancePull = 92;
-const maxWheelStep = 34;
+const wheelGestureThreshold = 95;
 
 function getPhotoButtons() {
     return Array.from(document.querySelectorAll(".photo-button"));
@@ -1183,27 +1281,13 @@ function getNearestPhotoIndex() {
     return nearestIndex;
 }
 
-function clearPhotoResistance(button) {
-    const frame = button && button.querySelector(".photo-frame");
-    if (frame) frame.style.transform = "";
-}
-
-function applyPhotoResistance(button, direction) {
-    const frame = button.querySelector(".photo-frame");
-    const progress = Math.min(Math.abs(scrollState.accumulator) / wheelThreshold, 1);
-    const pull = Math.sin(progress * Math.PI / 2) * resistancePull;
-    frame.style.transform = `translateY(${direction > 0 ? -pull : pull}px)`;
-}
-
 function scrollToPhoto(index) {
     const buttons = getPhotoButtons();
     const target = buttons[index];
     if (!target) return;
 
     scrollState.activeIndex = index;
-    scrollState.accumulator = 0;
     scrollState.locked = true;
-    getPhotoButtons().forEach(clearPhotoResistance);
 
     window.scrollTo({
         top: target.getBoundingClientRect().top + window.scrollY,
@@ -1212,16 +1296,8 @@ function scrollToPhoto(index) {
 
     window.setTimeout(() => {
         scrollState.locked = false;
+        scrollState.wheelTotal = 0;
     }, prefersReducedMotion ? 120 : lockDuration);
-}
-
-function resetWheelAccumulator() {
-    window.clearTimeout(scrollState.resetTimer);
-    scrollState.resetTimer = window.setTimeout(() => {
-        scrollState.accumulator = 0;
-        const active = getPhotoButtons()[scrollState.activeIndex];
-        clearPhotoResistance(active);
-    }, 180);
 }
 
 function handleAlbumWheel(event) {
@@ -1242,54 +1318,66 @@ function handleAlbumWheel(event) {
     if (scrollState.locked) return;
 
     if (scrollState.direction !== direction) {
-        clearPhotoResistance(buttons[scrollState.activeIndex]);
-        scrollState.accumulator = 0;
+        scrollState.wheelTotal = 0;
         scrollState.direction = direction;
     }
 
+    scrollState.wheelTotal += Math.min(Math.abs(event.deltaY), 40);
+    window.clearTimeout(scrollState.wheelTimer);
+    scrollState.wheelTimer = window.setTimeout(() => {
+        scrollState.wheelTotal = 0;
+    }, 220);
+
+    if (scrollState.wheelTotal < wheelGestureThreshold) return;
+
+    scrollState.wheelTotal = 0;
+
     const activeIndex = getNearestPhotoIndex();
-    const activeButton = buttons[activeIndex];
-    const rect = activeButton.getBoundingClientRect();
-
-    scrollState.activeIndex = activeIndex;
-
-    if (Math.abs(rect.top) > boundaryTolerance) {
-        scrollToPhoto(activeIndex);
-        return;
-    }
-
-    scrollState.accumulator += Math.min(Math.abs(event.deltaY), maxWheelStep);
-    applyPhotoResistance(activeButton, direction);
-    resetWheelAccumulator();
-
-    if (scrollState.accumulator < wheelThreshold) return;
-
     const nextIndex = Math.max(0, Math.min(buttons.length - 1, activeIndex + direction));
     if (nextIndex === activeIndex) {
-        scrollState.accumulator = 0;
-        clearPhotoResistance(activeButton);
-        window.scrollBy({ top: event.deltaY });
         return;
     }
 
     scrollToPhoto(nextIndex);
 }
 
+function handleAlbumKeydown(event) {
+    if (document.getElementById("lightbox").classList.contains("active")) {
+        if (event.key === "Escape") closeLightbox();
+        if (event.key === "ArrowRight") nextPhoto();
+        if (event.key === "ArrowLeft") previousPhoto();
+        if (event.key.toLowerCase() === "z") toggleZoom();
+        return;
+    }
+
+    if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+
+    const buttons = getPhotoButtons();
+    if (!buttons.length) return;
+
+    event.preventDefault();
+
+    const direction = event.key === "ArrowDown" ? 1 : -1;
+    const activeIndex = getNearestPhotoIndex();
+    const nextIndex = Math.max(0, Math.min(buttons.length - 1, activeIndex + direction));
+    scrollToPhoto(nextIndex);
+}
+
 document.getElementById("lightbox").addEventListener("click", (event) => {
     const target = event.target instanceof Element ? event.target : event.target.parentElement;
-    if (target && target.closest(".lightbox-stage img, .side-btn, .metadata-panel, .lightbox-close")) return;
+    if (target && target.closest(".lightbox-stage img")) {
+        toggleZoom(event);
+        return;
+    }
+    if (target && target.closest(".side-btn, .metadata-panel, .lightbox-tool, .lightbox-close")) return;
     closeLightbox();
 });
 
-document.addEventListener("keydown", (event) => {
-    if (!document.getElementById("lightbox").classList.contains("active")) return;
-    if (event.key === "Escape") closeLightbox();
-    if (event.key === "ArrowRight") nextPhoto();
-    if (event.key === "ArrowLeft") previousPhoto();
-});
+document.addEventListener("keydown", handleAlbumKeydown);
 
 initAlbum();
 window.addEventListener("wheel", handleAlbumWheel, { passive: false });
+document.getElementById("lightboxImage").addEventListener("mousemove", followZoomCursor);
 
 const updateNameDock = () => {
     document.body.classList.toggle("name-docked", window.scrollY > 80);
