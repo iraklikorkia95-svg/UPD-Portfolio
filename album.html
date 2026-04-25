@@ -56,25 +56,34 @@ button {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 18px;
     min-height: 70px;
     padding: 23px 5%;
     background: rgba(255, 255, 255, 0.96);
 }
 
 .corner-name {
+    display: inline-flex;
+    gap: 8px;
+    align-items: baseline;
     color: var(--ink);
     font-size: 20px;
     font-weight: 900;
     line-height: 24px;
     text-transform: uppercase;
-    opacity: 0;
-    transform: translateY(-10px);
+    opacity: 1;
+    transform: translateY(0);
     transition: opacity 0.45s ease, transform 0.45s ease;
 }
 
-body.name-docked .corner-name {
+.corner-album {
+    color: var(--muted);
+    opacity: 0;
+    transition: opacity 0.45s ease;
+}
+
+body.name-docked .corner-album {
     opacity: 1;
-    transform: translateY(0);
 }
 
 .nav {
@@ -82,6 +91,7 @@ body.name-docked .corner-name {
     flex-wrap: wrap;
     align-items: center;
     justify-content: flex-end;
+    flex: 1 1 auto;
     margin-left: auto;
 }
 
@@ -114,6 +124,7 @@ body.name-docked .corner-name {
     position: absolute;
     top: calc(100% + 12px);
     right: 20px;
+    z-index: 40;
     min-width: 180px;
     padding: 12px 0;
     background: #fff;
@@ -125,7 +136,8 @@ body.name-docked .corner-name {
 }
 
 .nav-item:hover .album-dropdown,
-.nav-item:focus-within .album-dropdown {
+.nav-item:focus-within .album-dropdown,
+.nav-item.menu-open .album-dropdown {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
@@ -266,8 +278,8 @@ body.name-docked .masthead h1 {
 .lightbox-body {
     min-height: 0;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 280px;
-    gap: 26px;
+    grid-template-columns: minmax(0, 1fr) 210px;
+    gap: 16px;
     padding: 24px 5%;
 }
 
@@ -315,7 +327,7 @@ body.name-docked .masthead h1 {
 .metadata-panel {
     align-self: center;
     border-left: 1px solid var(--line);
-    padding-left: 26px;
+    padding-left: 18px;
 }
 
 .metadata-panel h2 {
@@ -332,11 +344,11 @@ body.name-docked .masthead h1 {
 
 .meta-row {
     display: grid;
-    grid-template-columns: 90px minmax(0, 1fr);
-    gap: 14px;
+    grid-template-columns: 68px minmax(0, 1fr);
+    gap: 10px;
     color: var(--ink);
-    font-size: 15px;
-    line-height: 20px;
+    font-size: 13px;
+    line-height: 18px;
 }
 
 .meta-label {
@@ -389,6 +401,21 @@ body.name-docked .masthead h1 {
     }
 }
 
+@media (max-width: 700px) {
+    .site-header {
+        gap: 12px;
+    }
+
+    .nav {
+        max-width: calc(100% - 132px);
+    }
+
+    .album-dropdown {
+        right: 0;
+        min-width: 164px;
+    }
+}
+
 @media (max-width: 540px) {
     .site-header {
         align-items: flex-start;
@@ -397,6 +424,7 @@ body.name-docked .masthead h1 {
 
     .nav {
         row-gap: 8px;
+        max-width: calc(100% - 112px);
     }
 
     .corner-name,
@@ -408,7 +436,7 @@ body.name-docked .masthead h1 {
     }
 
     .corner-name {
-        max-width: 116px;
+        max-width: 100px;
     }
 
     .masthead h1 {
@@ -452,7 +480,10 @@ body.name-docked .masthead h1 {
 
 <body>
 <header class="site-header">
-    <a href="index.html" class="corner-name" id="cornerAlbumTitle" aria-label="Back to portfolio"></a>
+    <a href="index.html" class="corner-name" aria-label="Back to portfolio">
+        <span>Irakli Korkia</span>
+        <span class="corner-album" id="cornerAlbumTitle"></span>
+    </a>
     <nav class="nav" aria-label="Main navigation">
         <div class="nav-item">
             <button class="portfolio-trigger" type="button" aria-haspopup="true">Portfolio</button>
@@ -690,7 +721,7 @@ function initAlbum() {
     photos = Array.from({ length: album.count }, (_, index) => makePhoto(album, index + 1));
     document.title = `${album.title} - Irakli Korkia`;
     document.getElementById("albumTitle").textContent = album.title;
-    document.getElementById("cornerAlbumTitle").textContent = album.title;
+    document.getElementById("cornerAlbumTitle").textContent = `- ${album.title}`;
     document.getElementById("albumCount").textContent = `${album.count} photographs`;
 
     const grid = document.getElementById("albumGrid");
@@ -772,6 +803,20 @@ const updateNameDock = () => {
 
 updateNameDock();
 window.addEventListener("scroll", updateNameDock, { passive: true });
+
+const portfolioItem = document.querySelector(".nav-item");
+const portfolioButton = document.querySelector(".portfolio-trigger");
+
+portfolioButton.addEventListener("click", (event) => {
+    event.stopPropagation();
+    const isOpen = portfolioItem.classList.toggle("menu-open");
+    portfolioButton.setAttribute("aria-expanded", String(isOpen));
+});
+
+document.addEventListener("click", () => {
+    portfolioItem.classList.remove("menu-open");
+    portfolioButton.setAttribute("aria-expanded", "false");
+});
 </script>
 </body>
 </html>

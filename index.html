@@ -49,6 +49,7 @@ a {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 18px;
     min-height: 70px;
     padding: 23px 5%;
     background: rgba(255, 255, 255, 0.96);
@@ -60,14 +61,9 @@ a {
     font-weight: 900;
     line-height: 24px;
     text-transform: uppercase;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: opacity 0.45s ease, transform 0.45s ease;
-}
-
-body.name-docked .corner-name {
     opacity: 1;
     transform: translateY(0);
+    transition: opacity 0.45s ease, transform 0.45s ease;
 }
 
 .nav {
@@ -76,6 +72,7 @@ body.name-docked .corner-name {
     gap: 0;
     align-items: center;
     justify-content: flex-end;
+    flex: 1 1 auto;
     margin-left: auto;
 }
 
@@ -108,6 +105,7 @@ body.name-docked .corner-name {
     position: absolute;
     top: calc(100% + 12px);
     right: 20px;
+    z-index: 40;
     min-width: 180px;
     padding: 12px 0;
     background: #fff;
@@ -119,7 +117,8 @@ body.name-docked .corner-name {
 }
 
 .nav-item:hover .album-dropdown,
-.nav-item:focus-within .album-dropdown {
+.nav-item:focus-within .album-dropdown,
+.nav-item.menu-open .album-dropdown {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
@@ -294,6 +293,21 @@ body.name-docked .masthead h1 {
     }
 }
 
+@media (max-width: 700px) {
+    .site-header {
+        gap: 12px;
+    }
+
+    .nav {
+        max-width: calc(100% - 132px);
+    }
+
+    .album-dropdown {
+        right: 0;
+        min-width: 164px;
+    }
+}
+
 @media (max-width: 540px) {
     .site-header {
         align-items: flex-start;
@@ -302,6 +316,7 @@ body.name-docked .masthead h1 {
 
     .nav {
         row-gap: 8px;
+        max-width: calc(100% - 112px);
     }
 
     .corner-name,
@@ -313,7 +328,7 @@ body.name-docked .masthead h1 {
     }
 
     .corner-name {
-        max-width: 112px;
+        max-width: 100px;
     }
 
     .masthead {
@@ -381,13 +396,13 @@ body.name-docked .masthead h1 {
 
 <main class="site-container">
     <section class="project-covers" aria-label="Albums">
-        <a class="project-cover" href="album.html?album=strasbourg" aria-label="Open Strasbourg album">
+        <a class="project-cover" href="album.html?album=andalusia" aria-label="Open Andalusia album">
             <div class="cover-content">
                 <div class="cover-image">
-                    <img src="Photos/Strasbourg/Strasbourg_13.jpg" alt="Strasbourg album cover">
+                    <img src="Photos/Andalusia/Andalusia_6.jpg" alt="Andalusia album cover">
                 </div>
                 <div class="details-wrap">
-                    <div class="album-title">STRASBOURG</div>
+                    <div class="album-title">ANDALUSIA</div>
                 </div>
             </div>
         </a>
@@ -414,17 +429,6 @@ body.name-docked .masthead h1 {
             </div>
         </a>
 
-        <a class="project-cover" href="album.html?album=andalusia" aria-label="Open Andalusia album">
-            <div class="cover-content">
-                <div class="cover-image">
-                    <img src="Photos/Andalusia/Andalusia_6.jpg" alt="Andalusia album cover">
-                </div>
-                <div class="details-wrap">
-                    <div class="album-title">ANDALUSIA</div>
-                </div>
-            </div>
-        </a>
-
         <a class="project-cover" href="album.html?album=french-alps" aria-label="Open French Alps album">
             <div class="cover-content">
                 <div class="cover-image">
@@ -432,6 +436,17 @@ body.name-docked .masthead h1 {
                 </div>
                 <div class="details-wrap">
                     <div class="album-title">FRENCH ALPS</div>
+                </div>
+            </div>
+        </a>
+
+        <a class="project-cover" href="album.html?album=strasbourg" aria-label="Open Strasbourg album">
+            <div class="cover-content">
+                <div class="cover-image">
+                    <img src="Photos/Strasbourg/Strasbourg_13.jpg" alt="Strasbourg album cover">
+                </div>
+                <div class="details-wrap">
+                    <div class="album-title">STRASBOURG</div>
                 </div>
             </div>
         </a>
@@ -446,6 +461,20 @@ const updateNameDock = () => {
 
 updateNameDock();
 window.addEventListener("scroll", updateNameDock, { passive: true });
+
+const portfolioItem = document.querySelector(".nav-item");
+const portfolioButton = document.querySelector(".portfolio-trigger");
+
+portfolioButton.addEventListener("click", (event) => {
+    event.stopPropagation();
+    const isOpen = portfolioItem.classList.toggle("menu-open");
+    portfolioButton.setAttribute("aria-expanded", String(isOpen));
+});
+
+document.addEventListener("click", () => {
+    portfolioItem.classList.remove("menu-open");
+    portfolioButton.setAttribute("aria-expanded", "false");
+});
 </script>
 </body>
 </html>
