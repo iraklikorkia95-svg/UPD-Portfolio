@@ -923,10 +923,6 @@ body.name-docked .masthead h1 {
 }
 
 @media (max-width: 45em) {
-    html {
-        scroll-snap-type: y mandatory;
-    }
-
     .site-header {
         position: static;
         width: 90%;
@@ -992,8 +988,6 @@ body.name-docked .masthead h1 {
         display: block;
         min-height: auto;
         margin: 0 0 22px;
-        scroll-snap-align: start;
-        scroll-snap-stop: always;
     }
 
     .photo-frame {
@@ -1321,9 +1315,6 @@ let photos = [];
 let currentIndex = 0;
 const viewportMeta = document.querySelector('meta[name="viewport"]');
 const defaultViewportContent = viewportMeta ? viewportMeta.getAttribute("content") : "";
-let albumTouchStartX = 0;
-let albumTouchStartY = 0;
-let albumTouchStartIndex = 0;
 
 function isMobileViewport() {
     const hasTouch = navigator.maxTouchPoints > 0 || "ontouchstart" in window;
@@ -1595,40 +1586,6 @@ function handleAlbumKeydown(event) {
     scrollToPhoto(nextIndex);
 }
 
-function handleAlbumTouchStart(event) {
-    if (!isMobileViewport() || document.getElementById("lightbox").classList.contains("active") || event.touches.length !== 1) return;
-
-    albumTouchStartX = event.touches[0].clientX;
-    albumTouchStartY = event.touches[0].clientY;
-    albumTouchStartIndex = getNearestPhotoIndex();
-}
-
-function handleAlbumTouchEnd(event) {
-    if (!isMobileViewport() || document.getElementById("lightbox").classList.contains("active") || !albumTouchStartY || !event.changedTouches.length) return;
-
-    const deltaX = event.changedTouches[0].clientX - albumTouchStartX;
-    const deltaY = event.changedTouches[0].clientY - albumTouchStartY;
-    albumTouchStartX = 0;
-    albumTouchStartY = 0;
-
-    if (Math.abs(deltaY) < 48 || Math.abs(deltaY) < Math.abs(deltaX) * 1.2) return;
-
-    const buttons = getPhotoButtons();
-    const direction = deltaY < 0 ? 1 : -1;
-    const nextIndex = Math.max(0, Math.min(buttons.length - 1, albumTouchStartIndex + direction));
-    scrollToPhoto(nextIndex);
-}
-
-function handleAlbumTouchMove(event) {
-    if (!isMobileViewport() || document.getElementById("lightbox").classList.contains("active") || !albumTouchStartY || !event.touches.length) return;
-
-    const deltaX = event.touches[0].clientX - albumTouchStartX;
-    const deltaY = event.touches[0].clientY - albumTouchStartY;
-    if (Math.abs(deltaY) > 12 && Math.abs(deltaY) > Math.abs(deltaX)) {
-        event.preventDefault();
-    }
-}
-
 document.getElementById("lightbox").addEventListener("click", (event) => {
     const target = event.target instanceof Element ? event.target : event.target.parentElement;
     if (target && target.closest(".lightbox-stage img")) {
@@ -1658,10 +1615,10 @@ document.querySelector(".tap-zone-right").addEventListener("click", (event) => {
 document.addEventListener("keydown", handleAlbumKeydown);
 
 initAlbum();
+if (isMobileViewport() && !window.location.hash) {
+    window.requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: "auto" }));
+}
 window.addEventListener("wheel", handleAlbumWheel, { passive: false });
-document.getElementById("albumGrid").addEventListener("touchstart", handleAlbumTouchStart, { passive: true });
-document.getElementById("albumGrid").addEventListener("touchmove", handleAlbumTouchMove, { passive: false });
-document.getElementById("albumGrid").addEventListener("touchend", handleAlbumTouchEnd, { passive: true });
 document.getElementById("lightboxImage").addEventListener("mousemove", followZoomCursor);
 
 const updateNameDock = () => {
