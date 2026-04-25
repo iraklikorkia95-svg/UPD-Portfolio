@@ -6,14 +6,21 @@
 <title>Irakli Korkia</title>
 
 <link rel="preconnect" href="https://api.fontshare.com">
-<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
 
 <style>
 /* Sonia Goydenko inspired album layout - replace this file from git history to undo */
 :root {
-    --bg: #fff;
-    --ink: #282828;
-    --muted: #999;
+    --bg: #e9e3d7;
+    --surface: #f7f3ec;
+    --ink: #26231f;
+    --muted: #6f685d;
+    --accent: #5f696e;
+    --accent-warm: #b7795f;
+    --hover: rgba(95, 105, 110, 0.12);
+    --shadow: rgba(38, 35, 31, 0.16);
+    --display: "Clash Display", "Satoshi", "Helvetica Neue", Arial, sans-serif;
+    --body: "Satoshi", "Helvetica Neue", Arial, sans-serif;
 }
 
 * {
@@ -31,7 +38,7 @@ body {
     overflow-x: hidden;
     background: var(--bg);
     color: var(--ink);
-    font-family: "Satoshi", "Helvetica Neue", Arial, sans-serif;
+    font-family: var(--body);
     -webkit-font-smoothing: antialiased;
 }
 
@@ -52,13 +59,16 @@ a {
     gap: 18px;
     min-height: 70px;
     padding: 23px 5%;
-    background: rgba(255, 255, 255, 0.96);
+    background: rgba(233, 227, 215, 0.93);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(38, 35, 31, 0.08);
 }
 
 .corner-name {
     color: var(--ink);
+    font-family: var(--display);
     font-size: 20px;
-    font-weight: 900;
+    font-weight: 700;
     line-height: 24px;
     text-transform: uppercase;
     opacity: 1;
@@ -83,9 +93,10 @@ a {
     background: transparent;
     border: 0;
     font-family: inherit;
-    font-size: 20px;
-    font-weight: 400;
-    line-height: 24px;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 20px;
+    text-transform: uppercase;
     cursor: pointer;
 }
 
@@ -94,6 +105,7 @@ a {
 .portfolio-trigger:hover,
 .nav-item:focus-within .portfolio-trigger,
 .nav-item:hover .portfolio-trigger {
+    color: var(--accent-warm);
     font-weight: 700;
 }
 
@@ -108,8 +120,9 @@ a {
     z-index: 40;
     min-width: 180px;
     padding: 12px 0;
-    background: #fff;
-    box-shadow: 0 10px 34px rgba(0, 0, 0, 0.09);
+    background: var(--surface);
+    border-top: 2px solid var(--accent);
+    box-shadow: 0 10px 34px var(--shadow);
     opacity: 0;
     visibility: hidden;
     transform: translateY(-6px);
@@ -126,16 +139,19 @@ a {
 
 .album-dropdown a {
     display: block;
-    padding: 8px 16px;
-    font-size: 17px;
-    line-height: 22px;
+    padding: 9px 16px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 18px;
     white-space: nowrap;
     transition: background-color 0.22s ease, color 0.22s ease, padding-left 0.22s ease, font-weight 0.22s ease;
 }
 
 .album-dropdown a:hover,
 .album-dropdown a:focus {
-    background: rgba(40, 40, 40, 0.04);
+    background: var(--hover);
+    color: var(--ink);
     padding-left: 22px;
     font-weight: 700;
 }
@@ -155,8 +171,9 @@ a {
 
 .masthead h1 {
     color: var(--ink);
+    font-family: var(--display);
     font-size: clamp(2rem, 7.2vw, 70px);
-    font-weight: 900;
+    font-weight: 700;
     line-height: 1;
     letter-spacing: 0;
     text-transform: uppercase;
@@ -195,7 +212,7 @@ body.name-docked .masthead h1 {
     display: block;
     width: calc((100% - 56px) / 3);
     margin: 0;
-    color: #fff;
+    color: var(--ink);
 }
 
 .cover-content {
@@ -206,6 +223,7 @@ body.name-docked .masthead h1 {
 .cover-image {
     position: relative;
     overflow: hidden;
+    box-shadow: 0 14px 34px rgba(38, 35, 31, 0.11);
 }
 
 .cover-image::before {
@@ -227,7 +245,8 @@ body.name-docked .masthead h1 {
     height: calc(100% + 2px);
     object-fit: cover;
     transform: translate(-50%, -50%) scale(1.035);
-    transition: transform 0.45s ease;
+    filter: saturate(0.96) contrast(1.02);
+    transition: filter 0.45s ease, transform 0.45s ease;
 }
 
 .details-wrap {
@@ -237,22 +256,36 @@ body.name-docked .masthead h1 {
 .album-title {
     width: 100%;
     color: var(--ink);
-    font-size: 20px;
+    font-size: 13px;
     font-weight: 700;
-    line-height: 24px;
+    line-height: 18px;
     text-align: center;
+    text-transform: uppercase;
+    transition: color 0.22s ease;
 }
 
 .project-cover:hover .cover-image img {
-    transform: translate(-50%, -50%) scale(1);
+    filter: saturate(1.03) contrast(1.04);
+    transform: translate(-50%, -50%) scale(1.012);
+}
+
+.project-cover:hover .album-title {
+    color: var(--accent-warm);
 }
 
 .back-to-top {
     display: block;
     margin-top: 26px;
-    color: var(--ink);
-    font-size: 15px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
     text-align: center;
+    text-transform: uppercase;
+    transition: color 0.22s ease;
+}
+
+.back-to-top:hover {
+    color: var(--accent-warm);
 }
 
 @media (max-width: 932px) {
@@ -262,11 +295,15 @@ body.name-docked .masthead h1 {
         padding: 18px 5%;
     }
 
-    .corner-name,
-    .nav a,
-    .portfolio-trigger {
+    .corner-name {
         font-size: 18px;
         line-height: 22px;
+    }
+
+    .nav a,
+    .portfolio-trigger {
+        font-size: 14px;
+        line-height: 18px;
     }
 
     .album-dropdown {
@@ -319,12 +356,17 @@ body.name-docked .masthead h1 {
         max-width: calc(100% - 112px);
     }
 
-    .corner-name,
-    .nav a,
-    .portfolio-trigger {
+    .corner-name {
         padding-right: 13px;
         font-size: 16px;
         line-height: 20px;
+    }
+
+    .nav a,
+    .portfolio-trigger {
+        padding-right: 13px;
+        font-size: 13px;
+        line-height: 17px;
     }
 
     .corner-name {
@@ -364,6 +406,257 @@ body.name-docked .masthead h1 {
     .album-title {
         font-size: 14px;
         line-height: 17px;
+    }
+}
+
+/* Theo Gosselin inspired portfolio treatment */
+:root {
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --ink: #222222;
+    --muted: #959595;
+    --accent: #ed8374;
+    --hover: transparent;
+    --shadow: transparent;
+    --display: Georgia, serif;
+    --body: "Courier New", Menlo, monospace;
+}
+
+body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.site-header {
+    position: fixed;
+    top: 80px;
+    left: 60px;
+    right: auto;
+    bottom: auto;
+    z-index: 20;
+    display: block;
+    width: 150px;
+    min-height: 0;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    backdrop-filter: none;
+}
+
+.corner-name {
+    display: block;
+    margin-bottom: 42px;
+    color: #111111;
+    font-family: Georgia, serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-transform: none;
+}
+
+.corner-name:hover,
+.nav a:hover,
+.portfolio-trigger:hover,
+.nav-item:hover .portfolio-trigger {
+    color: var(--accent);
+}
+
+.nav {
+    display: block;
+    margin: 0;
+    max-width: none;
+}
+
+.nav a,
+.portfolio-trigger {
+    display: block;
+    padding: 0;
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.6;
+    text-align: left;
+    text-transform: none;
+}
+
+.nav-item {
+    margin: 1.25em 0;
+}
+
+.portfolio-trigger {
+    margin-bottom: 0;
+    cursor: default;
+}
+
+.album-dropdown {
+    position: static;
+    min-width: 0;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+}
+
+.album-dropdown a {
+    padding: 0;
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.6;
+    text-transform: none;
+}
+
+.album-dropdown a:hover,
+.album-dropdown a:focus {
+    padding-left: 0;
+    background: transparent;
+    color: #aaaaaa;
+    font-weight: 400;
+}
+
+.masthead {
+    display: none;
+}
+
+.site-container {
+    width: calc(100% - 250px);
+    max-width: 1160px;
+    margin: 0 60px 0 310px;
+    padding: 80px 0 70px;
+}
+
+.project-covers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    margin-right: -30px;
+    padding: 0;
+}
+
+.project-cover,
+.project-cover:nth-child(2n),
+.project-cover:nth-child(3n) {
+    width: calc(33.333% - 30px);
+    margin: 0 30px 30px 0;
+}
+
+.cover-content,
+.cover-image {
+    overflow: hidden;
+}
+
+.cover-image {
+    box-shadow: none;
+    transition: opacity 0.15s ease;
+}
+
+.cover-image::before {
+    padding-bottom: 66.5%;
+}
+
+.cover-image img {
+    transform: translate(-50%, -50%) scale(1);
+    filter: none;
+    transition: none;
+}
+
+.details-wrap {
+    padding-top: 5px;
+}
+
+.album-title {
+    color: #444444;
+    background: #ffffff;
+    font-family: Georgia, serif;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.4;
+    text-align: left;
+    text-transform: none;
+    transition: none;
+}
+
+.project-cover:hover .cover-image {
+    opacity: 0.8;
+}
+
+.project-cover:hover .cover-image img {
+    filter: none;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.project-cover:hover .album-title {
+    color: #999999;
+}
+
+.back-to-top {
+    display: none;
+}
+
+@media (max-width: 75em) {
+    .site-header {
+        left: 40px;
+        width: 140px;
+    }
+
+    .site-container {
+        width: calc(100% - 215px);
+        margin-left: 255px;
+        margin-right: 40px;
+    }
+}
+
+@media (max-width: 45em) {
+    .site-header {
+        position: static;
+        width: 90%;
+        margin: 0 auto 4em;
+        padding-top: 3em;
+    }
+
+    .corner-name {
+        margin-bottom: 24px;
+        max-width: none;
+        font-size: 16px;
+        line-height: 1.2;
+    }
+
+    .nav {
+        display: block;
+        max-width: none;
+    }
+
+    .nav a,
+    .portfolio-trigger,
+    .album-dropdown a {
+        padding: 0;
+        font-size: 13.2px;
+        line-height: 1.8;
+    }
+
+    .site-container {
+        width: 90%;
+        margin: 0 auto;
+        padding-top: 0;
+    }
+
+    .project-covers {
+        margin-right: 0;
+    }
+
+    .project-cover,
+    .project-cover:nth-child(2n),
+    .project-cover:nth-child(3n) {
+        width: 100%;
+        margin: 0 0 30px;
     }
 }
 </style>

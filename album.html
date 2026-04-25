@@ -6,14 +6,22 @@
 <title>Album - Irakli Korkia</title>
 
 <link rel="preconnect" href="https://api.fontshare.com">
-<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
 
 <style>
 :root {
-    --bg: #fff;
-    --ink: #282828;
-    --muted: #8a8a8a;
-    --line: #ececec;
+    --bg: #e9e3d7;
+    --surface: #f7f3ec;
+    --photo-mat: #fffaf0;
+    --ink: #26231f;
+    --muted: #6f685d;
+    --line: #d2c7b8;
+    --accent: #5f696e;
+    --accent-warm: #b7795f;
+    --hover: rgba(95, 105, 110, 0.12);
+    --shadow: rgba(38, 35, 31, 0.16);
+    --display: "Clash Display", "Satoshi", "Helvetica Neue", Arial, sans-serif;
+    --body: "Satoshi", "Helvetica Neue", Arial, sans-serif;
 }
 
 * {
@@ -27,7 +35,7 @@ body {
     overflow-x: hidden;
     background: var(--bg);
     color: var(--ink);
-    font-family: "Satoshi", "Helvetica Neue", Arial, sans-serif;
+    font-family: var(--body);
     -webkit-font-smoothing: antialiased;
 }
 
@@ -59,7 +67,9 @@ button {
     gap: 18px;
     min-height: 70px;
     padding: 23px 5%;
-    background: rgba(255, 255, 255, 0.96);
+    background: rgba(233, 227, 215, 0.93);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(38, 35, 31, 0.08);
 }
 
 .corner-name {
@@ -67,8 +77,9 @@ button {
     gap: 8px;
     align-items: baseline;
     color: var(--ink);
+    font-family: var(--display);
     font-size: 20px;
-    font-weight: 900;
+    font-weight: 700;
     line-height: 24px;
     text-transform: uppercase;
     opacity: 1;
@@ -102,9 +113,10 @@ body.name-docked .corner-album {
     background: transparent;
     border: 0;
     font-family: inherit;
-    font-size: 20px;
-    font-weight: 400;
-    line-height: 24px;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 20px;
+    text-transform: uppercase;
     cursor: pointer;
 }
 
@@ -113,6 +125,7 @@ body.name-docked .corner-album {
 .portfolio-trigger:hover,
 .nav-item:focus-within .portfolio-trigger,
 .nav-item:hover .portfolio-trigger {
+    color: var(--accent-warm);
     font-weight: 700;
 }
 
@@ -127,8 +140,9 @@ body.name-docked .corner-album {
     z-index: 40;
     min-width: 180px;
     padding: 12px 0;
-    background: #fff;
-    box-shadow: 0 10px 34px rgba(0, 0, 0, 0.09);
+    background: var(--surface);
+    border-top: 2px solid var(--accent);
+    box-shadow: 0 10px 34px var(--shadow);
     opacity: 0;
     visibility: hidden;
     transform: translateY(-6px);
@@ -145,16 +159,19 @@ body.name-docked .corner-album {
 
 .album-dropdown a {
     display: block;
-    padding: 8px 16px;
-    font-size: 17px;
-    line-height: 22px;
+    padding: 9px 16px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 18px;
     white-space: nowrap;
     transition: background-color 0.22s ease, color 0.22s ease, padding-left 0.22s ease, font-weight 0.22s ease;
 }
 
 .album-dropdown a:hover,
 .album-dropdown a:focus {
-    background: rgba(40, 40, 40, 0.04);
+    background: var(--hover);
+    color: var(--ink);
     padding-left: 22px;
     font-weight: 700;
 }
@@ -170,8 +187,9 @@ body.name-docked .corner-album {
 
 .masthead h1 {
     color: var(--ink);
+    font-family: var(--display);
     font-size: clamp(2rem, 7vw, 70px);
-    font-weight: 900;
+    font-weight: 700;
     line-height: 1;
     text-transform: uppercase;
     transform-origin: center;
@@ -214,8 +232,8 @@ body.name-docked .masthead h1 {
 .photo-frame {
     position: relative;
     overflow: hidden;
-    background: #fff;
-    box-shadow: 0 4px 20px rgba(62, 48, 26, 0.08);
+    background: var(--photo-mat);
+    box-shadow: 0 14px 34px rgba(38, 35, 31, 0.12);
     padding: 12px;
 }
 
@@ -231,13 +249,15 @@ body.name-docked .masthead h1 {
     width: calc(100% - 24px);
     height: calc(100% - 24px);
     object-fit: contain;
-    background: #fff;
+    background: var(--photo-mat);
+    filter: saturate(0.96) contrast(1.02);
     transform: scale(1);
-    transition: transform 0.45s ease;
+    transition: filter 0.45s ease, transform 0.45s ease;
 }
 
 .photo-button:hover .photo-frame img {
-    transform: scale(1.045);
+    filter: saturate(1.03) contrast(1.04);
+    transform: scale(1.026);
 }
 
 .lightbox {
@@ -245,7 +265,7 @@ body.name-docked .masthead h1 {
     inset: 0;
     z-index: 100;
     display: none;
-    background: #fff;
+    background: var(--bg);
 }
 
 .lightbox.active {
@@ -260,14 +280,21 @@ body.name-docked .masthead h1 {
     gap: 20px;
     padding: 18px 5%;
     border-bottom: 1px solid var(--line);
+    background: rgba(233, 227, 215, 0.93);
+    backdrop-filter: blur(14px);
 }
 
 .lightbox-title,
 .lightbox-close {
     color: var(--ink);
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 700;
-    line-height: 24px;
+    line-height: 20px;
+    text-transform: uppercase;
+}
+
+.lightbox-close:hover {
+    color: var(--accent-warm);
 }
 
 .lightbox-close {
@@ -305,7 +332,7 @@ body.name-docked .masthead h1 {
     width: 46px;
     height: 46px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.78);
+    background: rgba(247, 243, 236, 0.84);
     color: var(--ink);
     font-size: 34px;
     line-height: 46px;
@@ -313,7 +340,8 @@ body.name-docked .masthead h1 {
 }
 
 .side-btn:hover {
-    background: #fff;
+    background: var(--surface);
+    color: var(--accent-warm);
 }
 
 .prev {
@@ -332,9 +360,11 @@ body.name-docked .masthead h1 {
 
 .metadata-panel h2 {
     margin-bottom: 16px;
-    font-size: 20px;
+    color: var(--accent);
+    font-family: var(--display);
+    font-size: 18px;
     font-weight: 700;
-    line-height: 24px;
+    line-height: 22px;
 }
 
 .meta-list {
@@ -347,7 +377,7 @@ body.name-docked .masthead h1 {
     grid-template-columns: 68px minmax(0, 1fr);
     gap: 10px;
     color: var(--ink);
-    font-size: 13px;
+    font-size: 12px;
     line-height: 18px;
 }
 
@@ -362,11 +392,15 @@ body.name-docked .masthead h1 {
         padding: 18px 5%;
     }
 
-    .corner-name,
-    .nav a,
-    .portfolio-trigger {
+    .corner-name {
         font-size: 18px;
         line-height: 22px;
+    }
+
+    .nav a,
+    .portfolio-trigger {
+        font-size: 14px;
+        line-height: 18px;
     }
 
     .album-dropdown {
@@ -427,12 +461,17 @@ body.name-docked .masthead h1 {
         max-width: calc(100% - 112px);
     }
 
-    .corner-name,
-    .nav a,
-    .portfolio-trigger {
+    .corner-name {
         padding-right: 13px;
         font-size: 16px;
         line-height: 20px;
+    }
+
+    .nav a,
+    .portfolio-trigger {
+        padding-right: 13px;
+        font-size: 13px;
+        line-height: 17px;
     }
 
     .corner-name {
@@ -473,6 +512,320 @@ body.name-docked .masthead h1 {
         height: 38px;
         font-size: 28px;
         line-height: 38px;
+    }
+}
+
+/* Theo Gosselin inspired portfolio treatment */
+:root {
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --photo-mat: #ffffff;
+    --ink: #222222;
+    --muted: #959595;
+    --line: #eeeeee;
+    --accent: #ed8374;
+    --hover: transparent;
+    --shadow: transparent;
+    --display: Georgia, serif;
+    --body: "Courier New", Menlo, monospace;
+}
+
+body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.site-header {
+    position: fixed;
+    top: 80px;
+    left: 60px;
+    right: auto;
+    bottom: auto;
+    z-index: 20;
+    display: block;
+    width: 150px;
+    min-height: 0;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    backdrop-filter: none;
+}
+
+.corner-name {
+    display: block;
+    margin-bottom: 42px;
+    color: #111111;
+    font-family: Georgia, serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-transform: none;
+}
+
+.corner-album {
+    display: block;
+    color: var(--muted);
+    opacity: 1;
+}
+
+.corner-name:hover,
+.nav a:hover,
+.portfolio-trigger:hover,
+.nav-item:hover .portfolio-trigger {
+    color: var(--accent);
+}
+
+.nav {
+    display: block;
+    margin: 0;
+    max-width: none;
+}
+
+.nav a,
+.portfolio-trigger {
+    display: block;
+    padding: 0;
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.6;
+    text-align: left;
+    text-transform: none;
+}
+
+.nav-item {
+    margin: 1.25em 0;
+}
+
+.portfolio-trigger {
+    margin-bottom: 0;
+    cursor: default;
+}
+
+.album-dropdown {
+    position: static;
+    min-width: 0;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+}
+
+.album-dropdown a {
+    padding: 0;
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.6;
+    text-transform: none;
+}
+
+.album-dropdown a:hover,
+.album-dropdown a:focus {
+    padding-left: 0;
+    background: transparent;
+    color: #aaaaaa;
+    font-weight: 400;
+}
+
+.masthead {
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: calc(100% - 250px);
+    min-height: 0;
+    margin: 0 60px 0 310px;
+    padding: 80px 0 30px;
+    text-align: left;
+}
+
+.masthead h1 {
+    color: var(--ink);
+    font-family: Georgia, serif;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-transform: none;
+    transition: none;
+}
+
+body.name-docked .masthead h1 {
+    opacity: 1;
+    transform: none;
+}
+
+.masthead p {
+    margin-top: 8px;
+    color: var(--muted);
+    font-family: var(--body);
+    font-size: 12px;
+    line-height: 1.5;
+    text-transform: none;
+}
+
+.site-container {
+    width: calc(100% - 250px);
+    max-width: 1160px;
+    margin: 0 60px 0 310px;
+    padding-bottom: 70px;
+}
+
+.album-grid {
+    display: block;
+    padding: 0;
+}
+
+.photo-button {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    text-align: left;
+}
+
+.photo-frame {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    transition: opacity 0.15s ease, transform 0.28s cubic-bezier(0.165, 0.84, 0.44, 1);
+    will-change: transform;
+}
+
+.photo-frame::before {
+    display: none;
+}
+
+.photo-frame img {
+    position: static;
+    display: block;
+    width: auto;
+    max-width: 100%;
+    max-height: calc(100vh - 80px);
+    height: auto;
+    margin: 0;
+    background: transparent;
+    filter: none;
+    object-fit: contain;
+    transition: none;
+}
+
+.photo-button:hover .photo-frame {
+    opacity: 0.8;
+}
+
+.photo-button:hover .photo-frame img {
+    filter: none;
+    transform: none;
+}
+
+.lightbox {
+    background: #ffffff;
+}
+
+.lightbox-bar {
+    background: #ffffff;
+    border-bottom: 1px solid var(--line);
+    backdrop-filter: none;
+}
+
+.lightbox-title,
+.lightbox-close,
+.metadata-panel,
+.meta-row {
+    font-family: var(--body);
+    text-transform: none;
+}
+
+.lightbox-title {
+    font-size: 12px;
+}
+
+.metadata-panel h2 {
+    color: var(--ink);
+    font-family: Georgia, serif;
+    font-size: 18px;
+    line-height: 1.2;
+}
+
+.side-btn {
+    background: rgba(255, 255, 255, 0.78);
+}
+
+.side-btn:hover,
+.lightbox-close:hover {
+    color: var(--accent);
+}
+
+@media (max-width: 75em) {
+    .site-header {
+        left: 40px;
+        width: 140px;
+    }
+
+    .masthead,
+    .site-container {
+        width: calc(100% - 215px);
+        margin-left: 255px;
+        margin-right: 40px;
+    }
+}
+
+@media (max-width: 45em) {
+    .site-header {
+        position: static;
+        width: 90%;
+        margin: 0 auto 4em;
+        padding-top: 3em;
+    }
+
+    .corner-name {
+        margin-bottom: 24px;
+        max-width: none;
+        font-size: 16px;
+        line-height: 1.2;
+    }
+
+    .nav {
+        display: block;
+        max-width: none;
+    }
+
+    .nav a,
+    .portfolio-trigger,
+    .album-dropdown a {
+        padding: 0;
+        font-size: 13.2px;
+        line-height: 1.8;
+    }
+
+    .masthead,
+    .site-container {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .masthead {
+        padding: 0 0 30px;
+    }
+
+    .masthead h1 {
+        font-size: 26px;
+        line-height: 1.2;
+    }
+
+    .photo-button {
+        min-height: calc(100vh - 20px);
     }
 }
 </style>
@@ -730,6 +1083,7 @@ function initAlbum() {
         const button = document.createElement("button");
         button.className = "photo-button";
         button.type = "button";
+        button.dataset.photoIndex = String(index);
         button.setAttribute("aria-label", `Open ${album.title} photo ${photo.number}`);
         button.innerHTML = `
             <div class="photo-frame">
@@ -782,6 +1136,139 @@ function previousPhoto() {
     displayPhoto(currentIndex - 1);
 }
 
+const scrollState = {
+    activeIndex: 0,
+    accumulator: 0,
+    direction: 0,
+    locked: false,
+    resetTimer: 0
+};
+
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const wheelThreshold = 150;
+const boundaryTolerance = 3;
+const lockDuration = 760;
+const resistancePull = 12;
+const maxWheelStep = 55;
+
+function getPhotoButtons() {
+    return Array.from(document.querySelectorAll(".photo-button"));
+}
+
+function getNearestPhotoIndex() {
+    const buttons = getPhotoButtons();
+    if (!buttons.length) return 0;
+
+    const viewportAnchor = window.innerHeight * 0.48;
+    let nearestIndex = 0;
+    let nearestDistance = Infinity;
+
+    buttons.forEach((button, index) => {
+        const rect = button.getBoundingClientRect();
+        const distance = Math.abs(rect.top + rect.height / 2 - viewportAnchor);
+        if (distance < nearestDistance) {
+            nearestDistance = distance;
+            nearestIndex = index;
+        }
+    });
+
+    return nearestIndex;
+}
+
+function clearPhotoResistance(button) {
+    const frame = button && button.querySelector(".photo-frame");
+    if (frame) frame.style.transform = "";
+}
+
+function applyPhotoResistance(button, direction) {
+    const frame = button.querySelector(".photo-frame");
+    const pull = Math.min(Math.abs(scrollState.accumulator) / wheelThreshold, 1) * resistancePull;
+    frame.style.transform = `translateY(${direction > 0 ? -pull : pull}px)`;
+}
+
+function scrollToPhoto(index) {
+    const buttons = getPhotoButtons();
+    const target = buttons[index];
+    if (!target) return;
+
+    scrollState.activeIndex = index;
+    scrollState.accumulator = 0;
+    scrollState.locked = true;
+    getPhotoButtons().forEach(clearPhotoResistance);
+
+    const targetTop = target.getBoundingClientRect().top + window.scrollY;
+    const targetOffset = Math.max((window.innerHeight - target.offsetHeight) / 2, 0);
+
+    window.scrollTo({
+        top: targetTop - targetOffset,
+        behavior: prefersReducedMotion ? "auto" : "smooth"
+    });
+
+    window.setTimeout(() => {
+        scrollState.locked = false;
+    }, prefersReducedMotion ? 120 : lockDuration);
+}
+
+function resetWheelAccumulator() {
+    window.clearTimeout(scrollState.resetTimer);
+    scrollState.resetTimer = window.setTimeout(() => {
+        scrollState.accumulator = 0;
+        const active = getPhotoButtons()[scrollState.activeIndex];
+        clearPhotoResistance(active);
+    }, 180);
+}
+
+function handleAlbumWheel(event) {
+    if (event.ctrlKey || document.getElementById("lightbox").classList.contains("active")) return;
+
+    const buttons = getPhotoButtons();
+    if (!buttons.length) return;
+
+    const direction = Math.sign(event.deltaY);
+    if (!direction) return;
+
+    const albumRect = document.getElementById("albumGrid").getBoundingClientRect();
+    const isPastAlbum = albumRect.bottom < 0 || albumRect.top > window.innerHeight;
+    if (isPastAlbum) return;
+
+    event.preventDefault();
+
+    if (scrollState.locked) return;
+
+    if (scrollState.direction !== direction) {
+        clearPhotoResistance(buttons[scrollState.activeIndex]);
+        scrollState.accumulator = 0;
+        scrollState.direction = direction;
+    }
+
+    const activeIndex = getNearestPhotoIndex();
+    const activeButton = buttons[activeIndex];
+    const rect = activeButton.getBoundingClientRect();
+
+    scrollState.activeIndex = activeIndex;
+
+    if (Math.abs(rect.top) > boundaryTolerance) {
+        scrollToPhoto(activeIndex);
+        return;
+    }
+
+    scrollState.accumulator += Math.min(Math.abs(event.deltaY), maxWheelStep);
+    applyPhotoResistance(activeButton, direction);
+    resetWheelAccumulator();
+
+    if (scrollState.accumulator < wheelThreshold) return;
+
+    const nextIndex = Math.max(0, Math.min(buttons.length - 1, activeIndex + direction));
+    if (nextIndex === activeIndex) {
+        scrollState.accumulator = 0;
+        clearPhotoResistance(activeButton);
+        window.scrollBy({ top: event.deltaY });
+        return;
+    }
+
+    scrollToPhoto(nextIndex);
+}
+
 document.getElementById("lightbox").addEventListener("click", (event) => {
     const target = event.target instanceof Element ? event.target : event.target.parentElement;
     if (target && target.closest(".lightbox-stage img, .side-btn, .metadata-panel, .lightbox-close")) return;
@@ -796,6 +1283,7 @@ document.addEventListener("keydown", (event) => {
 });
 
 initAlbum();
+window.addEventListener("wheel", handleAlbumWheel, { passive: false });
 
 const updateNameDock = () => {
     document.body.classList.toggle("name-docked", window.scrollY > 80);
