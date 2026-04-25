@@ -432,6 +432,59 @@ body.name-docked .masthead h1 {
     right: 8px;
 }
 
+.tap-zone {
+    display: none;
+}
+
+body.mobile-lightbox .lightbox-tool,
+body.mobile-lightbox .side-btn {
+    display: none;
+}
+
+body.mobile-lightbox .lightbox-stage,
+body.mobile-lightbox .lightbox-stage img {
+    touch-action: none;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+body.mobile-lightbox .lightbox-stage img,
+body.mobile-lightbox .lightbox.zoomed .lightbox-stage img {
+    cursor: default;
+    transform: none;
+}
+
+body.mobile-lightbox .tap-zone {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    width: 50%;
+    border: 0;
+    background: transparent;
+    color: rgba(34, 34, 34, 0.58);
+    font-family: var(--body);
+    font-size: 11px;
+    letter-spacing: 0;
+    line-height: 1;
+    text-transform: uppercase;
+    touch-action: manipulation;
+}
+
+body.mobile-lightbox .tap-zone-left {
+    left: 0;
+    justify-content: flex-start;
+    padding-left: 10px;
+}
+
+body.mobile-lightbox .tap-zone-right {
+    right: 0;
+    justify-content: flex-end;
+    padding-right: 10px;
+}
+
 .metadata-panel {
     align-self: center;
     border-left: 1px solid var(--line);
@@ -960,11 +1013,52 @@ body.name-docked .masthead h1 {
         display: none;
     }
 
+    .side-btn {
+        display: none;
+    }
+
     .lightbox-stage,
     .lightbox-stage img {
         touch-action: none;
         user-select: none;
         -webkit-user-drag: none;
+    }
+
+    .lightbox-stage img,
+    .lightbox.zoomed .lightbox-stage img {
+        cursor: default;
+        transform: none;
+    }
+
+    .tap-zone {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        width: 50%;
+        border: 0;
+        background: transparent;
+        color: rgba(34, 34, 34, 0.58);
+        font-family: var(--body);
+        font-size: 11px;
+        letter-spacing: 0;
+        line-height: 1;
+        text-transform: uppercase;
+        touch-action: manipulation;
+    }
+
+    .tap-zone-left {
+        left: 0;
+        justify-content: flex-start;
+        padding-left: 10px;
+    }
+
+    .tap-zone-right {
+        right: 0;
+        justify-content: flex-end;
+        padding-right: 10px;
     }
 }
 </style>
@@ -1018,6 +1112,8 @@ body.name-docked .masthead h1 {
             <button class="side-btn prev" type="button" onclick="previousPhoto()" aria-label="Previous photo">&#8249;</button>
             <img id="lightboxImage" src="" alt="">
             <button class="side-btn next" type="button" onclick="nextPhoto()" aria-label="Next photo">&#8250;</button>
+            <button class="tap-zone tap-zone-left" type="button" aria-label="Previous photo">Prev</button>
+            <button class="tap-zone tap-zone-right" type="button" aria-label="Next photo">Next</button>
         </div>
         <aside class="metadata-panel" aria-label="Photo metadata">
             <h2>Metadata</h2>
@@ -1223,12 +1319,25 @@ const slug = params.get("album") || "strasbourg";
 const album = ALBUMS[slug] || ALBUMS.strasbourg;
 let photos = [];
 let currentIndex = 0;
+const viewportMeta = document.querySelector('meta[name="viewport"]');
+const defaultViewportContent = viewportMeta ? viewportMeta.getAttribute("content") : "";
 let albumTouchStartX = 0;
 let albumTouchStartY = 0;
 let albumTouchStartIndex = 0;
 
 function isMobileViewport() {
-    return window.matchMedia("(max-width: 45em), (hover: none), (pointer: coarse)").matches;
+    const hasTouch = navigator.maxTouchPoints > 0 || "ontouchstart" in window;
+    const mobileUserAgent = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+    const compactTouch = hasTouch && Math.min(window.innerWidth, window.screen ? window.screen.width : window.innerWidth) <= 1024;
+    return mobileUserAgent || compactTouch || window.matchMedia("(max-width: 45em), (hover: none), (pointer: coarse)").matches;
+}
+
+function setMobileZoomLock(isLocked) {
+    if (!viewportMeta) return;
+    viewportMeta.setAttribute(
+        "content",
+        isLocked ? "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" : defaultViewportContent
+    );
 }
 
 function makePhoto(album, number) {
@@ -1309,7 +1418,11 @@ function displayPhoto(index) {
 
 function openLightbox(index) {
     displayPhoto(index);
-    if (isMobileViewport()) setZoom(false);
+    document.body.classList.toggle("mobile-lightbox", isMobileViewport());
+    if (document.body.classList.contains("mobile-lightbox")) {
+        setZoom(false);
+        setMobileZoomLock(true);
+    }
     document.getElementById("lightbox").classList.add("active");
     document.getElementById("lightbox").setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
@@ -1317,6 +1430,8 @@ function openLightbox(index) {
 
 function closeLightbox() {
     setZoom(false);
+    setMobileZoomLock(false);
+    document.body.classList.remove("mobile-lightbox");
     document.getElementById("lightbox").classList.remove("active");
     document.getElementById("lightbox").setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
@@ -1354,7 +1469,7 @@ function followZoomCursor(event) {
 }
 
 function toggleZoom(event) {
-    if (isMobileViewport()) return;
+    if (isMobileViewport() || document.body.classList.contains("mobile-lightbox")) return;
 
     const lightbox = document.getElementById("lightbox");
     const shouldZoom = !lightbox.classList.contains("zoomed");
@@ -1518,21 +1633,26 @@ document.getElementById("lightbox").addEventListener("click", (event) => {
     const target = event.target instanceof Element ? event.target : event.target.parentElement;
     if (target && target.closest(".lightbox-stage img")) {
         event.preventDefault();
-        if (isMobileViewport()) {
-            const image = document.getElementById("lightboxImage");
-            const rect = image.getBoundingClientRect();
-            if (event.clientX >= rect.left + rect.width / 2) {
-                nextPhoto();
-            } else {
-                previousPhoto();
-            }
-            return;
-        }
+        if (isMobileViewport() || document.body.classList.contains("mobile-lightbox")) return;
         toggleZoom(event);
         return;
     }
-    if (target && target.closest(".side-btn, .metadata-panel, .lightbox-tool, .lightbox-close")) return;
+    if (target && target.closest(".side-btn, .tap-zone, .metadata-panel, .lightbox-tool, .lightbox-close")) return;
     closeLightbox();
+});
+
+document.querySelector(".tap-zone-left").addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setZoom(false);
+    previousPhoto();
+});
+
+document.querySelector(".tap-zone-right").addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setZoom(false);
+    nextPhoto();
 });
 
 document.addEventListener("keydown", handleAlbumKeydown);
