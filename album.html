@@ -1853,10 +1853,33 @@ downloadTrigger.addEventListener("click", (event) => {
     downloadTrigger.setAttribute("aria-expanded", String(isOpen));
 });
 
+async function downloadFile(url, filename) {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`Could not download ${url}`);
+
+    const blob = await response.blob();
+    const objectUrl = URL.createObjectURL(blob);
+    const downloadLink = document.createElement("a");
+    downloadLink.href = objectUrl;
+    downloadLink.download = filename;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    downloadLink.remove();
+    URL.revokeObjectURL(objectUrl);
+}
+
 document.querySelectorAll(".download-menu a").forEach((link) => {
-    link.addEventListener("click", () => {
+    link.addEventListener("click", async (event) => {
+        event.preventDefault();
+        event.stopPropagation();
         downloadMenuWrap.classList.remove("menu-open");
         downloadTrigger.setAttribute("aria-expanded", "false");
+
+        try {
+            await downloadFile(link.href, link.download || "photo.jpg");
+        } catch {
+            window.location.href = link.href;
+        }
     });
 });
 
