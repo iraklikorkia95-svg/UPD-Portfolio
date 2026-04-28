@@ -1033,15 +1033,17 @@ body.name-docked .masthead h1 {
         aspect-ratio: 1;
         height: auto;
         min-height: 0;
-        padding: 0;
+        padding: 10px;
         overflow: hidden;
+        background: var(--bg);
     }
 
     .photo-frame img {
         width: 100%;
         max-height: none;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
+        background: var(--bg);
     }
 
     .lightbox-tool {
@@ -1419,6 +1421,7 @@ function makePhoto(album, number) {
             number,
             src,
             thumbnailSrc: makeThumbnailSrc(src),
+            displaySrc: makeDisplaySrc(src),
             meta: album.meta[number] || []
         };
     }
@@ -1429,12 +1432,17 @@ function makePhoto(album, number) {
         number,
         src,
         thumbnailSrc: makeThumbnailSrc(src),
+        displaySrc: makeDisplaySrc(src),
         meta: album.meta[number] || []
     };
 }
 
 function makeThumbnailSrc(src) {
     return src.replace(/^Photos\//, "Photos/Thumbnails/");
+}
+
+function makeDisplaySrc(src) {
+    return src.replace(/^Photos\//, "Photos/Display/");
 }
 
 function initAlbum() {
@@ -1454,7 +1462,7 @@ function initAlbum() {
         button.setAttribute("aria-label", `Open ${album.title} photo ${photo.number}`);
         button.innerHTML = `
             <div class="photo-frame">
-                <img src="${photo.thumbnailSrc}" data-full-src="${photo.src}" data-thumbnail-src="${photo.thumbnailSrc}" alt="${album.title} photo ${photo.number}" loading="${index === 0 ? "eager" : "lazy"}" decoding="async"${index === 0 ? ' fetchpriority="high"' : ""}>
+                <img src="${photo.displaySrc}" data-full-src="${photo.src}" data-display-src="${photo.displaySrc}" data-thumbnail-src="${photo.thumbnailSrc}" alt="${album.title} photo ${photo.number}" loading="${index === 0 ? "eager" : "lazy"}" decoding="async"${index === 0 ? ' fetchpriority="high"' : ""}>
             </div>
         `;
         button.querySelector("img").addEventListener("click", (event) => {
