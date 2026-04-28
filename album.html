@@ -1171,7 +1171,7 @@ body.name-docked .masthead h1 {
                 <button type="button" tabindex="-1" onclick="nextPhoto()">Next</button>
             </div>
             <button class="side-btn prev" type="button" onclick="previousPhoto()" aria-label="Previous photo">&#8249;</button>
-            <img id="lightboxImage" src="" alt="">
+            <img id="lightboxImage" src="" alt="" decoding="async">
             <button class="side-btn next" type="button" onclick="nextPhoto()" aria-label="Next photo">&#8250;</button>
             <button class="tap-zone tap-zone-left" type="button" aria-label="Previous photo">Previous</button>
             <button class="tap-zone tap-zone-right" type="button" aria-label="Next photo">Next</button>
@@ -1447,7 +1447,6 @@ function initAlbum() {
     const grid = document.getElementById("albumGrid");
     grid.innerHTML = "";
     photos.forEach((photo, index) => {
-        const gallerySrc = isMobileViewport() ? photo.thumbnailSrc : photo.src;
         const button = document.createElement("button");
         button.className = "photo-button";
         button.type = "button";
@@ -1455,7 +1454,7 @@ function initAlbum() {
         button.setAttribute("aria-label", `Open ${album.title} photo ${photo.number}`);
         button.innerHTML = `
             <div class="photo-frame">
-                <img src="${gallerySrc}" data-full-src="${photo.src}" data-thumbnail-src="${photo.thumbnailSrc}" alt="${album.title} photo ${photo.number}" loading="lazy" decoding="async">
+                <img src="${photo.thumbnailSrc}" data-full-src="${photo.src}" data-thumbnail-src="${photo.thumbnailSrc}" alt="${album.title} photo ${photo.number}" loading="${index === 0 ? "eager" : "lazy"}" decoding="async"${index === 0 ? ' fetchpriority="high"' : ""}>
             </div>
         `;
         button.querySelector("img").addEventListener("click", (event) => {
@@ -1493,8 +1492,19 @@ function displayPhoto(index) {
     setZoom(false);
     image.src = photo.src;
     image.alt = `${album.title} photo ${photo.number}`;
+    preloadAdjacentPhotos();
     document.getElementById("lightboxTitle").textContent = `${album.title} / ${String(photo.number).padStart(2, "0")}`;
     renderMetadata(photo);
+}
+
+function preloadAdjacentPhotos() {
+    [currentIndex + 1, currentIndex - 1].forEach((index) => {
+        const photo = photos[(index + photos.length) % photos.length];
+        if (!photo) return;
+        const image = new Image();
+        image.decoding = "async";
+        image.src = photo.src;
+    });
 }
 
 function openLightbox(index) {
