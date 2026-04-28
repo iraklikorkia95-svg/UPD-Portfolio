@@ -292,6 +292,8 @@ body.name-docked .masthead h1 {
 
 .lightbox-title,
 .lightbox-tool,
+.download-trigger,
+.download-menu a,
 .lightbox-close {
     color: var(--ink);
     font-size: 15px;
@@ -314,6 +316,47 @@ body.name-docked .masthead h1 {
     border-radius: 50%;
     line-height: 26px;
     text-align: center;
+}
+
+.download-menu-wrap {
+    position: relative;
+}
+
+.download-trigger {
+    padding: 6px 0;
+    color: var(--ink);
+    background: transparent;
+}
+
+.download-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    z-index: 120;
+    display: none;
+    min-width: 150px;
+    padding: 8px 0;
+    background: var(--surface);
+    border-top: 1px solid var(--line);
+}
+
+.download-menu-wrap.menu-open .download-menu {
+    display: block;
+}
+
+.download-menu a {
+    display: block;
+    padding: 8px 12px;
+    white-space: nowrap;
+}
+
+.download-menu a:hover,
+.download-trigger:hover {
+    color: var(--accent-warm);
+}
+
+.download-menu-wrap[hidden] {
+    display: none;
 }
 
 .lightbox-tool::before {
@@ -447,7 +490,8 @@ body.name-docked .masthead h1 {
 }
 
 body.mobile-lightbox .lightbox-tool,
-body.mobile-lightbox .side-btn {
+body.mobile-lightbox .side-btn,
+body.mobile-lightbox .tap-zone {
     display: none;
 }
 
@@ -468,38 +512,19 @@ body.mobile-lightbox .lightbox.zoomed .lightbox-stage img {
     transform: none;
 }
 
-body.mobile-lightbox .tap-zone {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    z-index: 3;
-    display: flex;
-    align-items: flex-start;
-    width: 50%;
-    border: 0;
-    background: transparent;
-    font-family: var(--body);
-    letter-spacing: 0;
-    line-height: 1;
-    text-transform: uppercase;
-    touch-action: manipulation;
-    color: transparent;
-    font-size: 0;
-}
-
 body.mobile-lightbox .mobile-lightbox-nav {
     position: relative;
     z-index: 4;
     display: flex;
     justify-content: space-between;
     width: 100%;
-    padding: 0 10px 14px;
+    padding: 14px 10px 0;
 }
 
 body.mobile-lightbox .mobile-lightbox-nav button {
     color: rgba(34, 34, 34, 0.58);
     font-family: var(--body);
-    font-size: 11px;
+    font-size: 24px;
     letter-spacing: 0;
     line-height: 1;
     text-transform: uppercase;
@@ -913,6 +938,8 @@ body.name-docked .masthead h1 {
 
 .lightbox-title,
 .lightbox-tool,
+.download-trigger,
+.download-menu a,
 .lightbox-close,
 .metadata-panel,
 .meta-row {
@@ -1033,20 +1060,20 @@ body.name-docked .masthead h1 {
         display: flex;
         align-items: center;
         justify-content: center;
-        aspect-ratio: 4 / 5;
+        aspect-ratio: auto;
         height: auto;
         min-height: 0;
-        padding: 12px;
+        padding: 0;
         overflow: hidden;
         background: var(--bg);
     }
 
     .photo-frame img {
         display: block;
-        width: auto;
+        width: 100%;
         max-width: 100%;
         height: auto;
-        max-height: 100%;
+        max-height: none;
         margin: auto;
         object-fit: contain;
         background: var(--bg);
@@ -1083,13 +1110,14 @@ body.name-docked .masthead h1 {
         display: flex;
         justify-content: space-between;
         width: 100%;
-        padding: 0 10px 14px;
+        order: 3;
+        padding: 14px 10px 0;
     }
 
     .mobile-lightbox-nav button {
         color: rgba(34, 34, 34, 0.58);
         font-family: var(--body);
-        font-size: 11px;
+        font-size: 24px;
         letter-spacing: 0;
         line-height: 1;
         text-transform: uppercase;
@@ -1124,6 +1152,44 @@ body.name-docked .masthead h1 {
         right: 0;
         justify-content: flex-end;
         padding: 14px 10px 0 0;
+    }
+}
+
+@media (max-width: 932px), (hover: none), (pointer: coarse) {
+    .album-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    .photo-button {
+        display: block;
+        min-height: auto;
+        margin: 0;
+        cursor: pointer;
+    }
+
+    .photo-frame {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        aspect-ratio: auto;
+        height: auto;
+        min-height: 0;
+        padding: 0;
+        overflow: hidden;
+        background: var(--bg);
+    }
+
+    .photo-frame img {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        max-height: none;
+        margin: auto;
+        object-fit: contain;
+        background: var(--bg);
     }
 }
 </style>
@@ -1168,19 +1234,26 @@ body.name-docked .masthead h1 {
     <div class="lightbox-bar">
         <div class="lightbox-title" id="lightboxTitle"></div>
         <div class="lightbox-actions">
+            <div class="download-menu-wrap" id="downloadMenuWrap">
+                <button class="download-trigger" id="downloadTrigger" type="button" aria-haspopup="true" aria-expanded="false">Download</button>
+                <div class="download-menu" aria-label="Download options">
+                    <a id="downloadLower" href="" download>Lower quality</a>
+                    <a id="downloadFull" href="" download>Full quality</a>
+                </div>
+            </div>
             <button class="lightbox-tool" id="zoomToggle" type="button" onclick="toggleZoom()" aria-label="Zoom in" aria-pressed="false"></button>
             <button class="lightbox-close" type="button" onclick="closeLightbox()" aria-label="Close photo">&times;</button>
         </div>
     </div>
     <div class="lightbox-body">
         <div class="lightbox-stage">
-            <div class="mobile-lightbox-nav" aria-hidden="true">
-                <button type="button" tabindex="-1" onclick="previousPhoto()">Previous</button>
-                <button type="button" tabindex="-1" onclick="nextPhoto()">Next</button>
-            </div>
             <button class="side-btn prev" type="button" onclick="previousPhoto()" aria-label="Previous photo">&#8249;</button>
             <img id="lightboxImage" src="" alt="" decoding="async">
             <button class="side-btn next" type="button" onclick="nextPhoto()" aria-label="Next photo">&#8250;</button>
+            <div class="mobile-lightbox-nav" aria-label="Photo navigation">
+                <button type="button" onclick="previousPhoto()" aria-label="Previous photo">&#8592;</button>
+                <button type="button" onclick="nextPhoto()" aria-label="Next photo">&#8594;</button>
+            </div>
             <button class="tap-zone tap-zone-left" type="button" aria-label="Previous photo">Previous</button>
             <button class="tap-zone tap-zone-right" type="button" aria-label="Next photo">Next</button>
         </div>
@@ -1504,11 +1577,28 @@ function displayPhoto(index) {
     const photo = photos[currentIndex];
     const image = document.getElementById("lightboxImage");
     setZoom(false);
-    image.src = photo.src;
+    image.src = photo.displaySrc;
+    image.dataset.quality = "display";
     image.alt = `${album.title} photo ${photo.number}`;
+    updateDownloadLinks(photo);
     preloadAdjacentPhotos();
     document.getElementById("lightboxTitle").textContent = `${album.title} / ${String(photo.number).padStart(2, "0")}`;
     renderMetadata(photo);
+}
+
+function updateDownloadLinks(photo) {
+    const lowerLink = document.getElementById("downloadLower");
+    const fullLink = document.getElementById("downloadFull");
+    lowerLink.href = photo.displaySrc;
+    fullLink.href = photo.src;
+    lowerLink.download = makeDownloadName(photo, "lower");
+    fullLink.download = makeDownloadName(photo, "full");
+}
+
+function makeDownloadName(photo, quality) {
+    const extension = photo.src.split(".").pop() || "jpg";
+    const safeAlbum = album.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    return `${safeAlbum}-${String(photo.number).padStart(2, "0")}-${quality}.${extension}`;
 }
 
 function preloadAdjacentPhotos() {
@@ -1517,7 +1607,7 @@ function preloadAdjacentPhotos() {
         if (!photo) return;
         const image = new Image();
         image.decoding = "async";
-        image.src = photo.src;
+        image.src = photo.displaySrc;
     });
 }
 
@@ -1536,6 +1626,8 @@ function openLightbox(index) {
 function closeLightbox() {
     setZoom(false);
     setMobileZoomLock(false);
+    document.getElementById("downloadMenuWrap").classList.remove("menu-open");
+    document.getElementById("downloadTrigger").setAttribute("aria-expanded", "false");
     document.body.classList.remove("mobile-lightbox");
     document.getElementById("lightbox").classList.remove("active");
     document.getElementById("lightbox").setAttribute("aria-hidden", "true");
@@ -1709,7 +1801,7 @@ document.getElementById("lightbox").addEventListener("click", (event) => {
         toggleZoom(event);
         return;
     }
-    if (target && target.closest(".side-btn, .tap-zone, .metadata-panel, .lightbox-tool, .lightbox-close")) return;
+    if (target && target.closest(".side-btn, .tap-zone, .metadata-panel, .lightbox-tool, .lightbox-close, .download-menu-wrap")) return;
     closeLightbox();
 });
 
@@ -1740,6 +1832,22 @@ window.addEventListener("load", resetMobileAlbumScroll);
 window.addEventListener("wheel", handleAlbumWheel, { passive: false });
 document.getElementById("lightboxImage").addEventListener("mousemove", followZoomCursor);
 
+const downloadMenuWrap = document.getElementById("downloadMenuWrap");
+const downloadTrigger = document.getElementById("downloadTrigger");
+
+downloadTrigger.addEventListener("click", (event) => {
+    event.stopPropagation();
+    const isOpen = downloadMenuWrap.classList.toggle("menu-open");
+    downloadTrigger.setAttribute("aria-expanded", String(isOpen));
+});
+
+document.querySelectorAll(".download-menu a").forEach((link) => {
+    link.addEventListener("click", () => {
+        downloadMenuWrap.classList.remove("menu-open");
+        downloadTrigger.setAttribute("aria-expanded", "false");
+    });
+});
+
 const updateNameDock = () => {
     document.body.classList.toggle("name-docked", window.scrollY > 80);
 };
@@ -1757,6 +1865,8 @@ portfolioButton.addEventListener("click", (event) => {
 });
 
 document.addEventListener("click", () => {
+    downloadMenuWrap.classList.remove("menu-open");
+    downloadTrigger.setAttribute("aria-expanded", "false");
     portfolioItem.classList.remove("menu-open");
     portfolioButton.setAttribute("aria-expanded", "false");
 });
