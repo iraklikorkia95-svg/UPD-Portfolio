@@ -1241,7 +1241,6 @@ body.name-docked .masthead h1 {
                     <a id="downloadFull" href="" download>Full quality</a>
                 </div>
             </div>
-            <button class="lightbox-tool" id="zoomToggle" type="button" onclick="toggleZoom()" aria-label="Zoom in" aria-pressed="false"></button>
             <button class="lightbox-close" type="button" onclick="closeLightbox()" aria-label="Close photo">&times;</button>
         </div>
     </div>
@@ -1624,6 +1623,7 @@ function openLightbox(index) {
 }
 
 function closeLightbox() {
+    const restoreIndex = currentIndex;
     setZoom(false);
     setMobileZoomLock(false);
     document.getElementById("downloadMenuWrap").classList.remove("menu-open");
@@ -1632,6 +1632,17 @@ function closeLightbox() {
     document.getElementById("lightbox").classList.remove("active");
     document.getElementById("lightbox").setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
+
+    if (!isMobileViewport()) {
+        window.requestAnimationFrame(() => {
+            const target = getPhotoButtons()[restoreIndex];
+            if (!target) return;
+            window.scrollTo({
+                top: target.getBoundingClientRect().top + window.scrollY,
+                behavior: "auto"
+            });
+        });
+    }
 }
 
 function nextPhoto() {
@@ -1648,6 +1659,7 @@ function setZoom(isZoomed) {
     const image = document.getElementById("lightboxImage");
     lightbox.classList.toggle("zoomed", isZoomed);
     if (!isZoomed) image.style.transformOrigin = "center center";
+    if (!zoomToggle) return;
     zoomToggle.setAttribute("aria-pressed", String(isZoomed));
     zoomToggle.setAttribute("aria-label", isZoomed ? "Zoom out" : "Zoom in");
 }
