@@ -399,6 +399,7 @@ body.name-docked .masthead h1 {
     min-height: 0;
     display: grid;
     grid-template-columns: minmax(0, 1fr) 210px;
+    grid-template-rows: minmax(0, 1fr) auto;
     gap: 16px;
     padding: 24px 5%;
 }
@@ -408,6 +409,8 @@ body.name-docked .masthead h1 {
 }
 
 .lightbox-stage {
+    grid-column: 1;
+    grid-row: 1;
     position: relative;
     min-width: 0;
     min-height: 0;
@@ -419,11 +422,50 @@ body.name-docked .masthead h1 {
 
 .lightbox-stage img {
     max-width: 100%;
-    max-height: calc(100vh - 150px);
+    max-height: calc(100vh - 245px);
     object-fit: contain;
     transform-origin: center center;
     transition: transform 0.28s cubic-bezier(0.215, 0.61, 0.355, 1);
     cursor: zoom-in;
+}
+
+.lightbox-preview-strip {
+    grid-column: 1;
+    grid-row: 2;
+    min-width: 0;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 2px 0 8px;
+    scrollbar-width: thin;
+}
+
+.preview-thumb {
+    flex: 0 0 58px;
+    width: 58px;
+    height: 58px;
+    border: 1px solid transparent;
+    opacity: 0.58;
+    overflow: hidden;
+    background: var(--surface);
+    transition: opacity 0.18s ease, border-color 0.18s ease;
+}
+
+.preview-thumb img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.preview-thumb:hover,
+.preview-thumb.is-active {
+    opacity: 1;
+    border-color: var(--accent);
+}
+
+.preview-thumb.is-active {
+    cursor: default;
 }
 
 .lightbox.zoomed .lightbox-stage {
@@ -543,6 +585,8 @@ body.mobile-lightbox .tap-zone-right {
 }
 
 .metadata-panel {
+    grid-column: 2;
+    grid-row: 1 / span 2;
     align-self: center;
     border-left: 1px solid var(--line);
     padding-left: 18px;
@@ -610,6 +654,7 @@ body.mobile-lightbox .tap-zone-right {
 
     .lightbox-body {
         grid-template-columns: 1fr;
+        grid-template-rows: auto;
         overflow: auto;
     }
 
@@ -617,7 +662,13 @@ body.mobile-lightbox .tap-zone-right {
         max-height: 68vh;
     }
 
+    .lightbox-preview-strip {
+        display: none;
+    }
+
     .metadata-panel {
+        grid-column: 1;
+        grid-row: auto;
         align-self: stretch;
         border-left: 0;
         border-top: 1px solid var(--line);
@@ -1104,6 +1155,10 @@ body.name-docked .masthead h1 {
         transform: none;
     }
 
+    .lightbox-preview-strip {
+        display: none;
+    }
+
     .mobile-lightbox-nav {
         position: relative;
         z-index: 4;
@@ -1256,6 +1311,7 @@ body.name-docked .masthead h1 {
             <button class="tap-zone tap-zone-left" type="button" aria-label="Previous photo">Previous</button>
             <button class="tap-zone tap-zone-right" type="button" aria-label="Next photo">Next</button>
         </div>
+        <div class="lightbox-preview-strip" id="lightboxPreviewStrip" aria-label="Album photo previews"></div>
         <aside class="metadata-panel" aria-label="Photo metadata">
             <h2>Metadata</h2>
             <div class="meta-list" id="metadataList"></div>
@@ -1549,6 +1605,43 @@ function initAlbum() {
         });
         grid.appendChild(button);
     });
+    renderPreviewStrip();
+}
+
+function renderPreviewStrip() {
+    const strip = document.getElementById("lightboxPreviewStrip");
+    strip.innerHTML = "";
+
+    photos.forEach((photo, index) => {
+        const button = document.createElement("button");
+        button.className = "preview-thumb";
+        button.type = "button";
+        button.dataset.photoIndex = String(index);
+        button.setAttribute("aria-label", `Open ${album.title} photo ${photo.number}`);
+        button.innerHTML = `<img src="${photo.thumbnailSrc}" alt="" loading="lazy" decoding="async">`;
+        button.addEventListener("click", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            displayPhoto(index);
+        });
+        strip.appendChild(button);
+    });
+}
+
+function updatePreviewSelection() {
+    const strip = document.getElementById("lightboxPreviewStrip");
+    const buttons = strip ? Array.from(strip.querySelectorAll(".preview-thumb")) : [];
+
+    buttons.forEach((button, index) => {
+        const isActive = index === currentIndex;
+        button.classList.toggle("is-active", isActive);
+        button.setAttribute("aria-current", isActive ? "true" : "false");
+    });
+
+    const activeButton = buttons[currentIndex];
+    if (activeButton && !isMobileViewport()) {
+        activeButton.scrollIntoView({ block: "nearest", inline: "center" });
+    }
 }
 
 function renderMetadata(photo) {
@@ -1583,6 +1676,7 @@ function displayPhoto(index) {
     preloadAdjacentPhotos();
     document.getElementById("lightboxTitle").textContent = `${album.title} / ${String(photo.number).padStart(2, "0")}`;
     renderMetadata(photo);
+    updatePreviewSelection();
 }
 
 function updateDownloadLinks(photo) {
@@ -1620,6 +1714,7 @@ function openLightbox(index) {
     document.getElementById("lightbox").classList.add("active");
     document.getElementById("lightbox").setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
+    window.requestAnimationFrame(updatePreviewSelection);
 }
 
 function closeLightbox() {
@@ -1813,8 +1908,15 @@ document.getElementById("lightbox").addEventListener("click", (event) => {
         toggleZoom(event);
         return;
     }
-    if (target && target.closest(".side-btn, .tap-zone, .metadata-panel, .lightbox-tool, .lightbox-close, .download-menu-wrap")) return;
+    if (target && target.closest(".side-btn, .mobile-lightbox-nav, .lightbox-preview-strip, .tap-zone, .metadata-panel, .lightbox-tool, .lightbox-close, .download-menu-wrap")) return;
     closeLightbox();
+});
+
+document.querySelectorAll(".mobile-lightbox-nav button").forEach((button) => {
+    button.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+    });
 });
 
 document.querySelector(".tap-zone-left").addEventListener("click", (event) => {
