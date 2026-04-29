@@ -881,12 +881,17 @@ body {
 }
 
 .masthead {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    z-index: 10;
     justify-content: flex-start;
     align-items: flex-start;
     width: calc(100% - 250px);
     min-height: 0;
     margin: 0 60px 0 310px;
-    padding: 80px 0 30px;
+    padding: 0;
+    pointer-events: none;
     text-align: left;
 }
 
@@ -1086,7 +1091,10 @@ body.name-docked .masthead h1 {
     }
 
     .masthead {
+        position: static;
+        z-index: auto;
         padding: 0 0 30px;
+        pointer-events: auto;
     }
 
     .masthead h1 {
