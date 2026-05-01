@@ -1190,6 +1190,36 @@ body.name-docked .masthead h1 {
         background: var(--bg);
     }
 
+    body.mobile-lightbox .lightbox {
+        height: 100dvh;
+        max-height: 100dvh;
+        overflow: hidden;
+    }
+
+    body.mobile-lightbox .lightbox.active {
+        grid-template-rows: auto minmax(0, 1fr);
+    }
+
+    body.mobile-lightbox .lightbox-bar {
+        min-height: 0;
+        padding: 8px 5%;
+    }
+
+    body.mobile-lightbox .lightbox-body {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(0, 1fr);
+        height: auto;
+        min-height: 0;
+        overflow: hidden;
+        gap: 0;
+        padding: 8px 5% calc(8px + env(safe-area-inset-bottom));
+    }
+
+    body.mobile-lightbox .lightbox-stage {
+        min-height: 0;
+        overflow: hidden;
+    }
+
     .lightbox-tool {
         display: none;
     }
@@ -1211,11 +1241,19 @@ body.name-docked .masthead h1 {
 
     .lightbox-stage img,
     .lightbox.zoomed .lightbox-stage img {
+        width: auto;
+        max-width: 100%;
+        max-height: calc(100dvh - 94px - env(safe-area-inset-bottom));
+        height: auto;
         cursor: default;
         transform: none;
     }
 
     .lightbox-preview-strip {
+        display: none;
+    }
+
+    body.mobile-lightbox .metadata-panel {
         display: none;
     }
 
