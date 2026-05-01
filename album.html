@@ -1216,6 +1216,10 @@ body.name-docked .masthead h1 {
     }
 
     body.mobile-lightbox .lightbox-stage {
+        display: grid;
+        grid-template-rows: minmax(0, 1fr) auto;
+        justify-items: center;
+        align-items: center;
         min-height: 0;
         overflow: hidden;
     }
@@ -1243,8 +1247,9 @@ body.name-docked .masthead h1 {
     .lightbox.zoomed .lightbox-stage img {
         width: auto;
         max-width: 100%;
-        max-height: calc(100dvh - 94px - env(safe-area-inset-bottom));
+        max-height: 100%;
         height: auto;
+        min-height: 0;
         cursor: default;
         transform: none;
     }
@@ -1264,16 +1269,20 @@ body.name-docked .masthead h1 {
         justify-content: space-between;
         width: 100%;
         order: 3;
-        padding: 10px 8px 0;
+        padding: 8px 0 0;
     }
 
     .mobile-lightbox-nav button {
         color: rgba(34, 34, 34, 0.58);
         font-family: var(--body);
-        font-size: 11px;
+        min-width: 92px;
+        min-height: 42px;
+        padding: 12px 14px;
+        font-size: 12px;
         letter-spacing: 0;
         line-height: 1.2;
         text-transform: uppercase;
+        touch-action: manipulation;
     }
 
     .tap-zone {
