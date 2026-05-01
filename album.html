@@ -560,15 +560,15 @@ body.mobile-lightbox .mobile-lightbox-nav {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    padding: 14px 10px 0;
+    padding: 10px 8px 0;
 }
 
 body.mobile-lightbox .mobile-lightbox-nav button {
     color: rgba(34, 34, 34, 0.58);
     font-family: var(--body);
-    font-size: 24px;
+    font-size: 11px;
     letter-spacing: 0;
-    line-height: 1;
+    line-height: 1.2;
     text-transform: uppercase;
 }
 
@@ -1226,15 +1226,15 @@ body.name-docked .masthead h1 {
         justify-content: space-between;
         width: 100%;
         order: 3;
-        padding: 14px 10px 0;
+        padding: 10px 8px 0;
     }
 
     .mobile-lightbox-nav button {
         color: rgba(34, 34, 34, 0.58);
         font-family: var(--body);
-        font-size: 24px;
+        font-size: 11px;
         letter-spacing: 0;
-        line-height: 1;
+        line-height: 1.2;
         text-transform: uppercase;
     }
 
@@ -1430,8 +1430,8 @@ body.album-view-grid .photo-button:hover .photo-frame img {
             <img id="lightboxImage" src="" alt="" decoding="async">
             <button class="side-btn next" type="button" onclick="nextPhoto()" aria-label="Next photo">&#8250;</button>
             <div class="mobile-lightbox-nav" aria-label="Photo navigation">
-                <button type="button" onclick="previousPhoto()" aria-label="Previous photo">&#8592;</button>
-                <button type="button" onclick="nextPhoto()" aria-label="Next photo">&#8594;</button>
+                <button type="button" onclick="previousPhoto()" aria-label="Previous photo">Previous</button>
+                <button type="button" onclick="nextPhoto()" aria-label="Next photo">Next</button>
             </div>
             <button class="tap-zone tap-zone-left" type="button" aria-label="Previous photo">Previous</button>
             <button class="tap-zone tap-zone-right" type="button" aria-label="Next photo">Next</button>
@@ -2086,9 +2086,14 @@ function handleAlbumKeydown(event) {
 
 document.getElementById("lightbox").addEventListener("click", (event) => {
     const target = event.target instanceof Element ? event.target : event.target.parentElement;
+    if (isMobileViewport() || document.body.classList.contains("mobile-lightbox")) {
+        if (target && target.closest(".mobile-lightbox-nav, .download-menu-wrap, .lightbox-close")) return;
+        closeLightbox();
+        return;
+    }
+
     if (target && target.closest(".lightbox-stage img")) {
         event.preventDefault();
-        if (isMobileViewport() || document.body.classList.contains("mobile-lightbox")) return;
         toggleZoom(event);
         return;
     }
