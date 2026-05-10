@@ -128,6 +128,11 @@ img {
     text-transform: uppercase;
 }
 
+.corner-name span {
+    white-space: nowrap;
+    word-spacing: 0.16em;
+}
+
 .shutter-logo-img {
     flex: 0 0 auto;
     width: 42px;
@@ -290,6 +295,7 @@ body.menu-open .menu-toggle span:last-child {
     font-size: clamp(52px, 8vw, 122px);
     font-weight: 700;
     line-height: 0.84;
+    overflow-wrap: break-word;
     text-transform: uppercase;
 }
 
@@ -566,6 +572,7 @@ body.menu-open .menu-toggle span:last-child {
     font-size: clamp(38px, 6vw, 82px);
     font-weight: 700;
     line-height: 0.94;
+    overflow-wrap: anywhere;
     text-transform: uppercase;
 }
 
@@ -614,6 +621,11 @@ body.menu-open .menu-toggle span:last-child {
 @media (max-width: 760px) {
     .site-header {
         padding: 16px 20px;
+    }
+
+    .corner-name {
+        max-width: calc(100% - 64px);
+        font-size: clamp(16px, 4.4vw, 18px);
     }
 
     .menu-toggle {
@@ -694,6 +706,27 @@ body.menu-open .menu-toggle span:last-child {
         padding: 34px 20px 48px;
     }
 
+    .about-copy h1 {
+        font-size: clamp(40px, 13.5vw, 58px);
+        line-height: 0.94;
+    }
+
+    .about-copy h1 span {
+        display: block;
+    }
+
+    .lead {
+        font-size: clamp(18px, 5vw, 21px);
+        line-height: 1.22;
+    }
+
+    .about-band h2,
+    .album-links h2,
+    .contact-section h2 {
+        font-size: clamp(32px, 10vw, 46px);
+        line-height: 1.02;
+    }
+
     .about-actions {
         display: grid;
     }
@@ -766,7 +799,7 @@ body.menu-open .menu-toggle span:last-child {
         <div class="about-image" role="img" aria-label="Paris photograph"></div>
         <div class="about-copy">
             <p class="section-kicker">ABOUT</p>
-            <h1 id="about-heading">IRAKLI KORKIA</h1>
+            <h1 id="about-heading"><span>IRAKLI</span> <span>KORKIA</span></h1>
             <p class="lead">Hello. I am by no means a professional or full-time photographer.</p>
             <p class="body-copy">It just happens that every day, when I leave my actual work and take the office badge from around my neck, the first thing that goes back there is a camera strap.</p>
             <p class="body-copy">This website is a small, unusually public corner of my SSD card. The photographs move through France, Spain, Corsica, Paris, Andalusia, Catalonia, Strasbourg, Madrid, and the French Alps. Some are quiet, some are sunburned, and some are probably here because I got lucky with the light.</p>

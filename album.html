@@ -854,6 +854,7 @@ body {
 .corner-name > span:first-of-type {
     grid-column: 2;
     white-space: nowrap;
+    word-spacing: 0.16em;
 }
 
 .corner-album {
@@ -936,7 +937,7 @@ body {
     z-index: 18;
     justify-content: flex-start;
     align-items: flex-start;
-    width: calc(100% - 250px);
+    width: calc(100% - 370px);
     min-height: 0;
     margin: 0 60px 0 310px;
     padding: 12px 0 14px;
@@ -1006,7 +1007,7 @@ body.name-docked .masthead h1 {
 }
 
 .site-container {
-    width: calc(100% - 250px);
+    width: calc(100% - 370px);
     max-width: 1160px;
     margin: 0 60px 0 310px;
     padding-bottom: 70px;
@@ -1139,24 +1140,24 @@ body.name-docked .masthead h1 {
 
     .masthead,
     .site-container {
-        width: calc(100% - 215px);
+        width: calc(100% - 295px);
         margin-left: 255px;
         margin-right: 40px;
     }
 }
 
-@media (max-width: 45em) {
+@media (max-width: 64em) {
     .site-header {
         position: static;
         width: 90%;
         margin: 0 auto 1.25em;
-        padding-top: 3em;
+        padding-top: clamp(2em, 6vw, 3em);
     }
 
     .corner-name {
         margin-bottom: 14px;
         max-width: none;
-        grid-template-columns: 42px max-content;
+        grid-template-columns: 42px minmax(0, 1fr);
         font-size: 20px;
         line-height: 1.2;
     }
@@ -1167,10 +1168,11 @@ body.name-docked .masthead h1 {
 
     .nav {
         display: flex;
+        flex-wrap: wrap;
         align-items: flex-start;
-        gap: 18px;
+        gap: 4px 18px;
         max-width: none;
-        white-space: nowrap;
+        white-space: normal;
     }
 
     .nav-item {
@@ -1213,7 +1215,7 @@ body.name-docked .masthead h1 {
     }
 
     .masthead h1 {
-        font-size: 26px;
+        font-size: clamp(25px, 6vw, 34px);
         line-height: 1.2;
     }
 
@@ -1377,6 +1379,22 @@ body.name-docked .masthead h1 {
         right: 0;
         justify-content: flex-end;
         padding: 14px 10px 0 0;
+    }
+}
+
+@media (max-width: 45em) {
+    .corner-name {
+        font-size: clamp(18px, 5.2vw, 20px);
+    }
+
+    .nav {
+        gap: 2px 16px;
+    }
+
+    .nav a,
+    .portfolio-trigger,
+    .album-dropdown a {
+        font-size: clamp(14px, 4.3vw, 16.5px);
     }
 }
 

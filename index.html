@@ -136,6 +136,11 @@ img {
     text-transform: uppercase;
 }
 
+.corner-name span {
+    white-space: nowrap;
+    word-spacing: 0.16em;
+}
+
 .shutter-logo {
     flex: 0 0 auto;
     width: 34px;
@@ -779,6 +784,11 @@ body.reveal-ready .reveal-heading.is-visible {
         padding: 16px 20px;
     }
 
+    .corner-name {
+        max-width: calc(100% - 64px);
+        font-size: clamp(16px, 4.4vw, 18px);
+    }
+
     .menu-toggle {
         display: block;
     }
@@ -858,8 +868,9 @@ body.reveal-ready .reveal-heading.is-visible {
     }
 
     .hero h1 {
-        font-size: clamp(50px, 18vw, 92px);
-        line-height: 0.88;
+        width: auto;
+        font-size: clamp(46px, 16vw, 76px);
+        line-height: 0.9;
     }
 
     .handwritten-note {
@@ -877,7 +888,8 @@ body.reveal-ready .reveal-heading.is-visible {
 
     .section-heading,
     .feature-copy h2 {
-        line-height: 0.98;
+        font-size: clamp(30px, 10vw, 42px);
+        line-height: 1.02;
     }
 
     .reveal-heading {
