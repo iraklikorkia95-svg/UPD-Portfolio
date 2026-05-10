@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 900" role="img" aria-labelledby="title desc">
+  <title id="title">Animated shutter-button mark</title>
+  <desc id="desc">Text-free shutter-button logo mark with a pressing button and moving aperture.</desc>
+  <style>
+    .press,
+    .aperture {
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+
+    .press {
+      animation: press 4.2s ease-in-out infinite;
+    }
+
+    .aperture {
+      animation: aperture 4.2s ease-in-out infinite;
+    }
+
+    @keyframes press {
+      0%, 64%, 100% { transform: scale(1); }
+      72% { transform: scale(0.9); }
+      82% { transform: scale(1.04); }
+    }
+
+    @keyframes aperture {
+      0%, 58%, 100% { transform: rotate(0deg) scale(1); opacity: 0.88; }
+      70% { transform: rotate(18deg) scale(0.62); opacity: 0.98; }
+      84% { transform: rotate(-8deg) scale(1.12); opacity: 0.72; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .press,
+      .aperture {
+        animation: none;
+      }
+    }
+  </style>
+  <rect width="900" height="900" fill="none"/>
+  <g class="press">
+    <circle cx="450" cy="450" r="250" fill="#171615"/>
+    <circle cx="450" cy="450" r="144" fill="none" stroke="#fffaf0" stroke-width="26"/>
+    <g class="aperture" fill="#ebe0d0">
+      <path d="M450 450 L450 292 A158 158 0 0 1 587 371 Z"/>
+      <path d="M450 450 L587 371 A158 158 0 0 1 587 529 Z"/>
+      <path d="M450 450 L587 529 A158 158 0 0 1 450 608 Z"/>
+      <path d="M450 450 L450 608 A158 158 0 0 1 313 529 Z"/>
+      <path d="M450 450 L313 529 A158 158 0 0 1 313 371 Z"/>
+      <path d="M450 450 L313 371 A158 158 0 0 1 450 292 Z"/>
+    </g>
+    <circle cx="450" cy="450" r="44" fill="#b9654d"/>
+  </g>
+</svg>

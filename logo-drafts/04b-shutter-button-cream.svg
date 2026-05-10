@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
+  <title id="title">Irakli Korkia shutter-button logo draft 04B</title>
+  <desc id="desc">Warm cream shutter-button logo with large compact wordmark.</desc>
+  <rect width="1200" height="420" fill="#f6f1e8"/>
+  <circle cx="254" cy="210" r="120" fill="#171615"/>
+  <circle cx="254" cy="210" r="72" fill="none" stroke="#fffaf0" stroke-width="9"/>
+  <circle cx="254" cy="210" r="20" fill="#b9654d"/>
+  <text x="430" y="205" fill="#171615" font-family="Clash Display, Satoshi, Arial, sans-serif" font-size="82" font-weight="700">IRAKLI KORKIA</text>
+  <text x="434" y="260" fill="#4c4842" font-family="Satoshi, Arial, sans-serif" font-size="21" font-weight="900" letter-spacing="5">PHOTOGRAPHS FROM MY LIFE</text>
+</svg>

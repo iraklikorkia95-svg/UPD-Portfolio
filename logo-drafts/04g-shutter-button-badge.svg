@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 900" role="img" aria-labelledby="title desc">
+  <title id="title">Irakli Korkia shutter-button logo draft 04G</title>
+  <desc id="desc">Circular badge version of the shutter-button logo.</desc>
+  <rect width="900" height="900" fill="#151514"/>
+  <circle cx="450" cy="450" r="330" fill="#ebe0d0"/>
+  <circle cx="450" cy="450" r="244" fill="none" stroke="#171615" stroke-width="8"/>
+  <circle cx="450" cy="450" r="122" fill="#171615"/>
+  <circle cx="450" cy="450" r="70" fill="none" stroke="#fffaf0" stroke-width="10"/>
+  <circle cx="450" cy="450" r="19" fill="#b9654d"/>
+  <text x="450" y="235" text-anchor="middle" fill="#171615" font-family="Clash Display, Satoshi, Arial, sans-serif" font-size="54" font-weight="700" letter-spacing="2">IRAKLI KORKIA</text>
+  <text x="450" y="690" text-anchor="middle" fill="#171615" font-family="Satoshi, Arial, sans-serif" font-size="21" font-weight="900" letter-spacing="6">SHUTTER BUTTON SOCIETY</text>
+</svg>

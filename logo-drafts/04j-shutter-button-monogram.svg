@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 900" role="img" aria-labelledby="title desc">
+  <title id="title">Irakli Korkia shutter-button logo draft 04J</title>
+  <desc id="desc">Shutter-button monogram mark with IK initials.</desc>
+  <rect width="900" height="900" fill="#f6f1e8"/>
+  <circle cx="450" cy="348" r="150" fill="#171615"/>
+  <circle cx="450" cy="348" r="88" fill="none" stroke="#fffaf0" stroke-width="12"/>
+  <circle cx="450" cy="348" r="24" fill="#b9654d"/>
+  <text x="450" y="376" text-anchor="middle" fill="#fffaf0" font-family="Clash Display, Satoshi, Arial, sans-serif" font-size="76" font-weight="700">IK</text>
+  <text x="450" y="622" text-anchor="middle" fill="#171615" font-family="Clash Display, Satoshi, Arial, sans-serif" font-size="80" font-weight="700">IRAKLI KORKIA</text>
+  <text x="450" y="692" text-anchor="middle" fill="#5f6960" font-family="Satoshi, Arial, sans-serif" font-size="22" font-weight="900" letter-spacing="6">CAMERA STRAP CLUB</text>
+</svg>

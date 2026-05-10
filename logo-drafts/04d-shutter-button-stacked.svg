@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 900" role="img" aria-labelledby="title desc">
+  <title id="title">Irakli Korkia shutter-button logo draft 04D</title>
+  <desc id="desc">Stacked square shutter-button logo for avatars or stamps.</desc>
+  <rect width="900" height="900" fill="#ebe0d0"/>
+  <circle cx="450" cy="274" r="134" fill="#171615"/>
+  <circle cx="450" cy="274" r="78" fill="none" stroke="#fffaf0" stroke-width="11"/>
+  <circle cx="450" cy="274" r="21" fill="#b9654d"/>
+  <text x="450" y="548" text-anchor="middle" fill="#171615" font-family="Clash Display, Satoshi, Arial, sans-serif" font-size="92" font-weight="700">IRAKLI</text>
+  <text x="450" y="642" text-anchor="middle" fill="#171615" font-family="Clash Display, Satoshi, Arial, sans-serif" font-size="92" font-weight="700">KORKIA</text>
+  <text x="450" y="714" text-anchor="middle" fill="#5f6960" font-family="Satoshi, Arial, sans-serif" font-size="22" font-weight="900" letter-spacing="6">PHOTO ARCHIVE</text>
+</svg>

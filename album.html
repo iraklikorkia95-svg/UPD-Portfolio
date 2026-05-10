@@ -4,10 +4,36 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light">
+<meta name="description" content="Photo album by Irakli Korkia, part of a travel photography archive from France, Spain, and the Mediterranean.">
+<meta name="author" content="Irakli Korkia">
+<meta name="theme-color" content="#e9e3d7">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="IRAKLI KORKIA">
+<meta property="og:title" content="Album - IRAKLI KORKIA">
+<meta property="og:description" content="A travel photography album by Irakli Korkia.">
+<meta property="og:image" content="Photos/Display/COVERS/Corsica_24.jpeg">
+<meta property="og:url" content="album.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Album - IRAKLI KORKIA">
+<meta name="twitter:description" content="A travel photography album by Irakli Korkia.">
+<meta name="twitter:image" content="Photos/Display/COVERS/Corsica_24.jpeg">
 <title>Album - IRAKLI KORKIA</title>
 
+<link rel="canonical" href="album.html">
 <link rel="preconnect" href="https://api.fontshare.com">
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+<script type="application/ld+json" id="albumSchema">
+{
+    "@context": "https://schema.org",
+    "@type": "ImageGallery",
+    "name": "Photo Album - Irakli Korkia",
+    "url": "album.html",
+    "creator": {
+        "@type": "Person",
+        "name": "Irakli Korkia"
+    }
+}
+</script>
 
 <style>
 :root {
@@ -80,8 +106,8 @@ button {
 
 .corner-name {
     display: inline-flex;
-    gap: 8px;
-    align-items: baseline;
+    gap: 9px;
+    align-items: center;
     color: var(--ink);
     font-family: var(--display);
     font-size: 20px;
@@ -91,6 +117,12 @@ button {
     opacity: 1;
     transform: translateY(0);
     transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.shutter-logo-img {
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
 }
 
 .corner-album {
@@ -800,7 +832,11 @@ body {
 }
 
 .corner-name {
-    display: block;
+    display: inline-grid;
+    grid-template-columns: 42px max-content;
+    grid-template-rows: auto auto;
+    column-gap: 9px;
+    align-items: center;
     margin-bottom: 42px;
     color: #111111;
     font-family: Georgia, serif;
@@ -810,10 +846,22 @@ body {
     text-transform: none;
 }
 
+.shutter-logo-img {
+    grid-row: 1 / span 2;
+    grid-column: 1;
+}
+
+.corner-name > span:first-of-type {
+    grid-column: 2;
+    white-space: nowrap;
+}
+
 .corner-album {
+    grid-column: 2;
     display: block;
     color: var(--muted);
     opacity: 1;
+    white-space: nowrap;
 }
 
 .corner-name:hover,
@@ -925,22 +973,36 @@ body.name-docked .masthead h1 {
 
 .view-switch {
     display: inline-flex;
-    gap: 12px;
-    margin-top: 6px;
+    gap: 4px;
+    margin-top: 12px;
+    padding: 4px;
+    background: rgba(255, 250, 240, 0.72);
+    border: 1px solid rgba(183, 121, 95, 0.26);
+    box-shadow: 0 10px 24px rgba(38, 35, 31, 0.07);
     pointer-events: auto;
 }
 
 .view-switch button {
+    min-width: 68px;
+    padding: 6px 12px;
     color: var(--muted);
     font-family: var(--body);
     font-size: 12px;
+    font-weight: 700;
     line-height: 1.5;
-    text-transform: none;
+    text-transform: uppercase;
+    transition: background-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
 }
 
-.view-switch button:hover,
+.view-switch button:hover {
+    color: var(--ink);
+    background: rgba(183, 121, 95, 0.12);
+}
+
 .view-switch button[aria-pressed="true"] {
-    color: var(--accent);
+    color: var(--ink);
+    background: #fffaf0;
+    box-shadow: inset 0 0 0 1px rgba(183, 121, 95, 0.34), 0 6px 16px rgba(38, 35, 31, 0.1);
 }
 
 .site-container {
@@ -1094,6 +1156,7 @@ body.name-docked .masthead h1 {
     .corner-name {
         margin-bottom: 14px;
         max-width: none;
+        grid-template-columns: 42px max-content;
         font-size: 20px;
         line-height: 1.2;
     }
@@ -1421,12 +1484,13 @@ body.album-view-grid .photo-button:hover .photo-frame img {
 <body>
 <header class="site-header">
     <a href="index.html" class="corner-name" aria-label="Back to portfolio">
+        <img class="shutter-logo-img" src="logo-drafts/04-shutter-button-animated-mark.svg" alt="" aria-hidden="true">
         <span>IRAKLI KORKIA</span>
         <span class="corner-album" id="cornerAlbumTitle"></span>
     </a>
     <nav class="nav" aria-label="Main navigation">
         <div class="nav-item">
-            <button class="portfolio-trigger" type="button" aria-haspopup="true" aria-expanded="false">Portfolio</button>
+            <a class="portfolio-trigger" href="index.html#work" aria-haspopup="true" aria-expanded="false">Portfolio</a>
             <div class="album-dropdown" aria-label="Album navigation">
                 <a href="album.html?album=andalusia">ANDALUSIA</a>
                 <a href="album.html?album=catalonia">CATALONIA</a>
@@ -1437,8 +1501,8 @@ body.album-view-grid .photo-button:hover .photo-frame img {
                 <a href="album.html?album=strasbourg">STRASBOURG</a>
             </div>
         </div>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
+        <a href="about.html">About</a>
+        <a href="about.html#contact">Contact</a>
     </nav>
 </header>
 
@@ -1686,6 +1750,15 @@ const META_LABELS = ["Camera", "ISO", "Shutter", "Aperture", "Focal", "Size"];
 const params = new URLSearchParams(window.location.search);
 const slug = params.get("album") || "strasbourg";
 const album = ALBUMS[slug] || ALBUMS.strasbourg;
+const albumDescriptions = {
+    "andalusia": "Heat, architecture, and street scenes from Andalusia.",
+    "catalonia": "Coastal light and city details from Catalonia.",
+    "corsica": "Island light, roads, and quiet scenes from Corsica.",
+    "french-alps": "Mountain air and alpine lines from the French Alps.",
+    "madrid": "Noon streets and city fragments from Madrid.",
+    "paris": "Late afternoon and after-the-rush photographs from Paris.",
+    "strasbourg": "Border-city details and street scenes from Strasbourg."
+};
 let photos = [];
 let currentIndex = 0;
 const viewStorageKey = `album-view:${slug}`;
@@ -1752,6 +1825,68 @@ function makeDisplaySrc(src) {
     return src.replace(/^Photos\//, "Photos/Display/");
 }
 
+function makeAlbumImageSrcset(photo) {
+    return `${encodeURI(photo.thumbnailSrc)} 700w, ${encodeURI(photo.displaySrc)} 1400w`;
+}
+
+function setMeta(selector, value) {
+    const element = document.head.querySelector(selector);
+    if (element) element.setAttribute("content", value);
+}
+
+function setLink(selector, value) {
+    const element = document.head.querySelector(selector);
+    if (element) element.setAttribute("href", value);
+}
+
+function preloadImage(src) {
+    const alreadyPreloaded = [...document.head.querySelectorAll('link[rel="preload"][as="image"]')]
+        .some((link) => link.getAttribute("href") === src);
+    if (!src || alreadyPreloaded) return;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = src;
+    link.fetchPriority = "high";
+    document.head.appendChild(link);
+}
+
+function updateAlbumMetadata(firstPhoto) {
+    const title = `${album.title} - IRAKLI KORKIA`;
+    const description = `${albumDescriptions[slug] || "A travel photography album by Irakli Korkia."} ${album.count} photographs.`;
+    const image = firstPhoto ? firstPhoto.displaySrc : "Photos/Display/COVERS/Corsica_24.jpeg";
+    const url = `album.html?album=${encodeURIComponent(slug)}`;
+
+    document.title = title;
+    setMeta('meta[name="description"]', description);
+    setMeta('meta[property="og:title"]', title);
+    setMeta('meta[property="og:description"]', description);
+    setMeta('meta[property="og:image"]', image);
+    setMeta('meta[property="og:url"]', url);
+    setMeta('meta[name="twitter:title"]', title);
+    setMeta('meta[name="twitter:description"]', description);
+    setMeta('meta[name="twitter:image"]', image);
+    setLink('link[rel="canonical"]', url);
+
+    const schema = document.getElementById("albumSchema");
+    if (schema) {
+        schema.textContent = JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ImageGallery",
+            "name": `${album.title} - Irakli Korkia`,
+            "url": url,
+            "description": description,
+            "image": image,
+            "creator": {
+                "@type": "Person",
+                "name": "Irakli Korkia"
+            }
+        });
+    }
+
+    preloadImage(image);
+}
+
 function getAlbumViewMode() {
     return document.body.classList.contains("album-view-grid") ? "grid" : "single";
 }
@@ -1792,6 +1927,9 @@ function setAlbumViewMode(mode, shouldAlign = false) {
     document.querySelectorAll("#albumGrid img").forEach((image) => {
         const src = nextMode === "grid" ? image.dataset.thumbnailSrc : image.dataset.displaySrc;
         if (src && image.getAttribute("src") !== src) image.setAttribute("src", src);
+        image.setAttribute("sizes", nextMode === "grid"
+            ? "(max-width: 45em) 33vw, (max-width: 75em) 150px, 178px"
+            : "(max-width: 45em) 100vw, (max-width: 75em) calc(100vw - 295px), 1160px");
     });
 
     if (nextMode === "single" && shouldAlign && !isMobileViewport()) {
@@ -1809,7 +1947,7 @@ function initViewSwitch() {
 
 function initAlbum() {
     photos = Array.from({ length: album.count }, (_, index) => makePhoto(album, index + 1));
-    document.title = `${album.title} - IRAKLI KORKIA`;
+    updateAlbumMetadata(photos[0]);
     document.getElementById("albumTitle").textContent = album.title;
     document.getElementById("cornerAlbumTitle").textContent = `- ${album.title}`;
     document.getElementById("albumCount").textContent = `${album.count} photographs`;
@@ -1824,7 +1962,7 @@ function initAlbum() {
         button.setAttribute("aria-label", `Open ${album.title} photo ${photo.number}`);
         button.innerHTML = `
             <div class="photo-frame">
-                <img src="${photo.displaySrc}" data-full-src="${photo.src}" data-display-src="${photo.displaySrc}" data-thumbnail-src="${photo.thumbnailSrc}" alt="${album.title} photo ${photo.number}" loading="${index === 0 ? "eager" : "lazy"}" decoding="async"${index === 0 ? ' fetchpriority="high"' : ""}>
+                <img src="${photo.displaySrc}" srcset="${makeAlbumImageSrcset(photo)}" data-full-src="${photo.src}" data-display-src="${photo.displaySrc}" data-thumbnail-src="${photo.thumbnailSrc}" alt="${album.title} photo ${photo.number}" loading="${index === 0 ? "eager" : "lazy"}" decoding="async" sizes="(max-width: 45em) 100vw, (max-width: 75em) calc(100vw - 295px), 1160px"${index === 0 ? ' fetchpriority="high"' : ""}>
             </div>
         `;
         button.addEventListener("click", (event) => {
@@ -2231,12 +2369,6 @@ window.addEventListener("scroll", updateNameDock, { passive: true });
 
 const portfolioItem = document.querySelector(".nav-item");
 const portfolioButton = document.querySelector(".portfolio-trigger");
-
-portfolioButton.addEventListener("click", (event) => {
-    event.stopPropagation();
-    const isOpen = portfolioItem.classList.toggle("menu-open");
-    portfolioButton.setAttribute("aria-expanded", String(isOpen));
-});
 
 document.addEventListener("click", () => {
     downloadMenuWrap.classList.remove("menu-open");

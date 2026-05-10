@@ -4,13 +4,38 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light">
+<meta name="description" content="Travel photography by Irakli Korkia: moments in time from France, Spain, Corsica, Paris, Andalusia, Catalonia, Madrid, Strasbourg, and the French Alps.">
+<meta name="author" content="Irakli Korkia">
+<meta name="theme-color" content="#f6f1e8">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="IRAKLI KORKIA">
+<meta property="og:title" content="IRAKLI KORKIA - Travel Photography">
+<meta property="og:description" content="Moments in time from my life, sliced with the press of a shutter button.">
+<meta property="og:image" content="Photos/Display/COVERS/Corsica_24.jpeg">
+<meta property="og:url" content="index.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="IRAKLI KORKIA - Travel Photography">
+<meta name="twitter:description" content="Moments in time from my life, sliced with the press of a shutter button.">
+<meta name="twitter:image" content="Photos/Display/COVERS/Corsica_24.jpeg">
 <title>IRAKLI KORKIA</title>
 
+<link rel="canonical" href="index.html">
+<link rel="preload" as="image" href="Photos/Display/COVERS/Corsica_24.jpeg" fetchpriority="high">
 <link rel="preconnect" href="https://api.fontshare.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Irakli Korkia",
+    "url": "index.html",
+    "image": "Photos/Display/COVERS/Corsica_24.jpeg",
+    "knowsAbout": ["Travel photography", "Street photography", "Photo essays"]
+}
+</script>
 
 <style>
 :root {
@@ -100,12 +125,94 @@ img {
 .corner-name {
     position: relative;
     z-index: 60;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
     font-family: var(--display);
     font-size: clamp(18px, 2vw, 22px);
     font-weight: 700;
     line-height: 1;
     letter-spacing: 0;
     text-transform: uppercase;
+}
+
+.shutter-logo {
+    flex: 0 0 auto;
+    width: 34px;
+    height: 34px;
+    overflow: visible;
+}
+
+.shutter-logo-img {
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+}
+
+.shutter-press,
+.shutter-aperture {
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+.shutter-body {
+    fill: #171615;
+}
+
+.shutter-ring {
+    fill: none;
+    stroke: #fffaf0;
+    stroke-width: 4px;
+}
+
+.shutter-blade {
+    fill: var(--paper-warm);
+    opacity: 0.88;
+}
+
+.shutter-dot {
+    fill: var(--accent);
+}
+
+.shutter-press {
+    animation: shutter-press 4.2s ease-in-out infinite;
+}
+
+.shutter-aperture {
+    animation: aperture-pulse 4.2s ease-in-out infinite;
+}
+
+@keyframes shutter-press {
+    0%, 64%, 100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 0 rgba(0, 0, 0, 0));
+    }
+
+    72% {
+        transform: scale(0.9);
+        filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.28));
+    }
+
+    82% {
+        transform: scale(1.04);
+    }
+}
+
+@keyframes aperture-pulse {
+    0%, 58%, 100% {
+        transform: rotate(0deg) scale(1);
+        opacity: 0.88;
+    }
+
+    70% {
+        transform: rotate(18deg) scale(0.62);
+        opacity: 0.98;
+    }
+
+    84% {
+        transform: rotate(-8deg) scale(1.12);
+        opacity: 0.7;
+    }
 }
 
 .nav {
@@ -407,10 +514,12 @@ body.menu-open .menu-toggle span:last-child {
 
 .work-preview {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(180px, 300px);
-    gap: clamp(20px, 4vw, 56px);
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
     padding: clamp(36px, 6vw, 76px) clamp(20px, 5vw, 76px);
     background: var(--paper);
+    content-visibility: auto;
+    contain-intrinsic-size: 260px;
 }
 
 .section-kicker {
@@ -422,7 +531,7 @@ body.menu-open .menu-toggle span:last-child {
 }
 
 .section-heading {
-    max-width: 780px;
+    max-width: 1080px;
     margin-top: 12px;
     font-family: var(--display);
     font-size: clamp(34px, 6vw, 78px);
@@ -455,18 +564,12 @@ body.reveal-ready .reveal-heading.is-visible {
     transform: translateY(0) skewY(0);
 }
 
-.section-copy {
-    align-self: end;
-    color: var(--soft-ink);
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 1.55;
-}
-
 .album-strip {
     overflow: hidden;
     padding: 0 clamp(20px, 5vw, 76px) clamp(58px, 8vw, 98px);
     background: var(--paper);
+    content-visibility: auto;
+    contain-intrinsic-size: 430px;
 }
 
 .album-track {
@@ -556,6 +659,8 @@ body.reveal-ready .reveal-heading.is-visible {
     min-height: 720px;
     background: #151514;
     color: #fffaf0;
+    content-visibility: auto;
+    contain-intrinsic-size: 720px;
 }
 
 .feature-image {
@@ -565,20 +670,27 @@ body.reveal-ready .reveal-heading.is-visible {
 
 .feature-copy {
     align-self: center;
-    max-width: 620px;
-    padding: clamp(42px, 7vw, 92px);
+    width: 100%;
+    max-width: 720px;
+    padding: clamp(36px, 5.5vw, 72px);
+}
+
+.feature-copy .section-kicker {
+    margin-bottom: 16px;
+    color: var(--accent);
 }
 
 .feature-copy h2 {
     font-family: var(--display);
-    font-size: clamp(38px, 6vw, 86px);
+    font-size: clamp(28px, 4vw, 52px);
     font-weight: 700;
     letter-spacing: 0;
-    line-height: 0.95;
+    line-height: 1;
+    overflow-wrap: break-word;
     text-transform: uppercase;
 }
 
-.feature-copy p {
+.feature-copy > p:not(.section-kicker) {
     margin-top: 24px;
     color: rgba(255, 250, 240, 0.74);
     font-size: clamp(17px, 1.6vw, 21px);
@@ -612,66 +724,6 @@ body.reveal-ready .reveal-heading.is-visible {
     text-transform: uppercase;
 }
 
-.journal {
-    display: grid;
-    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
-    gap: clamp(30px, 6vw, 90px);
-    padding: clamp(58px, 9vw, 112px) clamp(20px, 5vw, 76px);
-    background: var(--paper-warm);
-}
-
-.journal h2 {
-    font-family: var(--display);
-    font-size: clamp(38px, 6vw, 76px);
-    font-weight: 700;
-    letter-spacing: 0;
-    line-height: 0.96;
-    text-transform: uppercase;
-}
-
-.journal-list {
-    display: grid;
-    border-top: 1px solid var(--line);
-}
-
-.journal-link {
-    display: grid;
-    grid-template-columns: 120px minmax(0, 1fr) 36px;
-    gap: 20px;
-    align-items: center;
-    padding: 24px 0;
-    border-bottom: 1px solid var(--line);
-}
-
-.journal-link time {
-    color: var(--muted);
-    font-size: 12px;
-    font-weight: 900;
-    line-height: 1;
-    text-transform: uppercase;
-}
-
-.journal-link strong {
-    font-family: var(--display);
-    font-size: clamp(24px, 3vw, 38px);
-    font-weight: 700;
-    letter-spacing: 0;
-    line-height: 1;
-    text-transform: uppercase;
-    transition: color 0.2s ease;
-}
-
-.journal-link span {
-    color: var(--accent);
-    font-size: 28px;
-    line-height: 1;
-    text-align: right;
-}
-
-.journal-link:hover strong {
-    color: var(--accent);
-}
-
 .footer {
     display: flex;
     justify-content: space-between;
@@ -689,8 +741,7 @@ body.reveal-ready .reveal-heading.is-visible {
     .hero-copy,
     .hero-title,
     .work-preview,
-    .split-feature,
-    .journal {
+    .split-feature {
         grid-template-columns: 1fr;
     }
 
@@ -825,8 +876,7 @@ body.reveal-ready .reveal-heading.is-visible {
     }
 
     .section-heading,
-    .feature-copy h2,
-    .journal h2 {
+    .feature-copy h2 {
         line-height: 0.98;
     }
 
@@ -895,15 +945,6 @@ body.reveal-ready .reveal-heading.is-visible {
         grid-template-columns: 1fr;
     }
 
-    .journal-link {
-        grid-template-columns: 1fr 26px;
-        gap: 12px;
-    }
-
-    .journal-link time {
-        grid-column: 1 / -1;
-    }
-
     .footer {
         display: grid;
     }
@@ -931,14 +972,17 @@ body.reveal-ready .reveal-heading.is-visible {
 
 <body id="top">
 <header class="site-header" data-header>
-    <a href="index.html" class="corner-name" aria-label="IRAKLI KORKIA home">IRAKLI KORKIA</a>
+    <a href="index.html" class="corner-name" aria-label="IRAKLI KORKIA home">
+        <img class="shutter-logo-img" src="logo-drafts/04-shutter-button-animated-mark.svg" alt="" aria-hidden="true">
+        <span>IRAKLI KORKIA</span>
+    </a>
     <button class="menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" data-menu-toggle>
         <span></span>
         <span></span>
     </button>
     <nav class="nav" aria-label="Main navigation" data-nav>
         <div class="nav-item" data-portfolio-item>
-            <button class="portfolio-trigger" type="button" aria-haspopup="true" aria-expanded="false" data-portfolio-trigger>Portfolio</button>
+            <a class="portfolio-trigger" href="#work" aria-haspopup="true" aria-expanded="false" data-portfolio-trigger>Portfolio</a>
             <div class="album-dropdown" aria-label="Album navigation">
                 <a href="album.html?album=andalusia">Andalusia</a>
                 <a href="album.html?album=catalonia">Catalonia</a>
@@ -949,8 +993,8 @@ body.reveal-ready .reveal-heading.is-visible {
                 <a href="album.html?album=strasbourg">Strasbourg</a>
             </div>
         </div>
-        <a href="#work">Work</a>
-        <a href="#about">About</a>
+        <a href="about.html">About</a>
+        <a href="about.html#contact">Contact</a>
     </nav>
 </header>
 
@@ -960,19 +1004,15 @@ body.reveal-ready .reveal-heading.is-visible {
             <p class="eyebrow">Travel photography</p>
             <div class="hero-title">
                 <h1>IRAKLI KORKIA</h1>
-                <p class="handwritten-note" data-handwritten-note data-note-text="Hello. You somehow ended up on this website, which means the algorithm really does work in mysterious ways.
+                <p class="handwritten-note" data-handwritten-note data-note-text="Hello, you somehow ended up on this website, which means the algorithm really does work in mysterious ways.
 
-Welcome to a slightly fancy version of my SSD card.
+Here you will find moments in time from my life, sliced with the press of a shutter button.
 
-All photos were taken on one camera and two lenses. Yes, I have one too many lenses.
+Enjoy scrolling!">Hello, you somehow ended up on this website, which means the algorithm really does work in mysterious ways.
 
-Enjoy scrolling.">Hello. You somehow ended up on this website, which means the algorithm really does work in mysterious ways.
+Here you will find moments in time from my life, sliced with the press of a shutter button.
 
-Welcome to a slightly fancy version of my SSD card.
-
-All photos were taken on one camera and two lenses. Yes, I have one too many lenses.
-
-Enjoy scrolling.</p>
+Enjoy scrolling!</p>
             </div>
             <div class="hero-copy">
                 <div class="hero-actions" aria-label="Primary actions">
@@ -981,22 +1021,13 @@ Enjoy scrolling.</p>
                 </div>
             </div>
         </div>
-        <div class="hero-footer">
-            <div class="hero-meta" aria-label="Portfolio highlights">
-                <span>France</span>
-                <span>Spain</span>
-                <span>Travel archive</span>
-            </div>
-            <a class="scroll-cue" href="#work">Scroll</a>
-        </div>
     </section>
 
     <section class="work-preview" id="work" aria-labelledby="work-heading">
         <div>
-            <p class="section-kicker">Selected Albums</p>
-            <h2 class="section-heading reveal-heading" id="work-heading">Selected photo essays from France, Spain, and the Mediterranean.</h2>
+            <p class="section-kicker">SELECTED ALBUMS</p>
+            <h2 class="section-heading reveal-heading" id="work-heading">BELOW IS A VERY SMALL PART OF MY SSD CARD THAT WILL EVER GET TO SEE THE LIGHT OF DAY.</h2>
         </div>
-        <p class="section-copy">Each series is kept simple: a focused edit, clear pacing, and enough space for the photographs to stand on their own.</p>
     </section>
 
     <section class="album-strip" aria-label="Albums">
@@ -1056,47 +1087,21 @@ Enjoy scrolling.</p>
     <section class="split-feature" id="about" aria-labelledby="about-heading">
         <div class="feature-image" role="img" aria-label="Paris photograph"></div>
         <div class="feature-copy">
-            <p class="section-kicker">About the eye</p>
-            <h2 class="reveal-heading" id="about-heading">Travel images with a quiet editorial point of view.</h2>
-            <p>The work moves between personal archive and visual study: composed scenes, natural light, and small details from the road.</p>
+            <h2 class="reveal-heading" id="about-heading">SOMETIMES I STOP WATCHING YOUTUBE PHOTOGRAPHY VIDEOS AND GO TAKE PICTURES.</h2>
             <div class="feature-stats" aria-label="Portfolio statistics">
                 <div>
-                    <strong>7</strong>
-                    <span>Photo essays</span>
+                    <strong>3</strong>
+                    <span>AVERAGE SECONDS SPENT EDITING EACH PHOTO</span>
                 </div>
                 <div>
-                    <strong>6</strong>
-                    <span>Regions</span>
+                    <strong>2</strong>
+                    <span>LENSES USED TO TAKE THE PHOTOS</span>
                 </div>
                 <div>
                     <strong>1</strong>
-                    <span>Point of view</span>
+                    <span>CAMERA USED TO TAKE THEM</span>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section class="journal" aria-labelledby="journal-heading">
-        <div>
-            <p class="section-kicker">The Edit</p>
-            <h2 class="reveal-heading" id="journal-heading">Enter through a place.</h2>
-        </div>
-        <div class="journal-list">
-            <a class="journal-link" href="album.html?album=corsica">
-                <time>Island</time>
-                <strong>Corsica</strong>
-                <span aria-hidden="true">→</span>
-            </a>
-            <a class="journal-link" href="album.html?album=paris">
-                <time>City</time>
-                <strong>Paris after the rush</strong>
-                <span aria-hidden="true">→</span>
-            </a>
-            <a class="journal-link" href="album.html?album=andalusia">
-                <time>Heat</time>
-                <strong>Andalusia</strong>
-                <span aria-hidden="true">→</span>
-            </a>
         </div>
     </section>
 
@@ -1139,12 +1144,6 @@ menuToggle.addEventListener("click", () => {
     const isOpen = document.body.classList.toggle("menu-open");
     header.classList.toggle("menu-active", isOpen);
     menuToggle.setAttribute("aria-expanded", String(isOpen));
-});
-
-portfolioButton.addEventListener("click", (event) => {
-    event.stopPropagation();
-    const isOpen = portfolioItem.classList.toggle("menu-open");
-    portfolioButton.setAttribute("aria-expanded", String(isOpen));
 });
 
 nav.addEventListener("click", (event) => {

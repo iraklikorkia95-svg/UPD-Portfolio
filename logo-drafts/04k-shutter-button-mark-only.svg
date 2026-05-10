@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 900" role="img" aria-labelledby="title desc">
+  <title id="title">Shutter-button mark only</title>
+  <desc id="desc">Text-free shutter-button logo mark for Irakli Korkia.</desc>
+  <rect width="900" height="900" fill="#ebe0d0"/>
+  <circle cx="450" cy="450" r="238" fill="#171615"/>
+  <circle cx="450" cy="450" r="136" fill="none" stroke="#fffaf0" stroke-width="24"/>
+  <g fill="#ebe0d0" opacity="0.9">
+    <path d="M450 450 L450 298 A152 152 0 0 1 582 374 Z"/>
+    <path d="M450 450 L582 374 A152 152 0 0 1 582 526 Z"/>
+    <path d="M450 450 L582 526 A152 152 0 0 1 450 602 Z"/>
+    <path d="M450 450 L450 602 A152 152 0 0 1 318 526 Z"/>
+    <path d="M450 450 L318 526 A152 152 0 0 1 318 374 Z"/>
+    <path d="M450 450 L318 374 A152 152 0 0 1 450 298 Z"/>
+  </g>
+  <circle cx="450" cy="450" r="42" fill="#b9654d"/>
+</svg>
