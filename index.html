@@ -893,7 +893,19 @@ body.reveal-ready .reveal-heading.is-visible {
     }
 
     .reveal-heading {
-        transform: translateY(28px) skewY(1.2deg);
+        opacity: 1;
+        clip-path: inset(0 0 0 0);
+        filter: none;
+        transform: none;
+        transition: none;
+    }
+
+    body.reveal-ready .reveal-heading {
+        opacity: 1;
+        clip-path: inset(0 0 0 0);
+        filter: none;
+        transform: none;
+        transition: none;
     }
 
     .album-strip {
@@ -1177,13 +1189,19 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
-if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+const canAnimateReveal = window.matchMedia("(min-width: 761px) and (prefers-reduced-motion: no-preference)").matches;
+
+if ("IntersectionObserver" in window && canAnimateReveal) {
     document.body.classList.add("reveal-ready");
+
+    const revealHeading = (heading) => {
+        heading.classList.add("is-visible");
+    };
 
     const headingObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
-                entry.target.classList.add("is-visible");
+                revealHeading(entry.target);
                 headingObserver.unobserve(entry.target);
             }
         });
@@ -1192,11 +1210,27 @@ if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-mot
         rootMargin: "0px 0px -14% 0px"
     });
 
+    const revealVisibleHeadings = () => {
+        revealHeadings.forEach((heading) => {
+            if (heading.classList.contains("is-visible")) return;
+
+            const bounds = heading.getBoundingClientRect();
+            if (bounds.top < window.innerHeight * 0.86 && bounds.bottom > 0) {
+                revealHeading(heading);
+                headingObserver.unobserve(heading);
+            }
+        });
+    };
+
     requestAnimationFrame(() => {
         requestAnimationFrame(() => {
             revealHeadings.forEach((heading) => headingObserver.observe(heading));
+            revealVisibleHeadings();
         });
     });
+
+    window.addEventListener("scroll", revealVisibleHeadings, { passive: true });
+    window.addEventListener("resize", revealVisibleHeadings);
 }
 
 if (handwrittenNote) {
