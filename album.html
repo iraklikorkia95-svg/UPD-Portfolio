@@ -1919,6 +1919,10 @@ function getAlbumBarOffset() {
     return masthead ? masthead.offsetHeight : 0;
 }
 
+function updateAlbumBarHeight() {
+    document.documentElement.style.setProperty("--album-bar-height", `${getAlbumBarOffset()}px`);
+}
+
 function getStoredAlbumViewMode() {
     try {
         return localStorage.getItem(viewStorageKey) === "grid" ? "grid" : "single";
@@ -1974,6 +1978,7 @@ function initAlbum() {
     document.getElementById("albumTitle").textContent = album.title;
     document.getElementById("cornerAlbumTitle").textContent = `- ${album.title}`;
     document.getElementById("albumCount").textContent = `${album.count} photographs`;
+    updateAlbumBarHeight();
 
     const grid = document.getElementById("albumGrid");
     grid.innerHTML = "";
@@ -2341,6 +2346,8 @@ initAlbum();
 resetMobileAlbumScroll();
 window.addEventListener("pageshow", resetMobileAlbumScroll);
 window.addEventListener("load", resetMobileAlbumScroll);
+window.addEventListener("load", updateAlbumBarHeight);
+window.addEventListener("resize", updateAlbumBarHeight);
 window.addEventListener("wheel", handleAlbumWheel, { passive: false });
 document.getElementById("lightboxImage").addEventListener("mousemove", followZoomCursor);
 
