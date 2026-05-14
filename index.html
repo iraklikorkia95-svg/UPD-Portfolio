@@ -47,8 +47,10 @@
     --line: rgba(23, 22, 21, 0.14);
     --veil: rgba(13, 12, 11, 0.46);
     --accent: #b9654d;
+    --alert-red: #c7352f;
     --moss: #5f6960;
     --display: "Clash Display", "Satoshi", "Helvetica Neue", Arial, sans-serif;
+    --display-word-spacing: 0.12em;
     --body: "Satoshi", "Helvetica Neue", Arial, sans-serif;
     --hand: "Caveat", "Bradley Hand", "Comic Sans MS", cursive;
 }
@@ -133,6 +135,7 @@ img {
     font-weight: 700;
     line-height: 1;
     letter-spacing: 0;
+    word-spacing: var(--display-word-spacing);
     text-transform: uppercase;
 }
 
@@ -397,6 +400,7 @@ body.menu-open .menu-toggle span:last-child {
     font-size: clamp(58px, 12vw, 162px);
     font-weight: 700;
     letter-spacing: 0;
+    word-spacing: var(--display-word-spacing);
     line-height: 0.82;
     text-transform: uppercase;
 }
@@ -542,12 +546,21 @@ body.menu-open .menu-toggle span:last-child {
     font-size: clamp(34px, 6vw, 78px);
     font-weight: 700;
     letter-spacing: 0;
+    word-spacing: var(--display-word-spacing);
     line-height: 0.96;
     text-transform: uppercase;
 }
 
+.heading-line {
+    display: block;
+}
+
+.text-red {
+    color: var(--alert-red);
+}
+
 .time-summary {
-    max-width: 760px;
+    max-width: none;
     margin-top: 18px;
     color: var(--soft-ink);
     font-size: clamp(16px, 1.5vw, 20px);
@@ -669,6 +682,7 @@ body.reveal-ready .reveal-heading.is-visible {
     font-size: clamp(24px, 2vw, 32px);
     font-weight: 700;
     letter-spacing: 0;
+    word-spacing: var(--display-word-spacing);
     line-height: 1;
     overflow-wrap: normal;
     word-break: normal;
@@ -707,6 +721,7 @@ body.reveal-ready .reveal-heading.is-visible {
     font-size: clamp(28px, 4vw, 52px);
     font-weight: 700;
     letter-spacing: 0;
+    word-spacing: var(--display-word-spacing);
     line-height: 1;
     overflow-wrap: break-word;
     text-transform: uppercase;
@@ -734,6 +749,7 @@ body.reveal-ready .reveal-heading.is-visible {
     font-family: var(--display);
     font-size: 34px;
     line-height: 1;
+    word-spacing: var(--display-word-spacing);
 }
 
 .feature-stats span {
@@ -744,6 +760,10 @@ body.reveal-ready .reveal-heading.is-visible {
     font-weight: 900;
     line-height: 1.2;
     text-transform: uppercase;
+}
+
+.feature-stats .text-red {
+    color: var(--alert-red);
 }
 
 .footer {
@@ -844,6 +864,7 @@ body.reveal-ready .reveal-heading.is-visible {
         font-family: var(--display);
         font-size: clamp(28px, 10vw, 54px);
         line-height: 0.96;
+        word-spacing: var(--display-word-spacing);
     }
 
     .album-dropdown {
@@ -1067,8 +1088,8 @@ Enjoy scrolling!</p>
     <section class="work-preview" id="work" aria-labelledby="work-heading">
         <div>
             <p class="section-kicker">SELECTED ALBUMS</p>
-            <h2 class="section-heading reveal-heading" id="work-heading">BELOW IS A VERY SMALL PART OF MY SSD CARD THAT WILL EVER GET TO SEE THE LIGHT OF DAY.</h2>
-            <p class="time-summary" data-site-time-summary></p>
+            <h2 class="section-heading reveal-heading" id="work-heading"><span class="heading-line">IT'S EASY TO THINK THAT EACH TIME YOU TAKE A PICTURE YOU CAPTURE ONE SECOND IN TIME.</span><span class="heading-line">IN REALITY IT'S</span><span class="heading-line text-red">MUCH LESS.</span></h2>
+            <p class="time-summary" data-site-time-summary>For example, in total on this website there are 160 photos which add up to <span class="text-red">0.85 seconds</span>.</p>
         </div>
     </section>
 
@@ -1132,16 +1153,16 @@ Enjoy scrolling!</p>
             <h2 class="reveal-heading" id="about-heading">SOMETIMES I STOP WATCHING YOUTUBE PHOTOGRAPHY VIDEOS AND GO TAKE PICTURES.</h2>
             <div class="feature-stats" aria-label="Portfolio statistics">
                 <div>
-                    <strong data-site-real-time>0.85s</strong>
-                    <span>REAL TIME CAPTURED ON THIS WEBSITE</span>
+                    <strong>3</strong>
+                    <span><span class="text-red">SECONDS</span> ON AVERAGE PER EDIT PER PHOTO</span>
                 </div>
                 <div>
                     <strong>2</strong>
-                    <span>LENSES USED TO TAKE THE PHOTOS</span>
+                    <span><span class="text-red">LENSES</span> USED TO TAKE THE PHOTOS</span>
                 </div>
                 <div>
                     <strong>1</strong>
-                    <span>CAMERA USED TO TAKE THEM</span>
+                    <span><span class="text-red">CAMERA</span> USED TO TAKE THEM</span>
                 </div>
             </div>
         </div>
@@ -1170,16 +1191,6 @@ let albumTrackSpeed = -18;
 let albumTrackFrame;
 let lastAlbumTrackTime;
 
-const trimNumber = (value) => value.replace(/\.?0+$/, "");
-
-const formatCompactSeconds = (seconds) => {
-    if (!Number.isFinite(seconds)) return "";
-    if (seconds >= 10) return `${Math.round(seconds)}s`;
-    if (seconds >= 1) return `${trimNumber(seconds.toFixed(2))}s`;
-    if (seconds >= 0.1) return `${trimNumber(seconds.toFixed(2))}s`;
-    return `${trimNumber(seconds.toFixed(3))}s`;
-};
-
 const initPhotoTimeCopy = () => {
     const data = window.PHOTO_TIME_DATA;
     if (!data) return;
@@ -1194,12 +1205,8 @@ const initPhotoTimeCopy = () => {
 
     const summary = document.querySelector("[data-site-time-summary]");
     if (summary && data.total) {
-        summary.textContent = `${data.total.photoCount} photographs add up to ${data.total.caption}.`;
-    }
-
-    const totalTime = document.querySelector("[data-site-real-time]");
-    if (totalTime && data.total) {
-        totalTime.textContent = formatCompactSeconds(data.total.exposureSeconds);
+        const duration = data.total.caption.replace(" of real time", "");
+        summary.innerHTML = `For example, in total on this website there are ${data.total.photoCount} photos which add up to <span class="text-red">${duration}</span>.`;
     }
 };
 
