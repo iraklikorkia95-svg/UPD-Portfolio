@@ -546,6 +546,19 @@ body.menu-open .menu-toggle span:last-child {
     text-transform: uppercase;
 }
 
+.time-summary {
+    max-width: 760px;
+    margin-top: 18px;
+    color: var(--soft-ink);
+    font-size: clamp(16px, 1.5vw, 20px);
+    font-weight: 700;
+    line-height: 1.45;
+}
+
+.time-summary:empty {
+    display: none;
+}
+
 .reveal-heading {
     opacity: 1;
     clip-path: inset(0 0 0 0);
@@ -639,12 +652,16 @@ body.reveal-ready .reveal-heading.is-visible {
     text-shadow: 0 2px 16px rgba(0, 0, 0, 0.58);
 }
 
-.album-card-content > span {
+.album-card-time {
     color: rgba(255, 250, 240, 0.84);
     font-size: 12px;
     font-weight: 700;
     line-height: 1.15;
     text-transform: uppercase;
+}
+
+.album-card-time:empty {
+    display: none;
 }
 
 .album-card strong {
@@ -950,7 +967,7 @@ body.reveal-ready .reveal-heading.is-visible {
         background: linear-gradient(180deg, rgba(13, 12, 11, 0) 0%, rgba(13, 12, 11, 0.78) 100%);
     }
 
-    .album-card-content > span {
+    .album-card-time {
         font-size: 9px;
         line-height: 1.2;
     }
@@ -1051,58 +1068,59 @@ Enjoy scrolling!</p>
         <div>
             <p class="section-kicker">SELECTED ALBUMS</p>
             <h2 class="section-heading reveal-heading" id="work-heading">BELOW IS A VERY SMALL PART OF MY SSD CARD THAT WILL EVER GET TO SEE THE LIGHT OF DAY.</h2>
+            <p class="time-summary" data-site-time-summary></p>
         </div>
     </section>
 
     <section class="album-strip" aria-label="Albums">
         <div class="album-track" data-album-track>
-        <a class="album-card" href="album.html?album=andalusia" aria-label="Open Andalusia album">
+        <a class="album-card" href="album.html?album=andalusia" aria-label="Open Andalusia album" data-album-card="andalusia">
             <img src="Photos/Display/COVERS/Andalusia_1.jpg" srcset="Photos/Thumbnails/COVERS/Andalusia_1.jpg 700w, Photos/Display/COVERS/Andalusia_1.jpg 1400w" sizes="(max-width: 760px) 72vw, 300px" alt="Andalusia album cover" loading="eager" decoding="async">
             <span class="album-card-content">
-                <span>Southern Spain</span>
                 <strong>Andalusia</strong>
+                <span class="album-card-time" data-album-time-caption></span>
             </span>
         </a>
-        <a class="album-card" href="album.html?album=catalonia" aria-label="Open Catalonia album">
+        <a class="album-card" href="album.html?album=catalonia" aria-label="Open Catalonia album" data-album-card="catalonia">
             <img src="Photos/Display/COVERS/Catalonia_11.jpg" srcset="Photos/Thumbnails/COVERS/Catalonia_11.jpg 700w, Photos/Display/COVERS/Catalonia_11.jpg 1400w" sizes="(max-width: 760px) 72vw, 300px" alt="Catalonia album cover" loading="lazy" decoding="async">
             <span class="album-card-content">
-                <span>Coast and city</span>
                 <strong>Catalonia</strong>
+                <span class="album-card-time" data-album-time-caption></span>
             </span>
         </a>
-        <a class="album-card" href="album.html?album=corsica" aria-label="Open Corsica album">
+        <a class="album-card" href="album.html?album=corsica" aria-label="Open Corsica album" data-album-card="corsica">
             <img src="Photos/Display/COVERS/Corsica_24.jpeg" srcset="Photos/Thumbnails/COVERS/Corsica_24.jpeg 700w, Photos/Display/COVERS/Corsica_24.jpeg 1400w" sizes="(max-width: 760px) 72vw, 300px" alt="Corsica album cover" loading="lazy" decoding="async">
             <span class="album-card-content">
-                <span>Island light</span>
                 <strong>Corsica</strong>
+                <span class="album-card-time" data-album-time-caption></span>
             </span>
         </a>
-        <a class="album-card" href="album.html?album=french-alps" aria-label="Open French Alps album">
+        <a class="album-card" href="album.html?album=french-alps" aria-label="Open French Alps album" data-album-card="french-alps">
             <img src="Photos/Display/COVERS/French_Alps_6.jpg" srcset="Photos/Thumbnails/COVERS/French_Alps_6.jpg 700w, Photos/Display/COVERS/French_Alps_6.jpg 1400w" sizes="(max-width: 760px) 72vw, 300px" alt="French Alps album cover" loading="lazy" decoding="async">
             <span class="album-card-content">
-                <span>Mountain air</span>
                 <strong>French Alps</strong>
+                <span class="album-card-time" data-album-time-caption></span>
             </span>
         </a>
-        <a class="album-card" href="album.html?album=madrid" aria-label="Open Madrid album">
+        <a class="album-card" href="album.html?album=madrid" aria-label="Open Madrid album" data-album-card="madrid">
             <img src="Photos/Display/COVERS/Madrid_8.jpg" srcset="Photos/Thumbnails/COVERS/Madrid_8.jpg 700w, Photos/Display/COVERS/Madrid_8.jpg 1400w" sizes="(max-width: 760px) 72vw, 300px" alt="Madrid album cover" loading="lazy" decoding="async">
             <span class="album-card-content">
-                <span>Streets at noon</span>
                 <strong>Madrid</strong>
+                <span class="album-card-time" data-album-time-caption></span>
             </span>
         </a>
-        <a class="album-card" href="album.html?album=paris" aria-label="Open Paris album">
+        <a class="album-card" href="album.html?album=paris" aria-label="Open Paris album" data-album-card="paris">
             <img src="Photos/Display/COVERS/Paris_1.jpg" srcset="Photos/Thumbnails/COVERS/Paris_1.jpg 700w, Photos/Display/COVERS/Paris_1.jpg 1400w" sizes="(max-width: 760px) 72vw, 300px" alt="Paris album cover" loading="lazy" decoding="async">
             <span class="album-card-content">
-                <span>Late afternoon</span>
                 <strong>Paris</strong>
+                <span class="album-card-time" data-album-time-caption></span>
             </span>
         </a>
-        <a class="album-card" href="album.html?album=strasbourg" aria-label="Open Strasbourg album">
+        <a class="album-card" href="album.html?album=strasbourg" aria-label="Open Strasbourg album" data-album-card="strasbourg">
             <img src="Photos/Display/COVERS/Strasbourg_3.jpg" srcset="Photos/Thumbnails/COVERS/Strasbourg_3.jpg 700w, Photos/Display/COVERS/Strasbourg_3.jpg 1400w" sizes="(max-width: 760px) 72vw, 300px" alt="Strasbourg album cover" loading="lazy" decoding="async">
             <span class="album-card-content">
-                <span>Border city</span>
                 <strong>Strasbourg</strong>
+                <span class="album-card-time" data-album-time-caption></span>
             </span>
         </a>
         </div>
@@ -1114,8 +1132,8 @@ Enjoy scrolling!</p>
             <h2 class="reveal-heading" id="about-heading">SOMETIMES I STOP WATCHING YOUTUBE PHOTOGRAPHY VIDEOS AND GO TAKE PICTURES.</h2>
             <div class="feature-stats" aria-label="Portfolio statistics">
                 <div>
-                    <strong>3</strong>
-                    <span>AVERAGE SECONDS SPENT EDITING EACH PHOTO</span>
+                    <strong data-site-real-time>0.85s</strong>
+                    <span>REAL TIME CAPTURED ON THIS WEBSITE</span>
                 </div>
                 <div>
                     <strong>2</strong>
@@ -1136,6 +1154,7 @@ Enjoy scrolling!</p>
     <a href="#top">Back to top</a>
 </footer>
 
+<script src="photo-time-data.js"></script>
 <script>
 const header = document.querySelector("[data-header]");
 const menuToggle = document.querySelector("[data-menu-toggle]");
@@ -1151,6 +1170,39 @@ let albumTrackSpeed = -18;
 let albumTrackFrame;
 let lastAlbumTrackTime;
 
+const trimNumber = (value) => value.replace(/\.?0+$/, "");
+
+const formatCompactSeconds = (seconds) => {
+    if (!Number.isFinite(seconds)) return "";
+    if (seconds >= 10) return `${Math.round(seconds)}s`;
+    if (seconds >= 1) return `${trimNumber(seconds.toFixed(2))}s`;
+    if (seconds >= 0.1) return `${trimNumber(seconds.toFixed(2))}s`;
+    return `${trimNumber(seconds.toFixed(3))}s`;
+};
+
+const initPhotoTimeCopy = () => {
+    const data = window.PHOTO_TIME_DATA;
+    if (!data) return;
+
+    document.querySelectorAll("[data-album-card]").forEach((card) => {
+        const albumTime = data.albums && data.albums[card.dataset.albumCard];
+        const caption = card.querySelector("[data-album-time-caption]");
+        if (albumTime && caption) {
+            caption.textContent = albumTime.shortCaption || albumTime.caption;
+        }
+    });
+
+    const summary = document.querySelector("[data-site-time-summary]");
+    if (summary && data.total) {
+        summary.textContent = `${data.total.photoCount} photographs add up to ${data.total.caption}.`;
+    }
+
+    const totalTime = document.querySelector("[data-site-real-time]");
+    if (totalTime && data.total) {
+        totalTime.textContent = formatCompactSeconds(data.total.exposureSeconds);
+    }
+};
+
 const updateHeader = () => {
     header.classList.toggle("is-scrolled", window.scrollY > 30);
 };
@@ -1162,6 +1214,7 @@ const closeMenu = () => {
 };
 
 updateHeader();
+initPhotoTimeCopy();
 window.addEventListener("scroll", updateHeader, { passive: true });
 
 menuToggle.addEventListener("click", () => {

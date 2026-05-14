@@ -248,6 +248,18 @@ body.name-docked .masthead h1 {
     text-transform: uppercase;
 }
 
+.album-time-caption {
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: clamp(0.95rem, 2.2vw, 20px);
+    font-weight: 500;
+    line-height: 1.35;
+}
+
+.album-time-caption:empty {
+    display: none;
+}
+
 .site-container {
     max-width: 1480px;
     margin: 0 auto;
@@ -972,6 +984,16 @@ body.name-docked .masthead h1 {
     text-transform: none;
 }
 
+.album-time-caption {
+    margin-top: 8px;
+    color: var(--muted);
+    font-family: var(--body);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+    text-transform: none;
+}
+
 .view-switch {
     display: inline-flex;
     gap: 4px;
@@ -1533,6 +1555,7 @@ body.album-view-grid .photo-button:hover .photo-frame img {
     <div>
         <h1 id="albumTitle">Album</h1>
         <p id="albumCount">Photographs</p>
+        <div class="album-time-caption" id="albumTimeCaption"></div>
         <div class="view-switch" aria-label="Album view">
             <button type="button" data-view-mode="single" aria-pressed="true">Single</button>
             <button type="button" data-view-mode="grid" aria-pressed="false">Grid</button>
@@ -1578,6 +1601,7 @@ body.album-view-grid .photo-button:hover .photo-frame img {
     </div>
 </div>
 
+<script src="photo-time-data.js"></script>
 <script>
 const ALBUMS = {
     "strasbourg": {
@@ -1773,6 +1797,8 @@ const META_LABELS = ["Camera", "ISO", "Shutter", "Aperture", "Focal", "Size"];
 const params = new URLSearchParams(window.location.search);
 const slug = params.get("album") || "strasbourg";
 const album = ALBUMS[slug] || ALBUMS.strasbourg;
+const photoTimeData = window.PHOTO_TIME_DATA || {};
+const albumTime = photoTimeData.albums && photoTimeData.albums[slug] ? photoTimeData.albums[slug] : null;
 const albumDescriptions = {
     "andalusia": "Heat, architecture, and street scenes from Andalusia.",
     "catalonia": "Coastal light and city details from Catalonia.",
@@ -1840,6 +1866,35 @@ function makePhoto(album, number) {
     };
 }
 
+function makePhotoFromTimeData(album, entry, fallbackNumber) {
+    const number = entry.number || fallbackNumber;
+    const meta = album.meta[number] ? [...album.meta[number]] : [];
+    if (entry.shutterText && !meta[2]) {
+        meta[2] = entry.shutterText;
+    }
+
+    return {
+        number,
+        src: entry.src,
+        thumbnailSrc: entry.thumbnailSrc || makeThumbnailSrc(entry.src),
+        displaySrc: entry.displaySrc || makeDisplaySrc(entry.src),
+        meta,
+        exposureSeconds: entry.shutterSeconds || null
+    };
+}
+
+function makePhotos() {
+    if (albumTime && Array.isArray(albumTime.photos) && albumTime.photos.length) {
+        return albumTime.photos.map((entry, index) => makePhotoFromTimeData(album, entry, index + 1));
+    }
+
+    return Array.from({ length: album.count }, (_, index) => makePhoto(album, index + 1));
+}
+
+function getAlbumPhotoCount() {
+    return albumTime && Number.isFinite(albumTime.photoCount) ? albumTime.photoCount : album.count;
+}
+
 function makeThumbnailSrc(src) {
     return src.replace(/^Photos\//, "Photos/Thumbnails/");
 }
@@ -1876,7 +1931,9 @@ function preloadImage(src) {
 
 function updateAlbumMetadata(firstPhoto) {
     const title = `${album.title} - IRAKLI KORKIA`;
-    const description = `${albumDescriptions[slug] || "A travel photography album by Irakli Korkia."} ${album.count} photographs.`;
+    const count = getAlbumPhotoCount();
+    const timeDescription = albumTime ? `, ${albumTime.caption}` : "";
+    const description = `${albumDescriptions[slug] || "A travel photography album by Irakli Korkia."} ${count} photographs${timeDescription}.`;
     const image = firstPhoto ? firstPhoto.displaySrc : "Photos/Display/COVERS/Corsica_24.jpeg";
     const url = `album.html?album=${encodeURIComponent(slug)}`;
 
@@ -1973,11 +2030,16 @@ function initViewSwitch() {
 }
 
 function initAlbum() {
-    photos = Array.from({ length: album.count }, (_, index) => makePhoto(album, index + 1));
+    photos = makePhotos();
     updateAlbumMetadata(photos[0]);
     document.getElementById("albumTitle").textContent = album.title;
     document.getElementById("cornerAlbumTitle").textContent = `- ${album.title}`;
-    document.getElementById("albumCount").textContent = `${album.count} photographs`;
+    document.getElementById("albumCount").textContent = `${photos.length} photographs`;
+    const timeCaption = document.getElementById("albumTimeCaption");
+    if (timeCaption) {
+        const missing = albumTime && albumTime.missingExposureCount ? ` (${albumTime.missingExposureCount} without shutter data)` : "";
+        timeCaption.textContent = albumTime ? `${photos.length} photographs, ${albumTime.caption}${missing}.` : "";
+    }
     updateAlbumBarHeight();
 
     const grid = document.getElementById("albumGrid");
